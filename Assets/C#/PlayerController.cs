@@ -1,7 +1,15 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("UI")]
+    [SerializeField]
+    private Image HP;
+    [SerializeField]
+    private Image Stamina;
+
+    [Header("PlayerControl")]
     [SerializeField] // 개발자가 직접 입력하는 값을 뜻함
     private float walkSpeed = 10f; // 걷기 속도
     [SerializeField]
@@ -16,15 +24,13 @@ public class PlayerController : MonoBehaviour
     private float cameraRotationLimit = 75f; // Y 회전축 각도 제한
     private float currentCameraRotationX; // 현재 카메라의 X 회전축 값
 
-    public static bool CamRotateEnable;
+    public static bool CamRotateEnable = true;
     [SerializeField]
     private Camera theCamera; // 카메라
     [SerializeField]
     public Rigidbody myRigid; // 리지드바디
 
     private bool isJumping = false; // 현재 점프 중인가?
-
-
 
 
     void Start()
@@ -60,18 +66,26 @@ public class PlayerController : MonoBehaviour
         
         // deltaTime -> 1.0f ÷ (기기의 현재 1초당 프레임 수)
         // 프레임 높은 기기에서 더 빨리 이동하는 현상 / 프레임 낮은 기기에서 더 느리게 이동하는 현상을 막아준다
-        if(Input.GetKey(KeyCode.LeftShift))
+
+        //달리기
+        if (Input.GetKey(KeyCode.LeftShift) && Stamina.fillAmount > 0)
         {
+            Stamina.fillAmount -= 0.2f * Time.deltaTime;
             Vector3 _Runvelocity = (_moveHorizontal + _moveVertical).normalized * RunSpeed;
             myRigid.MovePosition(transform.position + _Runvelocity * Time.deltaTime);
+        }
+        if(!Input.GetKey(KeyCode.LeftShift) && Stamina.fillAmount < 1)
+        {
+            Invoke("StaminaUP", 3f);
         }
     }
 
     private void Jump()
     {
         // 스페이스바를 눌렀으며 현재 땅에 있는가?
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && Stamina.fillAmount >= 0)
         {
+            Stamina.fillAmount -= 0.1f;
             myRigid.AddForce(0, jumpPower, 0, ForceMode.Impulse); // 리지드바디에 위로 힘을 가함
             isJumping = true; // 점프 중임
         }
@@ -107,6 +121,11 @@ public class PlayerController : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
+    }
+
+    void StaminaUP()
+    {
+        Stamina.fillAmount += 0.1f * Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision collision) // 콜리전 충돌 시작

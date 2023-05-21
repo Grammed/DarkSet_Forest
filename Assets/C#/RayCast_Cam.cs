@@ -24,9 +24,21 @@ public class RayCast_Cam : MonoBehaviour
             {
                 if(hit.collider.tag == "Tree")
                 {
-                    hit.collider.GetComponent<Tree>().Hit_Tree();
+                    hit.collider.GetComponent<Tree>().StartCoroutine("Hit_Tree");
+                }
+                if(hit.collider.tag == "Bracken")
+                {
+                    hit.collider.GetComponent<Bracken>().Brackenbreak();
                 }
             }
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (hit.collider.tag == "Tree")
+                {
+                    hit.collider.GetComponent<Tree>().StopCoroutine("Hit_Tree");
+                }
+            }
+
             //Debug.Log("hit point : " + hit.point + ", distance : " + hit.distance + ", name : " + hit.collider.name);
             //Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.red);
         }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - Tree
+  - Bracken
   layers:
   - Default
   - TransparentFX
