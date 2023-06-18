@@ -5,9 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField]
-    private Image HP;
+    private Slider HP;
     [SerializeField]
-    private Image Stamina;
+    private Slider Stamina;
 
     [Header("PlayerControl")]
     [SerializeField] // 개발자가 직접 입력하는 값을 뜻함
@@ -68,13 +68,13 @@ public class PlayerController : MonoBehaviour
         // 프레임 높은 기기에서 더 빨리 이동하는 현상 / 프레임 낮은 기기에서 더 느리게 이동하는 현상을 막아준다
 
         //달리기
-        if (Input.GetKey(KeyCode.LeftShift) && Stamina.fillAmount > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && Stamina.value > 0)
         {
-            Stamina.fillAmount -= 0.2f * Time.deltaTime;
+            Stamina.value -= 0.2f * Time.deltaTime;
             Vector3 _Runvelocity = (_moveHorizontal + _moveVertical).normalized * RunSpeed;
             myRigid.MovePosition(transform.position + _Runvelocity * Time.deltaTime);
         }
-        if(!Input.GetKey(KeyCode.LeftShift) && Stamina.fillAmount < 1)
+        if(!Input.GetKey(KeyCode.LeftShift) && Stamina.value < 1 && !isJumping)
         {
             Invoke("StaminaUP", 3f);
         }
@@ -83,15 +83,15 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         // 스페이스바를 눌렀으며 현재 땅에 있는가?
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && Stamina.fillAmount >= 0)
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && Stamina.value > 0)
         {
-            Stamina.fillAmount -= 0.1f;
+            Stamina.value -= 0.1f;
             myRigid.AddForce(0, jumpPower, 0, ForceMode.Impulse); // 리지드바디에 위로 힘을 가함
             isJumping = true; // 점프 중임
         }
     }
 
-    private void CameraRotation() // 카메라의 위아래 회전
+    public void CameraRotation() // 카메라의 위아래 회전
     {
        
             float _xRotation = Input.GetAxisRaw("Mouse Y"); // 마우스 위아래
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     
     }
 
-    private void CharacterRotation()  // 좌우 캐릭터 회전
+    public void CharacterRotation()  // 좌우 캐릭터 회전
     {
         float _yRotation = Input.GetAxisRaw("Mouse X");
         Vector3 _characterRotationY = new Vector3(0f, _yRotation, 0f) * lookSensitivity;
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     void StaminaUP()
     {
-        Stamina.fillAmount += 0.1f * Time.deltaTime;
+        Stamina.value += 0.1f * Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision collision) // 콜리전 충돌 시작

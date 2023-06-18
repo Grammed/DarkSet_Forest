@@ -7,6 +7,7 @@ public class Inventory_Manager : MonoBehaviour
     public int maxStackedItems = 64;
     public Inventory_Slot[] inventory_Slots;
     public GameObject InventoryItemPrefab;
+    Rigidbody itemRigidbody;
 
     int selectedSlot = -1;
 
@@ -77,7 +78,7 @@ public class Inventory_Manager : MonoBehaviour
         inventoryItem.InitialiseItem(item);
     }
 
-    public Item GetSelectedItem(bool use)
+    public Item GetSelectedItem(bool use) // 선택한 아이템 사용
     {
         Inventory_Slot slot = inventory_Slots[selectedSlot];
         InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
@@ -100,6 +101,36 @@ public class Inventory_Manager : MonoBehaviour
             return item;
         }
 
+        return null;
+
+    }
+
+
+    public Item ThrowItem()
+    {
+        Inventory_Slot slot = inventory_Slots[selectedSlot];
+        InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+
+        Rigidbody ItemInstance;
+        Transform PlayerPos = GameObject.Find("Player").transform;
+        itemRigidbody = GetComponent<Rigidbody>();
+
+        if (itemInSlot != null)
+        {
+            Item item = itemInSlot.item;
+            itemInSlot.count--;
+            ItemInstance = Instantiate(ItemInstance, PlayerPos.position, PlayerPos.rotation) as Rigidbody;
+            ItemInstance.AddForce(PlayerPos.forward * 100);
+            if (itemInSlot.count <= 0)
+            {
+                Destroy(itemInSlot.gameObject);
+            }
+            else
+            {
+                itemInSlot.RefreshCount();
+            }
+            return item;
+        }
         return null;
     }
 }
