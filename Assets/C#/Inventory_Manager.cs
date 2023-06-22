@@ -106,31 +106,31 @@ public class Inventory_Manager : MonoBehaviour
     }
 
 
-    public Item ThrowItem()
-    {
-        Inventory_Slot slot = inventory_Slots[selectedSlot];
-        InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+    //public Item ThrowItem()
+    //{
+    //    Inventory_Slot slot = inventory_Slots[selectedSlot];
+    //    InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
 
-        Rigidbody ItemInstance;
-        Transform PlayerPos = GameObject.Find("Player").transform;
-        itemRigidbody = GetComponent<Rigidbody>();
+    //    Rigidbody ItemInstance;
+    //    Transform PlayerPos = GameObject.Find("Player").transform;
+    //    itemRigidbody = GetComponent<Rigidbody>();
 
-        if (itemInSlot != null)
-        {
-            Item item = itemInSlot.item;
-            itemInSlot.count--;
-            ItemInstance = Instantiate(ItemInstance, PlayerPos.position, PlayerPos.rotation) as Rigidbody;
-            ItemInstance.AddForce(PlayerPos.forward * 100);
-            if (itemInSlot.count <= 0)
-            {
-                Destroy(itemInSlot.gameObject);
-            }
-            else
-            {
-                itemInSlot.RefreshCount();
-            }
-            return item;
-        }
-        return null;
-    }
+    //    if (itemInSlot != null)
+    //    {
+    //        Item item = itemInSlot.item;
+    //        itemInSlot.count--;
+    //        ItemInstance = Instantiate(ItemInstance, PlayerPos.position, PlayerPos.rotation) as Rigidbody;
+    //        ItemInstance.AddForce(PlayerPos.forward * 100);
+    //        if (itemInSlot.count <= 0)
+    //        {
+    //            Destroy(itemInSlot.gameObject);
+    //        }
+    //        else
+    //        {
+    //            itemInSlot.RefreshCount();
+    //        }
+    //        return item;
+    //    }
+    //    return null;
+    //}
 }
