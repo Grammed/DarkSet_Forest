@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Slider Stamina;
 
     [Header("PlayerControl")]
-    [SerializeField] // 개발자가 직접 입력하는 값을 뜻함
+    [SerializeField] // 강제 직렬화, 인스펙터창에서 값을 변경할 수 있다.
     private float walkSpeed = 10f; // 걷기 속도
     [SerializeField]
     private float RunSpeed = 20f; // 뛰는 속도

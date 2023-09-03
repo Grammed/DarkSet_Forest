@@ -2,30 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Inventory_Manager : MonoBehaviour
 {
     public int maxStackedItems = 64;
     public Inventory_Slot[] inventory_Slots;
     public GameObject InventoryItemPrefab;
     Rigidbody itemRigidbody;
-
     int selectedSlot = -1;
 
 
     private void Start()
     {
         ChangeSelectedSlot(0);
+        
     }
 
     private void Update()
     {
         float wheelInput = Input.GetAxis("Mouse ScrollWheel");
-        if(Input.inputString != null)
+        if (Input.inputString != null)
         {
             bool isNumber = int.TryParse(Input.inputString, out int number);
             if(isNumber && number > 0 && number < 10)
             {
-                ChangeSelectedSlot(number - 1); ;
+                ChangeSelectedSlot(number - 1);
             }
         }
 
@@ -51,7 +52,7 @@ public class Inventory_Manager : MonoBehaviour
             if (itemInSlot != null && itemInSlot.item == item && itemInSlot.count < maxStackedItems && itemInSlot.item.Stackable == true)
             {
                 itemInSlot.count++;
-                itemInSlot.RefreshCount();
+                itemInSlot.RefreshCount(); 
                 return true;
             }
         }
@@ -71,11 +72,12 @@ public class Inventory_Manager : MonoBehaviour
         return false;
     }
 
+    
     void SpawnNewItem(Item item, Inventory_Slot slot)
     {
         GameObject newItemGo = Instantiate(InventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItemGo.GetComponent<InventoryItem>();
-        inventoryItem.InitialiseItem(item);
+        inventoryItem.InitializeItem(item);
     }
 
     public Item GetSelectedItem(bool use) // 선택한 아이템 사용
@@ -85,7 +87,7 @@ public class Inventory_Manager : MonoBehaviour
         if (itemInSlot != null)
         {
             Item item = itemInSlot.item;
-            if(use == true)
+            if (use == true)
             {
                 itemInSlot.count--;
                 if(itemInSlot.count <= 0)

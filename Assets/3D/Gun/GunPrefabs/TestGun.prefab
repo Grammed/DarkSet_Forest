@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1798469995779489201}
   - component: {fileID: 111928412726612839}
   - component: {fileID: 6018708585636106149}
+  - component: {fileID: 2037456709}
   m_Layer: 0
   m_Name: TestGun
   m_TagString: Untagged
@@ -93,11 +94,36 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915599808803593767}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2037456709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915599808803593767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cf97a7e9c39984eb5806c85d75acf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  gunDamage: 25
+  fireTime: 0.15
+  isClosedBolt: 1
+  recoilX: 1
+  recoilY: 1
+  recoilZ: 0.5
+  ergonomic: 70
+  reloadTime: 3
+  maxAmmoInMag: 30
+  ammoInMag: 0
+  maxSpareAmmo: 120
+  spareAmmo: 0
 --- !u!1 &2739512099910924550
 GameObject:
   m_ObjectHideFlags: 0
