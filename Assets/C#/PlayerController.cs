@@ -3,11 +3,16 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Sound")]
+    [SerializeField]
+    private AudioSource dieSound;
+
     [Header("UI")]
     [SerializeField]
     private Slider HP;
     [SerializeField]
     private Slider Stamina;
+
 
     [Header("PlayerControl")]
     [SerializeField] // 강제 직렬화, 인스펙터창에서 값을 변경할 수 있다.
@@ -119,7 +124,13 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            Cursor.lockState = CursorLockMode.None;
+            if (Cursor.lockState == CursorLockMode.Locked)
+            { 
+                Cursor.lockState = CursorLockMode.None;
+            } else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 
@@ -132,5 +143,25 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor")) // 바닥과 닿았는가? (*바닥에 "Floor" 태그를 붙여야 함)
             isJumping = false; // 점프 중이 아님
+    }
+
+    private void Hit(float damage)
+    {
+        HP.value -= damage;
+        if (HP.value <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        dieSound.Play();
+        Invoke("DestroyPlayer", 3);
+    }
+
+    private void DestroyPlayer()
+    {
+        Destroy(gameObject);
     }
 }

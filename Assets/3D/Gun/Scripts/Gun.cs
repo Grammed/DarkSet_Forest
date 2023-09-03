@@ -115,11 +115,13 @@ public class Gun : MonoBehaviour
         
         changePos = transform.localPosition + (Vector3.back * recoilZ);
         transform.localPosition = changePos;
+        StopCoroutine(ReboundRecoil());
         StartCoroutine(ReboundRecoil());
     }
 
     IEnumerator ReboundRecoil() 
 	{
+        // 반동 회복
 		while (transform.localPosition != originPos)
         {
 			transform.localPosition = Vector3.Lerp(transform.localPosition, originPos, 0.1f * (ergonomic / 100f));

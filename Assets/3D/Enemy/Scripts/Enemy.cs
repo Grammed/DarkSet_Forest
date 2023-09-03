@@ -9,9 +9,18 @@ public class Enemy : MonoBehaviour
 	[SerializeField]
     private float health;
 
+	private bool canAttack = true;
+
+	[SerializeField]
+	private float attackTime = 2f;
+	[SerializeField]
+	private float attackDmg;
+	private PlayerController player;
+
 	private void Start()
 	{
 		health = maxHealth;
+		player = FindAnyObjectByType<PlayerController>();
 	}
 
 	private void Update()
@@ -22,9 +31,25 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
-	public void Hit(float damage)
+	public void Hit(float gunDmg)
 	{
-		health -= damage;
+		health -= gunDmg;
 		print("Enemy hit! Its health is now " + health);
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (canAttack)
+		{
+			StartCoroutine(AttackDelay());
+			
+		}
+	}
+
+	IEnumerator AttackDelay()
+	{
+		canAttack = false;
+		yield return new WaitForSeconds(attackTime);
+		canAttack = true;
 	}
 }
