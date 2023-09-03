@@ -61,7 +61,7 @@ public class Inventory_Manager : MonoBehaviour
         {
             Inventory_Slot slot = inventory_Slots[i];
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
-            if( itemInSlot == null)
+            if (itemInSlot == null)
             {
                 SpawnNewItem(item, slot);
                 return true;
