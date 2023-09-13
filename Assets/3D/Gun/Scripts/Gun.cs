@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    [HideInInspector]
+    public PlayerController player;
     public Camera cam;
 	[SerializeField]
 	private float gunDamage = 25;
 	GameObject muzzle;
+
+    [SerializeField]
+    GunSoundPool gunSoundPool;
 
 	[SerializeField]
     private float fireTime = 0.2f;
@@ -20,7 +26,8 @@ public class Gun : MonoBehaviour
     [Header("Recoil")]
 	[SerializeField]
 	[Tooltip("좌우 반동")]
-	private float recoilX = 1; // 좌우 반동
+	/// <summary> 좌우 반동 </summary>
+	private float recoilX = 1;
 	[SerializeField]
 	[Tooltip("상하 반동")]
 	private float recoilY = 1; // 상하 반동
@@ -32,7 +39,12 @@ public class Gun : MonoBehaviour
 	[SerializeField]
 	[Tooltip("인체공학, 높을수록 반동 회복이 빠름")]
     private float ergonomic = 70;
-    
+
+    [SerializeField]
+    private AudioClip reloadSound;
+    [SerializeField]
+    private AudioClip fireSound;
+    private AudioSource audioSource;
 
 	private bool isReloading = false;
 	private KeyCode reloadKey = KeyCode.R;
@@ -55,6 +67,12 @@ public class Gun : MonoBehaviour
         ammoInMag = maxAmmoInMag;
         spareAmmo = maxSpareAmmo;
 		originPos = transform.localPosition;
+
+        player = FindAnyObjectByType<PlayerController>();
+        cam = player.theCamera;
+        audioSource = GetComponent<AudioSource>();
+
+        gunSoundPool = FindAnyObjectByType<GunSoundPool>();
 	}
 
     
@@ -68,7 +86,7 @@ public class Gun : MonoBehaviour
         }
 
         // 재장전
-        if (Input.GetKeyDown(reloadKey) && !isReloading && ammoInMag <= maxAmmoInMag)
+        if (Input.GetKeyDown(reloadKey) && !isReloading && ammoInMag <= maxAmmoInMag && spareAmmo >= 1)
         {
             StartCoroutine(Reload());
         }
@@ -77,8 +95,12 @@ public class Gun : MonoBehaviour
     void Fire()
     {
         print("Fire");
+        //audioSource.clip = fireSound;
+        //audioSource.Play();
         canFire = false;
         ammoInMag -= 1;
+
+        gunSoundPool.Pop();
 
 		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
 		RaycastHit hit;
@@ -100,16 +122,13 @@ public class Gun : MonoBehaviour
     private Vector3 changePos;
     void Recoil()
     {
-        /// !!! NOT WORKING! NEEDS TO BE FIXED ASAP !!!
-        /// 농민교야 도와줭
-        /// 상하좌우 반동 안먹음 ㅠㅠ
 
-        //print("Recoil");
-        //Quaternion q = cam.transform.localRotation;
-        //q.y -= recoilY;
-        //q.x += Random.Range(-recoilX, recoilX);
-        //cam.transform.localRotation = q;
+        print("Recoil");
+        player.currentCameraRotationX -= recoilY;
 
+        Vector3 rot = player.transform.eulerAngles;
+        rot.y += Random.Range(-recoilX, recoilX);
+        player.transform.eulerAngles = rot;
 
         // 총 자체 밀리는 반동
         
@@ -140,20 +159,34 @@ public class Gun : MonoBehaviour
     IEnumerator Reload()
     {
         print("Start Reloading");
+        
         isReloading = true;
+        audioSource.clip = reloadSound;
+        audioSource.Play();
+
+        if (audioSource.isPlaying == false)
+        {
+
+        }
         yield return new WaitForSeconds(reloadTime);
         
         if (isClosedBolt && ammoInMag >= 1) // 약실 장전
         {
-            spareAmmo -= maxAmmoInMag - ammoInMag + 1;
-            ammoInMag = maxAmmoInMag + 1;
-        } else
+			spareAmmo += ammoInMag - 1;
+            ammoInMag = 1;
+			ammoInMag += Mathf.Min(spareAmmo, maxAmmoInMag);
+			spareAmmo -= ammoInMag - 1;
+		} else
         {
-			spareAmmo -= maxAmmoInMag - ammoInMag;
-			ammoInMag = maxAmmoInMag;
+			spareAmmo += ammoInMag;
+			ammoInMag = Mathf.Min(spareAmmo, maxAmmoInMag);
+			spareAmmo -= ammoInMag;
 		}
 		isReloading = false;
         print("Reloading done");
+        print(ammoInMag + " / " + spareAmmo);
 		StopCoroutine(Reload());
     }
+
+
 }

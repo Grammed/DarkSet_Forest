@@ -25,13 +25,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float lookSensitivity = 5f; // 마우스 감도
 
+    [Header("Camera")]
     [SerializeField]
     private float cameraRotationLimit = 75f; // Y 회전축 각도 제한
-    private float currentCameraRotationX; // 현재 카메라의 X 회전축 값
+    public float currentCameraRotationX; // 현재 카메라의 X 회전축 값
 
     public static bool CamRotateEnable = true;
     [SerializeField]
-    private Camera theCamera; // 카메라
+    public Camera theCamera; // 카메라
     [SerializeField]
     public Rigidbody myRigid; // 리지드바디
 
@@ -52,7 +53,6 @@ public class PlayerController : MonoBehaviour
             CameraRotation();       // 마우스를 위아래(Y) 움직임에 따라 카메라 X 축 회전 
             CharacterRotation();    // 마우스 좌우(X) 움직임에 따라 캐릭터 Y 축 회전 
         }
-        MouseLocked();          // 마우스 커서를 안보이게 하고 중간 고정
     }
 
     private void Move()
@@ -120,19 +120,6 @@ public class PlayerController : MonoBehaviour
         // Debug.Log(myRigid.rotation.eulerAngles); // 벡터
     }
 
-    void MouseLocked()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (Cursor.lockState == CursorLockMode.Locked)
-            { 
-                Cursor.lockState = CursorLockMode.None;
-            } else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        }
-    }
 
     void StaminaUP()
     {

@@ -1,0 +1,12 @@
+Font: Pretendard  Style: Medium
+Point Size: 35   SP/PD Ratio: 14.3%
+
+Characters included: 2485/2485
+Missing characters: 0
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+
+Characters excluded from packing:
+----------------------------------------
