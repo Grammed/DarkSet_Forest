@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GunUI : MonoBehaviour
+public class GunUIController : MonoBehaviour
 {
 	// 탄 수 확인하는 TMPUGUI
 	// null일 시 자동으로 초기화

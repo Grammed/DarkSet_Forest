@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Gun : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Gun : MonoBehaviour
     public PlayerController player;
     public Camera cam;
     [SerializeField]
-    private GunUI gunUI;
+    private GunUIController gunUI;
 	private GameObject muzzle;
 
 	[Header("Fire")]
@@ -18,6 +19,8 @@ public class Gun : MonoBehaviour
 	private float gunDamage = 25;
 	[SerializeField]
     private float fireTime = 0.2f;
+    [SerializeField]
+    private bool isAutomatic;
 
 	/// <summary> 딜레이 후 발사가 가능할 때 false </summary>
 	private bool isFireDelaying = false;
@@ -85,7 +88,7 @@ public class Gun : MonoBehaviour
 
 	void Start()
     {
-		#region init
+		#region Init
 
 		muzzle = transform.Find("Muzzle").gameObject;
         ammoInMag = maxAmmoInMag;
@@ -97,11 +100,12 @@ public class Gun : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         gunSoundPool = FindAnyObjectByType<GunSoundPool>();
-        gunUI = FindAnyObjectByType<GunUI>() as GunUI;
+        // gunUI = FindAnyObjectByType<GunUIController>() as GunUIController;
+        gunUI = GetComponent<GunUIController>();
 
 		#endregion
 
-
+		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 	}
 
 
@@ -113,24 +117,27 @@ public class Gun : MonoBehaviour
     // 입력
     private void Inputs()
     {
-		// 발사
-		// 키 클릭 + 장전 중 아님 + 탄창에 총알 하나라도 있음 + 딜레이 중이 아님
-		bool canFire = 
-            Input.GetButton("Fire1") && !isReloading && ammoInMag >= 1 && !isFireDelaying;
-		if (canFire)
+        // 발사
+        // 키 클릭 + 장전 중 아님 + 탄창에 총알 하나라도 있음 + 딜레이 중이 아님
+		if (isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1"))
 		{
-			Fire();
+			bool canFire = !isReloading && ammoInMag >= 1 && !isFireDelaying;
+            if (canFire)
+            { 
+			    Fire();
+			}
 		}
 
         // 재장전
         // 키 클릭 + 장전 중 아님 + 최대 탄수 아님 + 여분 탄수 하나라도 남아있음
-        bool canReload = 
-            Input.GetKeyDown(reloadKey) && !isReloading
-            && ammoInMag <= maxAmmoInMag && spareAmmo >= 1; 
-		if (canReload)
-		{
-			StartCoroutine(Reload());
-		}
+        if (Input.GetKeyDown(reloadKey))
+        {
+            bool canReload = !isReloading && ammoInMag <= maxAmmoInMag && spareAmmo >= 1;
+            if (canReload)
+            {
+                StartCoroutine(Reload());
+            }
+        }
 	}
 
     // 총 발사
@@ -141,6 +148,8 @@ public class Gun : MonoBehaviour
         //audioSource.Play();
         isFireDelaying = true; // 코루틴 완료 전까지 발사 불가
         ammoInMag -= 1;
+
+        gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 
         // 오브젝트 풀에서 사운드 꺼냄
         gunSoundPool.Pop();
@@ -176,7 +185,7 @@ public class Gun : MonoBehaviour
 
 		// 카메라 회전 변경 //
 		Vector3 rot = player.transform.eulerAngles;
-        rot.y += Random.Range(-recoilX, recoilX);
+        player._yRotation += Random.Range(-recoilX, recoilX);
         player.transform.eulerAngles = rot; 
 
         // 총 자체 밀리는 반동
@@ -236,6 +245,7 @@ public class Gun : MonoBehaviour
         // 장전 끝
 		isReloading = false;
         print("Reloading done\n" + ammoInMag + " / " + spareAmmo);
+		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 		StopCoroutine(Reload());
     }
 

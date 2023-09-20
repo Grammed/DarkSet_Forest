@@ -44972,6 +44972,7 @@ MonoBehaviour:
   currentCameraRotationX: 0
   theCamera: {fileID: 963194227}
   myRigid: {fileID: 1596372236}
+  _yRotation: 0
 --- !u!114 &1596372238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58391,7 +58392,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -58420,7 +58421,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -198.90881, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -61128,6 +61129,7 @@ GameObject:
   - component: {fileID: 7663268710680721638}
   - component: {fileID: 5601792955945684012}
   - component: {fileID: 6520091455947477174}
+  - component: {fileID: 7663268710680721639}
   - component: {fileID: 543450653529746600}
   m_Layer: 0
   m_Name: RagingBull
@@ -61324,18 +61326,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   cam: {fileID: 0}
-  gunDamage: 50
-  gunSoundPool: {fileID: 0}
+  gunUI: {fileID: 0}
+  gunDamage: 5000
   fireTime: 0.4
-  isClosedBolt: 0
-  recoilX: 3
+  isAutomatic: 0
+  recoilX: 0.5
   recoilY: 15
   recoilZ: 2
   ergonomic: 55
+  gunSoundPool: {fileID: 0}
   reloadSound: {fileID: 8300000, guid: 0255f5936c04b154896a018a88ea6c84, type: 3}
   fireSound: {fileID: 8300000, guid: db8170c8333ae9f47a692e0ef68d747e, type: 3}
   reloadTime: 4.5
-  maxAmmoInMag: 6
+  isClosedBolt: 0
+  maxAmmoInMag: 9999
   ammoInMag: 6
   maxSpareAmmo: 30
   spareAmmo: 30
@@ -61520,9 +61524,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1863392761, guid: b81cc30ab288c524682cfb61d3aeabfe, type: 3}
+      propertyPath: maxHealth
+      value: 1000000
+      objectReference: {fileID: 0}
     - target: {fileID: 643648816929780190, guid: b81cc30ab288c524682cfb61d3aeabfe, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 643648816929780190, guid: b81cc30ab288c524682cfb61d3aeabfe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3384147104966930782, guid: b81cc30ab288c524682cfb61d3aeabfe, type: 3}
       propertyPath: target
@@ -61582,6 +61594,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6250272201682071033}
   m_Mesh: {fileID: 6036129160833756885, guid: d46194716ca57e546a56ba8794dbfba7, type: 3}
+--- !u!114 &7663268710680721639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6250272201682071033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6f0d3529b09cb439f6ce10c310eae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoText: {fileID: 2102025277}
 --- !u!114 &7723910566921084603
 MonoBehaviour:
   m_ObjectHideFlags: 0

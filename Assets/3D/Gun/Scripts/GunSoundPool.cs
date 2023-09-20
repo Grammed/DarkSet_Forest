@@ -14,7 +14,7 @@ public class GunSoundPool : MonoBehaviour
 
 	private void Awake()
 	{
-        // 이 오브젝트 풀의 자식을 모두 큐에 넣는다
+        // 이 컴포넌트의 트랜스폼의 자식을 모두 큐에 넣는다
 		foreach (Transform t in transform)
         {
             queue.Enqueue(t.gameObject);

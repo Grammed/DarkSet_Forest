@@ -95,25 +95,28 @@ public class PlayerController : MonoBehaviour
     public void CameraRotation() // 카메라의 위아래 회전
     {
        
-            float _xRotation = Input.GetAxisRaw("Mouse Y"); // 마우스 위아래
-            float _cameraRotationX = _xRotation * lookSensitivity;
+        float _xRotation = Input.GetAxisRaw("Mouse Y"); // 마우스 위아래
+        float _cameraRotationX = _xRotation * lookSensitivity;
 
-            currentCameraRotationX -= _cameraRotationX;
-            currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
-            // Mathf.Clamp: (값, 최솟값, 최댓값) -> 첫번째 값이 최솟값보다 작다면 최솟값을,
-            // 최댓값보다 크다면 최댓값을, 아니라면 첫번째 값 반환
+        currentCameraRotationX -= _cameraRotationX;
+        currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
+        // Mathf.Clamp: (값, 최솟값, 최댓값) -> 첫번째 값이 최솟값보다 작다면 최솟값을,
+        // 최댓값보다 크다면 최댓값을, 아니라면 첫번째 값 반환
 
-           theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
+        theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
     
     }
 
-    public void CharacterRotation()  // 좌우 캐릭터 회전
+    public float _yRotation;
+
+	public void CharacterRotation()  // 좌우 캐릭터 회전
     {
-        float _yRotation = Input.GetAxisRaw("Mouse X");
+        _yRotation += Input.GetAxisRaw("Mouse X");
         Vector3 _characterRotationY = new Vector3(0f, _yRotation, 0f) * lookSensitivity;
         myRigid.MoveRotation(myRigid.rotation * Quaternion.Euler(_characterRotationY)); // 쿼터니언 * 쿼터니언
         // Debug.Log(myRigid.rotation);  // 쿼터니언
         // Debug.Log(myRigid.rotation.eulerAngles); // 벡터
+        _yRotation = 0f;
     }
 
 
