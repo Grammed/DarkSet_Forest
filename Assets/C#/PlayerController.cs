@@ -63,14 +63,10 @@ public class PlayerController : MonoBehaviour
         Vector3 _moveVertical = transform.forward * _moveDirZ; // 상하 이동 벡터
 
         Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * walkSpeed;
-        // normalized: 대각선으로 가도 2가 아닌 1로 만들어줌 (대각선으로 가는 속도 = 일자로 가는 속도)
-        // transform.right(Vector3(1,0,0)) + transform.forward(Vector3(0,0,1))
-        // 그냥 더하면 Vector3(1,0,1) / normalized하면 Vector3(0.5f, 0, 0.5f)
+        // normalized: 단위 벡터로 변화
 
         myRigid.MovePosition(transform.position + _velocity * Time.deltaTime);
-        
         // deltaTime -> 1.0f ÷ (기기의 현재 1초당 프레임 수)
-        // 프레임 높은 기기에서 더 빨리 이동하는 현상 / 프레임 낮은 기기에서 더 느리게 이동하는 현상을 막아준다
 
         //달리기
         if (Input.GetKey(KeyCode.LeftShift) && Stamina.value > 0)

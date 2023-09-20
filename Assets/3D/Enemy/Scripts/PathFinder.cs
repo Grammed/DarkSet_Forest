@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// 테스트용 PathFinder
+/// </summary>
 public class PathFinder : MonoBehaviour
 {
 	public GameObject target;

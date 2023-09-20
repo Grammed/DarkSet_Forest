@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class GunSound : MonoBehaviour
 {
+	// 사운드 오브젝트 풀
 	private GunSoundPool pool;
+
+	// 사운드가 플레이되는 소스
 	[SerializeField]
 	private AudioSource source;
+
+	// 발사 사운드
     public AudioClip nowClip;
+
+	// 클립 재생 시간
 	private float playTime;
 
 	private void Start()
@@ -30,6 +37,7 @@ public class GunSound : MonoBehaviour
 
 	IEnumerator DisableThis()
 	{
+		// 클립 재생 시간이 지나면 Disable
 		yield return new WaitForSeconds(playTime);
 		pool.Push(gameObject);
 		gameObject.SetActive(false);

@@ -8,7 +8,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     [Header("UI")]
     public Image image; //아이템 사진
-    public Text countText;
+    public Text countText; // 아이템 개수의 텍스트
 
     [HideInInspector] public Item item;
     [HideInInspector] public int count = 1;

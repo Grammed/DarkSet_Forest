@@ -5,53 +5,73 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+	[Header("References")]
     [HideInInspector]
     public PlayerController player;
     public Camera cam;
+    [SerializeField]
+    private GunUI gunUI;
+	private GameObject muzzle;
+
+	[Header("Fire")]
 	[SerializeField]
 	private float gunDamage = 25;
-	GameObject muzzle;
-
-    [SerializeField]
-    GunSoundPool gunSoundPool;
-
 	[SerializeField]
     private float fireTime = 0.2f;
 
-    /// <summary> 딜레이 후 발사가 가능할 때 true </summary>
-    private bool canFire = true;
-    [SerializeField]
-    private bool isClosedBolt = true; // 클로즈드볼트
+	/// <summary> 딜레이 후 발사가 가능할 때 false </summary>
+	private bool isFireDelaying = false;
 
-    [Header("Recoil")]
+	#region Recoil
+
+	[Header("Recoil")]
 	[SerializeField]
 	[Tooltip("좌우 반동")]
 	/// <summary> 좌우 반동 </summary>
 	private float recoilX = 1;
 	[SerializeField]
 	[Tooltip("상하 반동")]
+	/// <summary> 상하 반동 </summary>
 	private float recoilY = 1; // 상하 반동
-    [Tooltip("앞뒤 반동")]
-    [SerializeField]
+    [Tooltip("총 자체 앞뒤 반동")]
+	/// <summary> 총 자체 앞뒤 반동 </summary>
+	[SerializeField]
     private float recoilZ = 1; // 앞뒤 반동
-
 
 	[SerializeField]
 	[Tooltip("인체공학, 높을수록 반동 회복이 빠름")]
     private float ergonomic = 70;
 
-    [SerializeField]
+	#endregion
+
+	#region Sound
+
+	[Header("Sound")]
+	[SerializeField]
+	GunSoundPool gunSoundPool;
+	[SerializeField]
     private AudioClip reloadSound;
     [SerializeField]
     private AudioClip fireSound;
     private AudioSource audioSource;
 
+	#endregion
+
+	#region Reload
+
+	[Header("Reload")]
 	private bool isReloading = false;
 	private KeyCode reloadKey = KeyCode.R;
     [SerializeField]
     private float reloadTime = 3f;
+	[SerializeField]
+	private bool isClosedBolt = true; // 클로즈드 볼트
 
-    [Header("Ammo")]
+	#endregion
+
+	#region Ammo
+
+	[Header("Ammo")]
 	[SerializeField]
 	private int maxAmmoInMag = 30;
 	[SerializeField]
@@ -61,9 +81,13 @@ public class Gun : MonoBehaviour
 	[SerializeField]
 	private int spareAmmo;
 
+	#endregion
+
 	void Start()
     {
-        muzzle = transform.Find("Muzzle").gameObject;
+		#region init
+
+		muzzle = transform.Find("Muzzle").gameObject;
         ammoInMag = maxAmmoInMag;
         spareAmmo = maxSpareAmmo;
 		originPos = transform.localPosition;
@@ -73,36 +97,56 @@ public class Gun : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         gunSoundPool = FindAnyObjectByType<GunSoundPool>();
+        gunUI = FindAnyObjectByType<GunUI>() as GunUI;
+
+		#endregion
+
+
 	}
 
-    
-    void Update()
-    {
-        // 총 발사
-        bool isFire = Input.GetButton("Fire1");
-        if (isFire && !isReloading && ammoInMag >= 1 && canFire)
-        {
-            Fire();
-        }
 
-        // 재장전
-        if (Input.GetKeyDown(reloadKey) && !isReloading && ammoInMag <= maxAmmoInMag && spareAmmo >= 1)
-        {
-            StartCoroutine(Reload());
-        }
+	private void Update()
+    {
+        Inputs();
     }
 
-    void Fire()
+    // 입력
+    private void Inputs()
+    {
+		// 발사
+		// 키 클릭 + 장전 중 아님 + 탄창에 총알 하나라도 있음 + 딜레이 중이 아님
+		bool canFire = 
+            Input.GetButton("Fire1") && !isReloading && ammoInMag >= 1 && !isFireDelaying;
+		if (canFire)
+		{
+			Fire();
+		}
+
+        // 재장전
+        // 키 클릭 + 장전 중 아님 + 최대 탄수 아님 + 여분 탄수 하나라도 남아있음
+        bool canReload = 
+            Input.GetKeyDown(reloadKey) && !isReloading
+            && ammoInMag <= maxAmmoInMag && spareAmmo >= 1; 
+		if (canReload)
+		{
+			StartCoroutine(Reload());
+		}
+	}
+
+    // 총 발사
+    private void Fire()
     {
         print("Fire");
         //audioSource.clip = fireSound;
         //audioSource.Play();
-        canFire = false;
+        isFireDelaying = true; // 코루틴 완료 전까지 발사 불가
         ammoInMag -= 1;
 
+        // 오브젝트 풀에서 사운드 꺼냄
         gunSoundPool.Pop();
 
-		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+		// 카메라로부터 레이 발사
+		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f)); 
 		RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
@@ -114,33 +158,38 @@ public class Gun : MonoBehaviour
             }
         }
 
-        StartCoroutine(FireDelay()); // 발사 딜레이
+		// 발사 딜레이
+		StartCoroutine(FireDelay()); 
+
+        // 반동
         Recoil();
 	}
 
-    private Vector3 originPos;
-    private Vector3 changePos;
+    private Vector3 originPos; // 총 자체의 원래 위치
+    private Vector3 changePos; // 바뀐 위치
     void Recoil()
     {
-
+        // 반동
         print("Recoil");
-        player.currentCameraRotationX -= recoilY;
+		// 상하반동
+		player.currentCameraRotationX -= recoilY;
 
-        Vector3 rot = player.transform.eulerAngles;
+		// 카메라 회전 변경 //
+		Vector3 rot = player.transform.eulerAngles;
         rot.y += Random.Range(-recoilX, recoilX);
-        player.transform.eulerAngles = rot;
+        player.transform.eulerAngles = rot; 
 
         // 총 자체 밀리는 반동
-        
         changePos = transform.localPosition + (Vector3.back * recoilZ);
         transform.localPosition = changePos;
         StopCoroutine(ReboundRecoil());
         StartCoroutine(ReboundRecoil());
     }
 
+    // 반동 회복
     IEnumerator ReboundRecoil() 
 	{
-        // 반동 회복
+        // 앞뒤 반동 회복
 		while (transform.localPosition != originPos)
         {
 			transform.localPosition = Vector3.Lerp(transform.localPosition, originPos, 0.1f * (ergonomic / 100f));
@@ -148,28 +197,29 @@ public class Gun : MonoBehaviour
 		}
 
 	}
-    IEnumerator FireDelay()
+
+	// 카메라 회전 변경
+	IEnumerator FireDelay()
     {
-        // 발사 딜레이
         yield return new WaitForSeconds(fireTime);
-        canFire = true;
+        isFireDelaying = false;
         StopCoroutine(FireDelay());
     }
 
-    IEnumerator Reload()
+	// 재장전
+	IEnumerator Reload()
     {
+        // Update 메서드에서 참조됨
         print("Start Reloading");
         
+        // 장전 사운드 준비 및 플레이
         isReloading = true;
         audioSource.clip = reloadSound;
         audioSource.Play();
-
-        if (audioSource.isPlaying == false)
-        {
-
-        }
+        
         yield return new WaitForSeconds(reloadTime);
         
+        // 총알 수 조절
         if (isClosedBolt && ammoInMag >= 1) // 약실 장전
         {
 			spareAmmo += ammoInMag - 1;
@@ -182,9 +232,10 @@ public class Gun : MonoBehaviour
 			ammoInMag = Mathf.Min(spareAmmo, maxAmmoInMag);
 			spareAmmo -= ammoInMag;
 		}
+
+        // 장전 끝
 		isReloading = false;
-        print("Reloading done");
-        print(ammoInMag + " / " + spareAmmo);
+        print("Reloading done\n" + ammoInMag + " / " + spareAmmo);
 		StopCoroutine(Reload());
     }
 
