@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
@@ -21,9 +22,10 @@ public class Gun : MonoBehaviour
     private float fireTime = 0.2f;
     [SerializeField]
     private bool isAutomatic;
-
 	/// <summary> 딜레이 후 발사가 가능할 때 false </summary>
 	private bool isFireDelaying = false;
+    [SerializeField]
+    List<ParticleSystem> fireParticles;
 
 	#region Recoil
 
@@ -69,6 +71,10 @@ public class Gun : MonoBehaviour
     private float reloadTime = 3f;
 	[SerializeField]
 	private bool isClosedBolt = true; // 클로즈드 볼트
+    [SerializeField]
+    Image bulletImage;
+    [SerializeField]
+    Image circleImage;
 
 	#endregion
 
@@ -86,7 +92,7 @@ public class Gun : MonoBehaviour
 
 	#endregion
 
-	void Start()
+	void Awake()
     {
 		#region Init
 
@@ -105,9 +111,13 @@ public class Gun : MonoBehaviour
 
 		#endregion
 
-		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
+		
 	}
 
+	private void OnEnable()
+	{
+		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
+	}
 
 	private void Update()
     {
@@ -136,6 +146,7 @@ public class Gun : MonoBehaviour
             if (canReload)
             {
                 StartCoroutine(Reload());
+
             }
         }
 	}
@@ -165,6 +176,11 @@ public class Gun : MonoBehaviour
                 if (enemy != null)
                     enemy.Hit(gunDamage);
             }
+        }
+
+        foreach(ParticleSystem p in fireParticles)
+        {
+            p.Play();
         }
 
 		// 발사 딜레이
@@ -217,12 +233,17 @@ public class Gun : MonoBehaviour
 
 	// 재장전
 	IEnumerator Reload()
-    {
-        // Update 메서드에서 참조됨
-        print("Start Reloading");
-        
-        // 장전 사운드 준비 및 플레이
-        isReloading = true;
+    { 
+		// Update 메서드에서 참조됨
+		print("Start Reloading");
+        bulletImage.gameObject.SetActive(true);
+		circleImage.gameObject.SetActive(true);
+
+        StopCoroutine(FillCircle());
+		StartCoroutine(FillCircle()); // 원 채우기 시작
+
+		// 장전 사운드 준비 및 플레이
+		isReloading = true;
         audioSource.clip = reloadSound;
         audioSource.Play();
         
@@ -246,8 +267,28 @@ public class Gun : MonoBehaviour
 		isReloading = false;
         print("Reloading done\n" + ammoInMag + " / " + spareAmmo);
 		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
+
+		bulletImage.gameObject.SetActive(false);
+		circleImage.gameObject.SetActive(false);
+
+
 		StopCoroutine(Reload());
     }
 
+    IEnumerator FillCircle()
+    {
+        circleImage.fillAmount = 0f;
 
+		float processTime = 0f;
+        float amount = 0f;
+
+        while (processTime < reloadTime)
+        {
+            processTime += Time.deltaTime;
+            amount = processTime / reloadTime;
+
+            circleImage.fillAmount = amount;
+            yield return null;
+        }
+    }
 }
