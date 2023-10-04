@@ -7,7 +7,6 @@ public class Inventory_Manager : MonoBehaviour
     public int maxStackedItems = 64;
     public Inventory_Slot[] inventory_Slots;
     public GameObject InventoryItemPrefab;
-    Rigidbody itemRigidbody;
 
     int selectedSlot = -1;
 
@@ -106,21 +105,17 @@ public class Inventory_Manager : MonoBehaviour
     }
 
 
-    public Item ThrowItem()
+    public void Drop(GameObject item)
     {
         Inventory_Slot slot = inventory_Slots[selectedSlot];
         InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
 
-        Rigidbody ItemInstance;
-        Transform PlayerPos = GameObject.Find("Player").transform;
-        itemRigidbody = GetComponent<Rigidbody>();
+        Vector3 PlayerPos = GameObject.Find("Player").transform.position;
 
         if (itemInSlot != null)
         {
-            Item item = itemInSlot.item;
             itemInSlot.count--;
-            ItemInstance = Instantiate(ItemInstance, PlayerPos.position, PlayerPos.rotation) as Rigidbody;
-            ItemInstance.AddForce(PlayerPos.forward * 100);
+            Instantiate(item, PlayerPos, Quaternion.identity);
             if (itemInSlot.count <= 0)
             {
                 Destroy(itemInSlot.gameObject);
@@ -129,8 +124,6 @@ public class Inventory_Manager : MonoBehaviour
             {
                 itemInSlot.RefreshCount();
             }
-            return item;
         }
-        return null;
     }
 }

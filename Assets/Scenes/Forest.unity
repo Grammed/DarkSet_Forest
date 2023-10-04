@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.003
@@ -43324,6 +43324,7 @@ GameObject:
   - component: {fileID: 1596372232}
   - component: {fileID: 1596372237}
   - component: {fileID: 1596372238}
+  - component: {fileID: 1596372239}
   - component: {fileID: 1596372236}
   m_Layer: 0
   m_Name: Player
@@ -43465,6 +43466,22 @@ MonoBehaviour:
   itemsToPickup:
   - {fileID: 11400000, guid: 3053324d42ac180429f08b02e38f2210, type: 2}
   - {fileID: 11400000, guid: df46adec3cae73b40962c6f50822ef29, type: 2}
+--- !u!114 &1596372239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596372231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3616f800827e53149afa67d2cb01488c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory_Manager: {fileID: 998684785}
+  itemsToDrop:
+  - {fileID: 4710204225193298124, guid: c6f49ee5ac657e447909d1009ec814cc, type: 3}
+  - {fileID: 6817035111008716620, guid: b360b81f088e6f54b9f4a97c96695c35, type: 3}
 --- !u!1001 &1597242196
 PrefabInstance:
   m_ObjectHideFlags: 0

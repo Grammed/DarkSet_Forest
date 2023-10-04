@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
             CharacterRotation();    // 마우스 좌우(X) 움직임에 따라 캐릭터 Y 축 회전 
         }
         MouseLocked();          // 마우스 커서를 안보이게 하고 중간 고정
+       
     }
 
     private void Move()
