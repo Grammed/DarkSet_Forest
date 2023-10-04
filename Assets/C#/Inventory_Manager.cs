@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -107,32 +108,37 @@ public class Inventory_Manager : MonoBehaviour
 
     }
 
+	internal void Drop(GameObject gameObject)
+	{
+		throw new NotImplementedException();
+	}
 
-    //public Item ThrowItem()
-    //{
-    //    Inventory_Slot slot = inventory_Slots[selectedSlot];
-    //    InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
 
-    //    Rigidbody ItemInstance;
-    //    Transform PlayerPos = GameObject.Find("Player").transform;
-    //    itemRigidbody = GetComponent<Rigidbody>();
+	//public Item ThrowItem()
+	//{
+	//    Inventory_Slot slot = inventory_Slots[selectedSlot];
+	//    InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
 
-    //    if (itemInSlot != null)
-    //    {
-    //        Item item = itemInSlot.item;
-    //        itemInSlot.count--;
-    //        ItemInstance = Instantiate(ItemInstance, PlayerPos.position, PlayerPos.rotation) as Rigidbody;
-    //        ItemInstance.AddForce(PlayerPos.forward * 100);
-    //        if (itemInSlot.count <= 0)
-    //        {
-    //            Destroy(itemInSlot.gameObject);
-    //        }
-    //        else
-    //        {
-    //            itemInSlot.RefreshCount();
-    //        }
-    //        return item;
-    //    }
-    //    return null;
-    //}
+	//    Rigidbody ItemInstance;
+	//    Transform PlayerPos = GameObject.Find("Player").transform;
+	//    itemRigidbody = GetComponent<Rigidbody>();
+
+	//    if (itemInSlot != null)
+	//    {
+	//        Item item = itemInSlot.item;
+	//        itemInSlot.count--;
+	//        ItemInstance = Instantiate(ItemInstance, PlayerPos.position, PlayerPos.rotation) as Rigidbody;
+	//        ItemInstance.AddForce(PlayerPos.forward * 100);
+	//        if (itemInSlot.count <= 0)
+	//        {
+	//            Destroy(itemInSlot.gameObject);
+	//        }
+	//        else
+	//        {
+	//            itemInSlot.RefreshCount();
+	//        }
+	//        return item;
+	//    }
+	//    return null;
+	//}
 }

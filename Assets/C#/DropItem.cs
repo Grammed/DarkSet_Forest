@@ -11,12 +11,14 @@ public class DropItem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Droped(1);
+            // 아이템 드롭
+            // Droped(1);
         }
     }
 
     public void Droped(int id)
     {
+        // Drop 구현 안됨
         inventory_Manager.Drop(itemsToDrop[id]);
     }
 }
