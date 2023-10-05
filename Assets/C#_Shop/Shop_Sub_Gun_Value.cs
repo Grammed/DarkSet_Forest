@@ -1,9 +1,12 @@
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "SubGun Data", menuName = "Scriptable Object/SubGun Data", order = int.MaxValue)]
+
 public class Shop_Sub_Gun_Value : ScriptableObject
 {
-    [SerializeField]
+	[Header("Sub Gun Value")]
+	[SerializeField]
     private Sprite gunImage;
     public Sprite GunImage { get { return gunImage; } }
 
