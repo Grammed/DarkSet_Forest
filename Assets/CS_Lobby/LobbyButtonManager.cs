@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class LobbyButtonManager : MonoBehaviour
 {
-	[SerializeField] GameObject nowMapBG;
+	[SerializeField] GameObject nowMapThumbnail;
     [SerializeField] TextMeshProUGUI txt_PrevMap;
     [SerializeField] TextMeshProUGUI txt_PrevMapName;
     [SerializeField] TextMeshProUGUI txt_NowMapName;
@@ -17,8 +17,8 @@ public class LobbyButtonManager : MonoBehaviour
     [SerializeField] GameObject leftBtn;
     [SerializeField] GameObject rightBtn;
 
-	[SerializeField] GameObject[] titleObjs;
-    [SerializeField] GameObject[] chooseMapObjs;
+	[SerializeField] GameObject titleSet;
+    [SerializeField] GameObject chooseMapSet;
 
     [SerializeField] Sprite[] mapImages;
     /// <summary>
@@ -48,29 +48,31 @@ public class LobbyButtonManager : MonoBehaviour
 
             if (mapIdx != maxIdx)
                 txt_NextMapName.text = mapNames[mapIdx + 1];
+
+
+            txt_NowMapName.text = mapNames[mapIdx];
+            nowMapThumbnail.GetComponent<Image>().sprite = mapImages[mapIdx];
         }
     }
 
+    void setMapIdx()
+    {
+
+    }
 
     private void Awake()
 	{
 		maxIdx = Mathf.Min(mapImages.Length, mapNames.Length) - 1;
 		MapIdx = 0;
         
-        nowMapBG.GetComponent<Image>().sprite = mapImages[MapIdx];
+        nowMapThumbnail.GetComponent<Image>().sprite = mapImages[MapIdx];
         txt_NowMapName.text = mapNames[MapIdx];
 	}
 
 	public void OnClickStartButton()
     {
-        foreach(var obj in titleObjs) 
-        {
-            obj.SetActive(false);
-        }
-        foreach(var obj in chooseMapObjs) 
-        {
-            obj.SetActive(true);
-        }
+        titleSet.SetActive(false);
+        chooseMapSet.SetActive(true);
     }
 
     public void OnClickExitButton()
@@ -84,24 +86,20 @@ public class LobbyButtonManager : MonoBehaviour
 
     public void OnClickGoBack()
     {
-		foreach (var obj in chooseMapObjs) 
-        {
-			obj.SetActive(false);
-		}
-		foreach (var obj in titleObjs) 
-        {
-			obj.SetActive(true);
-		}
+		titleSet.SetActive(true);
+		chooseMapSet.SetActive(false);
 	}
 
     public void OnClickLeftButton()
     {
         MapIdx -= 1;
+        print("left");
     }
 
     public void OnClickRightButton()
     {
         MapIdx += 1;
+        print("right");
     }
 
     public void OnClickChooseButton()
