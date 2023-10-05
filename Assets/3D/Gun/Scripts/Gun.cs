@@ -178,7 +178,7 @@ public class Gun : MonoBehaviour
             }
         }
 
-        foreach(ParticleSystem p in fireParticles)
+        foreach(var p in fireParticles)
         {
             p.Play();
         }
