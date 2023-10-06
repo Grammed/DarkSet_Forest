@@ -2228,9 +2228,12 @@ MonoBehaviour:
   mapImages:
   - {fileID: 21300000, guid: 809f2e3ca85795949b4b8716e216ab28, type: 3}
   - {fileID: 21300000, guid: f3b499a1f1261824fae65070854a6670, type: 3}
-  mapNames:
+  mapNamesToDisplay:
   - "\uC232"
   - "\uD06C\uB808\uBC14\uC2A4"
+  mapNamesInEditor:
+  - Forest
+  - Crevasses
 --- !u!4 &1245141482
 Transform:
   m_ObjectHideFlags: 0

@@ -21,10 +21,12 @@ public class LobbyButtonManager : MonoBehaviour
     [SerializeField] GameObject chooseMapSet;
 
     [SerializeField] Sprite[] mapImages;
-    /// <summary>
-    /// ¸Ê ÀÌ¸§ÀÌ¶û °°°Ô
-    /// </summary>
-    [SerializeField] string[] mapNames;
+   
+    [SerializeField] string[] mapNamesToDisplay;
+	/// <summary>
+	/// ¸Ê ÀÌ¸§ÀÌ¶û °°°Ô
+	/// </summary>
+	[SerializeField] string[] mapNamesInEditor;
 
     int maxIdx = -1;
     int mapIdx = 0;
@@ -39,7 +41,7 @@ public class LobbyButtonManager : MonoBehaviour
             txt_PrevMapName.gameObject.SetActive(mapIdx != 0);
             leftBtn.SetActive(mapIdx != 0);
             if (mapIdx != 0)
-                txt_PrevMapName.text = mapNames[mapIdx - 1];
+                txt_PrevMapName.text = mapNamesToDisplay[mapIdx - 1];
 
 
             txt_NextMap.gameObject.SetActive(mapIdx != maxIdx);
@@ -47,10 +49,10 @@ public class LobbyButtonManager : MonoBehaviour
             rightBtn.SetActive(mapIdx != maxIdx);
 
             if (mapIdx != maxIdx)
-                txt_NextMapName.text = mapNames[mapIdx + 1];
+                txt_NextMapName.text = mapNamesToDisplay[mapIdx + 1];
 
 
-            txt_NowMapName.text = mapNames[mapIdx];
+            txt_NowMapName.text = mapNamesToDisplay[mapIdx];
             nowMapThumbnail.GetComponent<Image>().sprite = mapImages[mapIdx];
         }
     }
@@ -62,11 +64,11 @@ public class LobbyButtonManager : MonoBehaviour
 
     private void Awake()
 	{
-		maxIdx = Mathf.Min(mapImages.Length, mapNames.Length) - 1;
+		maxIdx = Mathf.Min(mapImages.Length, mapNamesToDisplay.Length) - 1;
 		MapIdx = 0;
         
         nowMapThumbnail.GetComponent<Image>().sprite = mapImages[MapIdx];
-        txt_NowMapName.text = mapNames[MapIdx];
+        txt_NowMapName.text = mapNamesToDisplay[MapIdx];
 	}
 
 	public void OnClickStartButton()
@@ -104,6 +106,6 @@ public class LobbyButtonManager : MonoBehaviour
 
     public void OnClickChooseButton()
     {
-        SceneManager.LoadScene(mapNames[MapIdx]);
+        SceneManager.LoadScene(mapNamesInEditor[MapIdx]);
     }
 }
