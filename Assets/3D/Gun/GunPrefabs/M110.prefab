@@ -9755,7 +9755,7 @@ GameObject:
   - component: {fileID: 8228402718980422537}
   - component: {fileID: 8228402718980422536}
   m_Layer: 0
-  m_Name: AKM
+  m_Name: M110
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9847,18 +9847,18 @@ MonoBehaviour:
   player: {fileID: 0}
   cam: {fileID: 0}
   gunUI: {fileID: 0}
-  gunDamage: 30
-  fireTime: 0.1
+  gunDamage: 50
+  fireTime: 0.2
   isAutomatic: 1
   fireParticles:
   - {fileID: 3442884759049839094}
   - {fileID: 2358740387119642958}
   - {fileID: 2358740387376352501}
-  recoilX: 1
-  recoilY: 3
+  recoilX: 0.5
+  recoilY: 7
   recoilZ: 0.5
   ergonomic: 70
-  gunSoundPool: {fileID: 0}
+  gunSoundPool: {fileID: 8483534646768490988}
   reloadSound: {fileID: 8300000, guid: 91bc91002a05d734c9b15b88d84c9b1b, type: 3}
   fireSound: {fileID: 8300000, guid: 92887dbec3d31dc479af39f403e27b36, type: 3}
   reloadTime: 3
