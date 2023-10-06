@@ -11,4 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Forest.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Crevasses.unity
+    guid: fcc10b3954da3f746b16e02806c785c7
+  - enabled: 1
+    path: Assets/Scenes/Dead.unity
+    guid: f2b79d97433a6dd4eaa2ef74fc2f9ea7
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: d1a4d40b19e18dc428602160b51410dc
   m_configObjects: {}

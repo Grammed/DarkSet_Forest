@@ -8,7 +8,8 @@ public class Shop_Manager : MonoBehaviour
     [Header("¹«±â ¸Å´ÏÀú")]
     WeaponManager weaponManager;
 
-	
+    [Header("ÃÑ")]
+    public Gun gunScript;
 
 	[Header("ÄÚÀÎ")]
     public int Coin;
@@ -57,7 +58,7 @@ public class Shop_Manager : MonoBehaviour
         Dontmoney.SetActive(false);
 
 
-        Bullet = 0; //¾ø¾Ú
+        Bullet = gunScript.spareAmmo; //¾ø¾Ú
         Coin = 1000000; // ¾ø¾Ú
     }
 
@@ -118,10 +119,10 @@ public class Shop_Manager : MonoBehaviour
 
     public void Bullet_Buy()
     {
-        if (Coin >= 500)
+        if (Coin >= 500 && gunScript.spareAmmo <= gunScript.maxSpareAmmo)
         {
             Coin -= 500;
-            Bullet += 90;
+			gunScript.spareAmmo += 30;
         }
         else
         {

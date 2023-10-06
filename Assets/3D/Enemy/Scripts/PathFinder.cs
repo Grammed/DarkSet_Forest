@@ -11,6 +11,10 @@ public class PathFinder : MonoBehaviour
 	public GameObject target;
 	NavMeshAgent agent;
 
+	private void Awake()
+	{
+		target = GameObject.Find("Player");
+	}
 	void Update()
 	{
 		agent = GetComponent<NavMeshAgent>();

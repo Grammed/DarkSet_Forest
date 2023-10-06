@@ -2197,7 +2197,7 @@ GameObject:
   - component: {fileID: 1245141482}
   - component: {fileID: 1245141481}
   m_Layer: 0
-  m_Name: ButtonManager
+  m_Name: LobbyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

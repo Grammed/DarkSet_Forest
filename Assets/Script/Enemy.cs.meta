@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 19cd316ee4a7af547850a5adfc4a7ad6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sun_rotation: {instanceID: 0}
+  - gameTime: {instanceID: 0}
+  - enemyData: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

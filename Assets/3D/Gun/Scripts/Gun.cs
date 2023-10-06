@@ -29,6 +29,8 @@ public class Gun : MonoBehaviour
     [SerializeField]
     List<ParticleSystem> fireParticles;
 
+    [SerializeField]private Shop_Manager shopManager;
+
 	#region Recoil
 
 	[Header("Recoil")]
@@ -49,6 +51,7 @@ public class Gun : MonoBehaviour
 	[Tooltip("인체공학, 높을수록 반동 회복이 빠름")]
     private float ergonomic = 70;
 
+    [SerializeField] private int hitGold;
 	#endregion
 
 	#region Sound
@@ -86,7 +89,7 @@ public class Gun : MonoBehaviour
 	private int maxAmmoInMag = 30;
 	public int ammoInMag;
 	[SerializeField]
-	private int maxSpareAmmo;
+	public int maxSpareAmmo;
 	public int spareAmmo;
 
 	#endregion
@@ -172,7 +175,14 @@ public class Gun : MonoBehaviour
             {
                 Enemy enemy = hit.collider.GetComponent<Enemy>();
                 if (enemy != null)
-                    enemy.Hit(gunDamage);
+                {
+                    shopManager.Coin += hitGold;
+					enemy.GetDamage(gunDamage);
+                    
+				}
+
+                EnemyLegacy legacyEnemy = hit.collider.GetComponent<EnemyLegacy>();
+                legacyEnemy.Hit(gunDamage);
             }
         }
 
