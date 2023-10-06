@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class Shop_Manager : MonoBehaviour
 {
-    [Header("코인")]
+    [Header("무기 매니저")]
+    WeaponManager weaponManager;
+
+	
+
+	[Header("코인")]
     public int Coin;
     public Text Coin_Text;
     public GameObject Dontmoney;
@@ -37,8 +42,11 @@ public class Shop_Manager : MonoBehaviour
 
     private bool isMainGun;
 
-    void Start() // OnEnable로 바꿔야함 SetAcitve할려면
+    void OnEnable() // OnEnable로 바꿔야함 SetAcitve할려면
     {
+        weaponManager = FindAnyObjectByType<WeaponManager>();
+        
+
         MainGun.sprite = shop_Main_Gun_Value[0].GunImage;
         SubGun.sprite = shop_Sub_Gun_Value[0].GunImage;
         isMainGun = true;
@@ -87,6 +95,7 @@ public class Shop_Manager : MonoBehaviour
         if (Coin >= shop_Main_Gun_Value[GunIndex].Cost)
         {
             Coin -= shop_Main_Gun_Value[GunIndex].Cost;
+            weaponManager.ChangePrimary(GunIndex);
         }
         else
         {
@@ -99,6 +108,7 @@ public class Shop_Manager : MonoBehaviour
         if (Coin >= shop_Sub_Gun_Value[GunIndex].Cost)
         {
             Coin -= shop_Sub_Gun_Value[GunIndex].Cost;
+            weaponManager.ChangeSecondary(GunIndex);
         }
         else
         {

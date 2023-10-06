@@ -9,17 +9,18 @@ public class GunUIController : MonoBehaviour
 {
 	// 탄 수 확인하는 TMPUGUI
 	// null일 시 자동으로 초기화
-	[SerializeField]
-	private TextMeshProUGUI ammoText;
+	public TextMeshProUGUI ammoText;
+	public Gun gunScript;
 
-	private void Start()
+	private void Awake()
 	{
+		gunScript = GetComponent<Gun>();
 		// ammoText 자동 초기화
 		if (ammoText == null)
 		{
-			ammoText = transform.Find("AmmoText").GetComponent<TextMeshProUGUI>();
+			// ammoText = transform.Find("AmmoText").GetComponent<TextMeshProUGUI>();
 		}
-		ChangeAmmoText("NaN/NaN");
+		
 	}
 
 	/// <summary> ammoText(탄 수 확인하는 텍스트)를 text로 변경 </summary>
@@ -51,5 +52,10 @@ public class GunUIController : MonoBehaviour
 		{
 			ammoText.gameObject.SetActive(true);
 		}
+	}
+
+	private void Update()
+	{
+		ChangeAmmoText($"{gunScript.ammoInMag}/{gunScript.spareAmmo}");
 	}
 }

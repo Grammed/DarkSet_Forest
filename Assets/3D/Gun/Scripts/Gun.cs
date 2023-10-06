@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
+    public string gunName;
+
 	[Header("References")]
     [HideInInspector]
     public PlayerController player;
@@ -71,10 +73,9 @@ public class Gun : MonoBehaviour
     private float reloadTime = 3f;
 	[SerializeField]
 	private bool isClosedBolt = true; // 클로즈드 볼트
-    [SerializeField]
-    Image bulletImage;
-    [SerializeField]
-    Image circleImage;
+ 
+    public Image bulletImage;
+    public Image circleImage;
 
 	#endregion
 
@@ -83,12 +84,10 @@ public class Gun : MonoBehaviour
 	[Header("Ammo")]
 	[SerializeField]
 	private int maxAmmoInMag = 30;
-	[SerializeField]
-	private int ammoInMag;
+	public int ammoInMag;
 	[SerializeField]
 	private int maxSpareAmmo;
-	[SerializeField]
-	private int spareAmmo;
+	public int spareAmmo;
 
 	#endregion
 
@@ -105,7 +104,7 @@ public class Gun : MonoBehaviour
         cam = player.theCamera;
         audioSource = GetComponent<AudioSource>();
 
-        gunSoundPool = FindAnyObjectByType<GunSoundPool>();
+        gunSoundPool = transform.GetComponentInChildren<GunSoundPool>();
         // gunUI = FindAnyObjectByType<GunUIController>() as GunUIController;
         gunUI = GetComponent<GunUIController>();
 
@@ -116,7 +115,6 @@ public class Gun : MonoBehaviour
 
 	private void OnEnable()
 	{
-		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 	}
 
 	private void Update()
