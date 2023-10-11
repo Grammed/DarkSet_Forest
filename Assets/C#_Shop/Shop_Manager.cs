@@ -17,9 +17,9 @@ public class Shop_Manager : MonoBehaviour
     public GameObject Dontmoney;
 
     [Header("Gun_info"),SerializeField]
-    private List<Shop_Main_Gun_Value> shop_Main_Gun_Value;
+    private List<SO_MainGun> shop_Main_Gun_Value;
     [SerializeField]
-    private List<Shop_Sub_Gun_Value> shop_Sub_Gun_Value;
+    private List<SO_SubGun> shop_Sub_Gun_Value;
 
     [Header("ÃÑ±â °ü·Ã")]
     public Image MainGun;

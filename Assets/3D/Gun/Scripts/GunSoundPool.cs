@@ -9,7 +9,9 @@ public class GunSoundPool : MonoBehaviour
     [SerializeField]
     private GameObject soundPrefab;
 
-    // 실제 사운드 오브젝트가 담길 주축(자료구조 큐)
+    public AudioClip sound;
+
+    // 실제 사운드 오브젝트가 담길 곳(자료구조 큐)
     private Queue<GameObject> queue = new();
 
 	private void Awake()
@@ -32,6 +34,9 @@ public class GunSoundPool : MonoBehaviour
         if (goOut != null)
         {
             goOut.SetActive(true);
+            AudioSource source = goOut.GetComponent<AudioSource>();
+            source.clip = sound;
+            source.Play();
             return goOut;
         } else
         {

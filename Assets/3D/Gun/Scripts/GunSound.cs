@@ -17,6 +17,8 @@ public class GunSound : MonoBehaviour
 	// 클립 재생 시간
 	private float playTime;
 
+	private bool inPool = true;
+
 	private void Start()
 	{
 		source = GetComponent<AudioSource>();
@@ -25,7 +27,7 @@ public class GunSound : MonoBehaviour
 
 	private void OnEnable()
 	{
-		source.Play();
+		inPool = false;
 		playTime = source.clip.length;
 		StartCoroutine(DisableThis());
 	}
@@ -39,6 +41,7 @@ public class GunSound : MonoBehaviour
 	{
 		// 클립 재생 시간이 지나면 Disable
 		yield return new WaitForSeconds(playTime);
+		inPool = true;
 		pool.Push(gameObject);
 		gameObject.SetActive(false);
 	}

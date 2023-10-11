@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "SubGun Data", menuName = "Scriptable Object/SubGun Data", order = int.MaxValue)]
 
-public class Shop_Sub_Gun_Value : ScriptableObject
+public class SO_SubGun : ScriptableObject
 {
 	[Header("Sub Gun Value")]
 	[SerializeField]

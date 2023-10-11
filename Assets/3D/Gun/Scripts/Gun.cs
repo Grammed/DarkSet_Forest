@@ -16,42 +16,44 @@ public class Gun : MonoBehaviour
     [SerializeField]
     private GunUIController gunUI;
 	private GameObject muzzle;
+	private Shop_Manager shopManager;
+    [SerializeField]
+    private SO_MainGun mainGun;
 
 	[Header("Fire")]
-	[SerializeField]
-	private float gunDamage = 25;
-	[SerializeField]
-    private float fireTime = 0.2f;
-    [SerializeField]
-    private bool isAutomatic;
+	//[SerializeField]
+	//private float gunDamage = 25;
+	//[SerializeField]
+ //   private float fireTime = 0.2f;
+ //   [SerializeField]
+ //   private bool isAutomatic;
 	/// <summary> 딜레이 후 발사가 가능할 때 false </summary>
 	private bool isFireDelaying = false;
     [SerializeField]
     List<ParticleSystem> fireParticles;
 
-    [SerializeField]private Shop_Manager shopManager;
 
 	#region Recoil
 
-	[Header("Recoil")]
-	[SerializeField]
-	[Tooltip("좌우 반동")]
-	/// <summary> 좌우 반동 </summary>
-	private float recoilX = 1;
-	[SerializeField]
-	[Tooltip("상하 반동")]
-	/// <summary> 상하 반동 </summary>
-	private float recoilY = 1; // 상하 반동
-    [Tooltip("총 자체 앞뒤 반동")]
-	/// <summary> 총 자체 앞뒤 반동 </summary>
-	[SerializeField]
-    private float recoilZ = 1; // 앞뒤 반동
+	//[Header("Recoil")]
+	//[SerializeField]
+	//[Tooltip("좌우 반동")]
+	///// <summary> 좌우 반동 </summary>
+	//private float recoilX = 1;
+	//[SerializeField]
+	//[Tooltip("상하 반동")]
+	///// <summary> 상하 반동 </summary>
+	//private float recoilY = 1; // 상하 반동
+ //   [Tooltip("총 자체 앞뒤 반동")]
+	///// <summary> 총 자체 앞뒤 반동 </summary>
+	//[SerializeField]
+ //   private float recoilZ = 1; // 앞뒤 반동
 
-	[SerializeField]
-	[Tooltip("인체공학, 높을수록 반동 회복이 빠름")]
-    private float ergonomic = 70;
+	//[SerializeField]
+	//[Tooltip("인체공학, 높을수록 반동 회복이 빠름")]
+ //   private float ergonomic = 70;
 
-    [SerializeField] private int hitGold;
+    
 	#endregion
 
 	#region Sound
@@ -59,10 +61,10 @@ public class Gun : MonoBehaviour
 	[Header("Sound")]
 	[SerializeField]
 	GunSoundPool gunSoundPool;
-	[SerializeField]
-    private AudioClip reloadSound;
-    [SerializeField]
-    private AudioClip fireSound;
+	//[SerializeField]
+ //   private AudioClip reloadSound;
+ //   [SerializeField]
+ //   private AudioClip fireSound;
     private AudioSource audioSource;
 
 	#endregion
@@ -72,10 +74,10 @@ public class Gun : MonoBehaviour
 	[Header("Reload")]
 	private bool isReloading = false;
 	private KeyCode reloadKey = KeyCode.R;
-    [SerializeField]
-    private float reloadTime = 3f;
-	[SerializeField]
-	private bool isClosedBolt = true; // 클로즈드 볼트
+ //   [SerializeField]
+ //   private float reloadTime = 3f;
+	//[SerializeField]
+	//private bool isClosedBolt = true; // 클로즈드 볼트
  
     public Image bulletImage;
     public Image circleImage;
@@ -107,9 +109,11 @@ public class Gun : MonoBehaviour
         cam = player.theCamera;
         audioSource = GetComponent<AudioSource>();
 
-        gunSoundPool = transform.GetComponentInChildren<GunSoundPool>();
+        gunSoundPool = FindAnyObjectByType<GunSoundPool>();
         // gunUI = FindAnyObjectByType<GunUIController>() as GunUIController;
         gunUI = GetComponent<GunUIController>();
+
+        shopManager = FindAnyObjectByType<Shop_Manager>();
 
 		#endregion
 
@@ -130,7 +134,7 @@ public class Gun : MonoBehaviour
     {
         // 발사
         // 키 클릭 + 장전 중 아님 + 탄창에 총알 하나라도 있음 + 딜레이 중이 아님
-		if (isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1"))
+		if (mainGun.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1"))
 		{
 			bool canFire = !isReloading && ammoInMag >= 1 && !isFireDelaying;
             if (canFire)
@@ -164,6 +168,7 @@ public class Gun : MonoBehaviour
         gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 
         // 오브젝트 풀에서 사운드 꺼냄
+        gunSoundPool.sound = mainGun.fireSound;
         gunSoundPool.Pop();
 
 		// 카메라로부터 레이 발사
@@ -176,13 +181,13 @@ public class Gun : MonoBehaviour
                 Enemy enemy = hit.collider.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    shopManager.Coin += hitGold;
-					enemy.GetDamage(gunDamage);
+                    shopManager.Coin += mainGun.hitGold;
+					enemy.GetDamage(mainGun.gunDamage);
                     
 				}
 
                 EnemyLegacy legacyEnemy = hit.collider.GetComponent<EnemyLegacy>();
-                legacyEnemy.Hit(gunDamage);
+                legacyEnemy.Hit(mainGun.gunDamage);
             }
         }
 
@@ -205,15 +210,15 @@ public class Gun : MonoBehaviour
         // 반동
         print("Recoil");
 		// 상하반동
-		player.currentCameraRotationX -= recoilY;
+		player.currentCameraRotationX -= mainGun.recoilY;
 
 		// 카메라 회전 변경 //
 		Vector3 rot = player.transform.eulerAngles;
-        player._yRotation += Random.Range(-recoilX, recoilX);
+        player._yRotation += Random.Range(-mainGun.recoilX, mainGun.recoilX);
         player.transform.eulerAngles = rot; 
 
         // 총 자체 밀리는 반동
-        changePos = transform.localPosition + (Vector3.back * recoilZ);
+        changePos = transform.localPosition + (Vector3.back * mainGun.recoilZ);
         transform.localPosition = changePos;
         StopCoroutine(ReboundRecoil());
         StartCoroutine(ReboundRecoil());
@@ -225,7 +230,7 @@ public class Gun : MonoBehaviour
         // 앞뒤 반동 회복
 		while (transform.localPosition != originPos)
         {
-			transform.localPosition = Vector3.Lerp(transform.localPosition, originPos, 0.1f * (ergonomic / 100f));
+			transform.localPosition = Vector3.Lerp(transform.localPosition, originPos, 0.1f * (mainGun.ergonomic / 100f));
 			yield return null;
 		}
 
@@ -234,7 +239,7 @@ public class Gun : MonoBehaviour
 	// 카메라 회전 변경
 	IEnumerator FireDelay()
     {
-        yield return new WaitForSeconds(fireTime);
+        yield return new WaitForSeconds(mainGun.fireTime);
         isFireDelaying = false;
         StopCoroutine(FireDelay());
     }
@@ -252,13 +257,13 @@ public class Gun : MonoBehaviour
 
 		// 장전 사운드 준비 및 플레이
 		isReloading = true;
-        audioSource.clip = reloadSound;
+        audioSource.clip = mainGun.reloadSound;
         audioSource.Play();
         
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(mainGun.reloadTime);
         
         // 총알 수 조절
-        if (isClosedBolt && ammoInMag >= 1) // 약실 장전
+        if (mainGun.isClosedBolt && ammoInMag >= 1) // 약실 장전
         {
 			spareAmmo += ammoInMag - 1;
             ammoInMag = 1;
@@ -290,10 +295,10 @@ public class Gun : MonoBehaviour
 		float processTime = 0f;
         float amount = 0f;
 
-        while (processTime < reloadTime)
+        while (processTime < mainGun.reloadTime)
         {
             processTime += Time.deltaTime;
-            amount = processTime / reloadTime;
+            amount = processTime / mainGun.reloadTime;
 
             circleImage.fillAmount = amount;
             yield return null;
