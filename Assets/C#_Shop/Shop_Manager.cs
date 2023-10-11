@@ -19,7 +19,7 @@ public class Shop_Manager : MonoBehaviour
     [Header("Gun_info"),SerializeField]
     private List<SO_MainGun> shop_Main_Gun_Value;
     [SerializeField]
-    private List<SO_SubGun> shop_Sub_Gun_Value;
+    private List<SO_MainGun> shop_Sub_Gun_Value;
 
     [Header("ÃÑ±â °ü·Ã")]
     public Image MainGun;

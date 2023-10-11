@@ -4977,24 +4977,12 @@ MonoBehaviour:
   player: {fileID: 0}
   cam: {fileID: 0}
   gunUI: {fileID: 0}
-  gunDamage: 25
-  fireTime: 0.07
-  isAutomatic: 0
+  mainGun: {fileID: 11400000, guid: 25a03bf9524bda84d8ce7b9b37b095af, type: 2}
   fireParticles:
   - {fileID: 6711740819430578697}
   - {fileID: 6711740821400148460}
   - {fileID: 6711740820532868878}
-  shopManager: {fileID: 0}
-  recoilX: 0.3
-  recoilY: 3.5
-  recoilZ: 0.17
-  ergonomic: 90
-  hitGold: 0
   gunSoundPool: {fileID: 0}
-  reloadSound: {fileID: 8300000, guid: 0255f5936c04b154896a018a88ea6c84, type: 3}
-  fireSound: {fileID: 8300000, guid: db8170c8333ae9f47a692e0ef68d747e, type: 3}
-  reloadTime: 3
-  isClosedBolt: 0
   bulletImage: {fileID: 0}
   circleImage: {fileID: 0}
   maxAmmoInMag: 17

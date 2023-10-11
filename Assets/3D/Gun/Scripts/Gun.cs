@@ -184,10 +184,11 @@ public class Gun : MonoBehaviour
                     shopManager.Coin += mainGun.hitGold;
 					enemy.GetDamage(mainGun.gunDamage);
                     
+				} else
+                {
+					//EnemyLegacy legacyEnemy = hit.collider.GetComponent<EnemyLegacy>();
+					//legacyEnemy.Hit(mainGun.gunDamage);
 				}
-
-                EnemyLegacy legacyEnemy = hit.collider.GetComponent<EnemyLegacy>();
-                legacyEnemy.Hit(mainGun.gunDamage);
             }
         }
 

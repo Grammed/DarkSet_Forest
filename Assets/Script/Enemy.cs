@@ -23,7 +23,10 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int killValue;//킬했을 때 플레이어에게 들어갈 돈
     private Bunker bunker;
+    [SerializeField]
     private WaveManager waveManager;
+
+
     //초기화
     private void Start()
     {
@@ -35,6 +38,11 @@ public class Enemy : MonoBehaviour
         m_enemy.speed = enemyData.MoveSpeed;
         shopManager = GameObject.Find("Shop_Btn_Manager").GetComponent<Shop_Manager>();
 
+
+        if (waveManager == null)
+        {
+            waveManager = FindAnyObjectByType<WaveManager>();
+        }
 	}
 
     // Update is called once per frame
@@ -94,10 +102,11 @@ public class Enemy : MonoBehaviour
     {
         waveManager.enemyCount--;
 		shopManager.Coin += killValue;
-        // Destroy(gameObject);
+		// Destroy(gameObject);
 
-        gameObject.SetActive(false);
-        Invoke(nameof(Respawn), 10f);
+		Invoke(nameof(Respawn), 10f);
+		gameObject.SetActive(false);
+        
     }
 
     void Respawn()

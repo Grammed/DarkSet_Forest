@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233908f573cd1cd4299537a9815f1848, type: 3}
+  m_Name: RagingBull
+  m_EditorClassIdentifier: 
+  gunName: Raging Bull
+  gunDamage: 60
+  fireTime: 0.4
+  isAutomatic: 0
+  hitGold: 50
+  recoilX: 1
+  recoilY: 10
+  recoilZ: 2
+  ergonomic: 60
+  reloadSound: {fileID: 8300000, guid: 0255f5936c04b154896a018a88ea6c84, type: 3}
+  fireSound: {fileID: 8300000, guid: db8170c8333ae9f47a692e0ef68d747e, type: 3}
+  reloadTime: 5
+  isClosedBolt: 0
+  maxAmmoInMag: 6
+  ammoInMag: 6
+  maxSpareAmmo: 36
+  spareAmmo: 36
+  gunImage: {fileID: 21300000, guid: 081de131a5be3e2448bce3ac5bdf7883, type: 3}
+  cost: 700

@@ -22,6 +22,8 @@ public class GunSoundPool : MonoBehaviour
             queue.Enqueue(t.gameObject);
             t.gameObject.SetActive(false);
         }
+
+        soundPrefab = transform.GetChild(0).gameObject;
 	}
 
     /// <summary> 큐에서 사운드 오브젝트를 꺼낸다. </summary>

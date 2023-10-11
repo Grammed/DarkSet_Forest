@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 233908f573cd1cd4299537a9815f1848, type: 3}
-  m_Name: AKM
+  m_Name: M110
   m_EditorClassIdentifier: 
-  gunName: AKM
-  gunDamage: 25
-  fireTime: 0.1
-  isAutomatic: 1
-  hitGold: 20
-  recoilX: 0.3
-  recoilY: 2
-  recoilZ: 0.3
+  gunName: M110 SASS
+  gunDamage: 50
+  fireTime: 0.3
+  isAutomatic: 0
+  hitGold: 35
+  recoilX: 0.5
+  recoilY: 5
+  recoilZ: 1
   ergonomic: 70
   reloadSound: {fileID: 8300000, guid: 91bc91002a05d734c9b15b88d84c9b1b, type: 3}
   fireSound: {fileID: 8300000, guid: 92887dbec3d31dc479af39f403e27b36, type: 3}
   reloadTime: 3
   isClosedBolt: 1
-  maxAmmoInMag: 30
-  ammoInMag: 30
-  maxSpareAmmo: 120
-  spareAmmo: 120
-  gunImage: {fileID: 21300000, guid: 0b9d6f5842a7a78449155c0b066314f8, type: 3}
-  cost: 2700
+  maxAmmoInMag: 10
+  ammoInMag: 10
+  maxSpareAmmo: 80
+  spareAmmo: 80
+  gunImage: {fileID: 21300000, guid: 4b4da3a21ec3ccf4bb5b6dbb955dca5e, type: 3}
+  cost: 2000
