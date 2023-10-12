@@ -10,12 +10,6 @@ public class Shop_Manager : MonoBehaviour
 
     [Header("ÃÑ")]
     public Gun gunScript;
-
-	[Header("ÄÚÀÎ")]
-    public int Coin;
-    public Text Coin_Text;
-    public GameObject Dontmoney;
-
     [Header("Gun_info"),SerializeField]
     private List<SO_MainGun> shop_Main_Gun_Value;
     [SerializeField]
@@ -43,6 +37,9 @@ public class Shop_Manager : MonoBehaviour
 
     private bool isMainGun;
 
+    [SerializeField]
+    private MoneyManager moneyManager;
+
     void OnEnable() // OnEnable·Î ¹Ù²ã¾ßÇÔ SetAcitveÇÒ·Á¸é
     {
         weaponManager = FindAnyObjectByType<WeaponManager>();
@@ -55,16 +52,16 @@ public class Shop_Manager : MonoBehaviour
         SubGun_Panel.SetActive(false);
         Bullettext.text = Bullet.ToString();
         //HPtext.text = HP.ToString();
-        Dontmoney.SetActive(false);
+        moneyManager.Dontmoney.SetActive(false);
 
 
         Bullet = gunScript.spareAmmo; //¾ø¾Ú
-        Coin = 1000000; // ¾ø¾Ú
+        moneyManager.Coin = 1000000; // ¾ø¾Ú
     }
 
     private void Update()
     {
-        Coin_Text.text = Coin.ToString();
+        moneyManager.Coin_Text.text = moneyManager.Coin.ToString();
         Bullettext.text = "ÃÑ¾Ë °¹¼ö : " + Bullet.ToString() + "°³";
         //HPtext.text = "ÇöÀç Ã¼·Â : " + currentHP.ToString() + "HP";
     }
@@ -93,9 +90,9 @@ public class Shop_Manager : MonoBehaviour
 
     public void MainGun_Buy()
     {
-        if (Coin >= shop_Main_Gun_Value[GunIndex].Cost)
+        if (moneyManager.Coin >= shop_Main_Gun_Value[GunIndex].Cost)
         {
-            Coin -= shop_Main_Gun_Value[GunIndex].Cost;
+            moneyManager.Coin -= shop_Main_Gun_Value[GunIndex].Cost;
             weaponManager.ChangePrimary(GunIndex);
         }
         else
@@ -106,9 +103,9 @@ public class Shop_Manager : MonoBehaviour
 
     public void SubGun_Buy()
     {
-        if (Coin >= shop_Sub_Gun_Value[GunIndex].Cost)
+        if (moneyManager.Coin >= shop_Sub_Gun_Value[GunIndex].Cost)
         {
-            Coin -= shop_Sub_Gun_Value[GunIndex].Cost;
+            moneyManager.Coin -= shop_Sub_Gun_Value[GunIndex].Cost;
             weaponManager.ChangeSecondary(GunIndex);
         }
         else
@@ -119,9 +116,9 @@ public class Shop_Manager : MonoBehaviour
 
     public void Bullet_Buy()
     {
-        if (Coin >= 500 && gunScript.spareAmmo <= gunScript.maxSpareAmmo)
+        if (moneyManager.Coin >= 500 && gunScript.spareAmmo <= gunScript.maxSpareAmmo)
         {
-            Coin -= 500;
+            moneyManager.Coin -= 500;
 			gunScript.spareAmmo += 30;
         }
         else
@@ -132,9 +129,9 @@ public class Shop_Manager : MonoBehaviour
 
     public void Healing_Buy()
     {
-        if (Coin >= 500)
+        if (moneyManager.Coin >= 500)
         {
-            Coin -= 1000;
+            moneyManager.Coin -= 1000;
             Debug.Log("Ã¼·ÂÈ¸º¹");
             //Hp += 50;
         }
@@ -190,8 +187,8 @@ public class Shop_Manager : MonoBehaviour
 
     public IEnumerator NotEnoughMoney()
     {
-        Dontmoney.SetActive(true);
+        moneyManager.Dontmoney.SetActive(true);
         yield return new WaitForSeconds(1f);
-        Dontmoney.SetActive(false);
+        moneyManager.Dontmoney.SetActive(false);
     }
 }

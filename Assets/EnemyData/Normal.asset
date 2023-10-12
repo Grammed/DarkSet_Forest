@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   enemyType: Normal
-  hp: 50
+  hp: 100
   damage: 10
   sightRange: 10
   moveSpeed: 4

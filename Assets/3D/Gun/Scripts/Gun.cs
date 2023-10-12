@@ -16,7 +16,8 @@ public class Gun : MonoBehaviour
     [SerializeField]
     private GunUIController gunUI;
 	private GameObject muzzle;
-	private Shop_Manager shopManager;
+	[SerializeField]
+    private MoneyManager moneyManager;
     [SerializeField]
     private SO_MainGun mainGun;
 
@@ -113,8 +114,6 @@ public class Gun : MonoBehaviour
         // gunUI = FindAnyObjectByType<GunUIController>() as GunUIController;
         gunUI = GetComponent<GunUIController>();
 
-        shopManager = FindAnyObjectByType<Shop_Manager>();
-
 		#endregion
 
 		
@@ -181,7 +180,7 @@ public class Gun : MonoBehaviour
                 Enemy enemy = hit.collider.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    shopManager.Coin += mainGun.hitGold;
+                    moneyManager.Coin += mainGun.hitGold;
 					enemy.GetDamage(mainGun.gunDamage);
                     
 				} else

@@ -11,7 +11,7 @@ public class EnemyData : ScriptableObject
 
     [SerializeField]
     private float hp;//적 체력
-    public float Hp { get { return hp; } set { hp = value; } }
+    public float Hp { get { return hp; }}
 
     [SerializeField]
     private float damage;// 적 공격력

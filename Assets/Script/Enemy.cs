@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     Transform rayPosition;
     [SerializeField]
     private EnemyData enemyData;
+    private float enemyHp;
     public EnemyData EnemyData { set { enemyData = value; } }
     private Shop_Manager shopManager;
     [SerializeField]
@@ -25,6 +26,8 @@ public class Enemy : MonoBehaviour
     private Bunker bunker;
     [SerializeField]
     private WaveManager waveManager;
+
+    private MoneyManager moneyManager;
 
 
     //초기화
@@ -36,8 +39,8 @@ public class Enemy : MonoBehaviour
         m_enemy = GetComponent<NavMeshAgent>();
         bunker = GameObject.Find("Bunker").GetComponent<Bunker>();
         m_enemy.speed = enemyData.MoveSpeed;
-        shopManager = GameObject.Find("Shop_Btn_Manager").GetComponent<Shop_Manager>();
-
+        moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
+        enemyHp = enemyData.Hp;
 
         if (waveManager == null)
         {
@@ -52,7 +55,7 @@ public class Enemy : MonoBehaviour
         SetTarget();
         FwdObject();
         Debug.DrawRay(rayPosition.transform.position, transform.forward * enemyData.Range, Color.red);
-        if(enemyData.Hp <= 0)
+        if(enemyHp <= 0)
         {
             Dead();
         }
@@ -70,7 +73,7 @@ public class Enemy : MonoBehaviour
     }
     public void GetDamage(float damage)
     {
-        enemyData.Hp = enemyData.Hp - damage;
+        enemyHp= enemyHp - damage;
     }
     private void FwdObject()//앞에 플레이어가 있는지 확인
     {
@@ -101,17 +104,8 @@ public class Enemy : MonoBehaviour
     private void Dead()
     {
         waveManager.enemyCount--;
-		shopManager.Coin += killValue;
-		// Destroy(gameObject);
-
-		Invoke(nameof(Respawn), 10f);
-		gameObject.SetActive(false);
-        
-    }
-
-    void Respawn()
-    {
-        gameObject.SetActive(true);
+        moneyManager.Coin += killValue;
+        Destroy(gameObject);
     }
 
     private void OnCollisionStay(Collision collision)

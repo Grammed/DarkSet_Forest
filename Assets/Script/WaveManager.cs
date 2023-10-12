@@ -36,7 +36,9 @@ public class WaveManager : MonoBehaviour
     private GameObject[] enemyPrefab;
     [SerializeField]
     private Transform[] spawnPoints;
-
+    private float currentTime = 0;
+    [SerializeField]
+    private float waveTime = 30f;
     private void Start()
     {
         StartCoroutine("StartWave");
@@ -45,14 +47,19 @@ public class WaveManager : MonoBehaviour
 	{
 		if (enemyCount == 0)
 		{
-			StartCoroutine("NextWave");
-		}
+            NextWave();
+
+        }
 	}
-	public IEnumerator NextWave()//다음 웨이브 실행
+	public void NextWave()//다음 웨이브 실행
     {
-        yield return new WaitForSeconds(15f);
-        StartCoroutine("StartWave");
-        waveStage++;
+        if (currentTime >= waveTime)
+        {
+            waveStage++;
+            StartCoroutine("StartWave");
+            currentTime = 0;
+        }
+        currentTime += Time.deltaTime;
     }
     private IEnumerator StartWave()//웨이브 실행
     {
