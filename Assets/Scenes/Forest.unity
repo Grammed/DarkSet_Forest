@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.029087221, g: 0.029897578, b: 0.029896645, a: 1}
+  m_IndirectSpecularColor: {r: 0.029087335, g: 0.0298977, b: 0.029896773, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -19929,9 +19929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83cb7ad7803854f4294614060abb018b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Coin: 0
-  Coin_Text: {fileID: 1014979252}
-  Dontmoney: {fileID: 393446030}
 --- !u!4 &744080658
 Transform:
   m_ObjectHideFlags: 0
@@ -30397,9 +30394,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunScript: {fileID: 1967922886541319207}
+  Coin: 0
+  Coin_Text: {fileID: 1851594701}
+  Dontmoney: {fileID: 393446030}
   shop_Main_Gun_Value:
-  - {fileID: 11400000, guid: f453a904b8b683446a29ddefcfb23398, type: 2}
-  - {fileID: 11400000, guid: b7efcc3169ccd3447a6c46039289bf0b, type: 2}
+  - {fileID: 11400000, guid: 1fbb476f3fae89a4ba5aa9f4aa11db48, type: 2}
+  - {fileID: 11400000, guid: e9fe8170cbb05734b919ede9e18b6fda, type: 2}
   shop_Sub_Gun_Value:
   - {fileID: 11400000, guid: e3518bfbcd2318f4aa50a0994ec81cae, type: 2}
   - {fileID: 11400000, guid: 25a03bf9524bda84d8ce7b9b37b095af, type: 2}
@@ -30414,7 +30414,6 @@ MonoBehaviour:
   Bullettext: {fileID: 991103817}
   Bullet: 0
   HPtext: {fileID: 1532933661}
-  moneyManager: {fileID: 744080657}
 --- !u!4 &1017710435
 Transform:
   m_ObjectHideFlags: 0
@@ -48070,6 +48069,7 @@ GameObject:
   - component: {fileID: 1596372238}
   - component: {fileID: 1596372236}
   - component: {fileID: 1596372239}
+  - component: {fileID: 1596372240}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -48237,8 +48237,104 @@ MonoBehaviour:
   secondaryWeapon: {fileID: 2021520552}
   ammoText: {fileID: 2102025277}
   weaponName: {fileID: 1093611136}
-  bulletImage: {fileID: 64181408}
-  circleImage: {fileID: 170349275}
+  _bulletImage: {fileID: 64181408}
+  _circleImage: {fileID: 170349275}
+--- !u!82 &1596372240
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596372231}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 01415251d028cf7479f96fd4a50b33fd, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1597242196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79009,15 +79105,12 @@ MonoBehaviour:
   player: {fileID: 0}
   cam: {fileID: 0}
   gunUI: {fileID: 0}
-  moneyManager: {fileID: 744080657}
   mainGun: {fileID: 11400000, guid: 1fbb476f3fae89a4ba5aa9f4aa11db48, type: 2}
   fireParticles:
   - {fileID: 1967922886372309574}
   - {fileID: 1455524562437579518}
   - {fileID: 1455524562149037893}
   gunSoundPool: {fileID: 4698226184038269532}
-  bulletImage: {fileID: 0}
-  circleImage: {fileID: 0}
   maxAmmoInMag: 30
   ammoInMag: 30
   maxSpareAmmo: 120

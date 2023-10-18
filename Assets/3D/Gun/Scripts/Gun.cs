@@ -78,9 +78,6 @@ public class Gun : MonoBehaviour
  //   private float reloadTime = 3f;
 	//[SerializeField]
 	//private bool isClosedBolt = true; // 클로즈드 볼트
- 
-    public Image bulletImage;
-    public Image circleImage;
 
 	#endregion
 
@@ -120,8 +117,9 @@ public class Gun : MonoBehaviour
 		
 	}
 
-	private void OnEnable()
+	private void OnDisable()
 	{
+        StopReload();
 	}
 
 	private void Update()
@@ -151,7 +149,7 @@ public class Gun : MonoBehaviour
             if (canReload)
             {
                 StartCoroutine(Reload());
-
+                print("can reload");
             }
         }
 	}
@@ -250,11 +248,18 @@ public class Gun : MonoBehaviour
     { 
 		// Update 메서드에서 참조됨
 		print("Start Reloading");
-        bulletImage.gameObject.SetActive(true);
-		circleImage.gameObject.SetActive(true);
 
-        StopCoroutine(FillCircle());
-		StartCoroutine(FillCircle()); // 원 채우기 시작
+
+        if (WeaponManager.BulletImage == null || WeaponManager.CircleImage == null)
+        {
+            Debug.Log("Reload failed since bulletimage or circleimage was not found");
+            yield break;
+        }
+        WeaponManager.BulletImage.gameObject.SetActive(true);
+		WeaponManager.CircleImage.gameObject.SetActive(true);
+
+        StopCoroutine(WeaponManager.FillCircle(mainGun.reloadTime));
+        StartCoroutine(WeaponManager.FillCircle(mainGun.reloadTime));
 
 		// 장전 사운드 준비 및 플레이
 		isReloading = true;
@@ -278,31 +283,20 @@ public class Gun : MonoBehaviour
 		}
 
         // 장전 끝
+        StopReload();
+        yield break;
+    }
+
+    void StopReload()
+    {
 		isReloading = false;
-        print("Reloading done\n" + ammoInMag + " / " + spareAmmo);
+		print("Reloading done\n" + ammoInMag + " / " + spareAmmo);
 		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 
-		bulletImage.gameObject.SetActive(false);
-		circleImage.gameObject.SetActive(false);
+		WeaponManager.BulletImage.gameObject.SetActive(false);
+		WeaponManager.CircleImage.gameObject.SetActive(false);
 
 
 		StopCoroutine(Reload());
-    }
-
-    IEnumerator FillCircle()
-    {
-        circleImage.fillAmount = 0f;
-
-		float processTime = 0f;
-        float amount = 0f;
-
-        while (processTime < mainGun.reloadTime)
-        {
-            processTime += Time.deltaTime;
-            amount = processTime / mainGun.reloadTime;
-
-            circleImage.fillAmount = amount;
-            yield return null;
-        }
-    }
+	}
 }

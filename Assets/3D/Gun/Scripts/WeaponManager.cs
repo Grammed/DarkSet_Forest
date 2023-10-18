@@ -19,8 +19,133 @@ public class WeaponManager : MonoBehaviour
 	public GameObject secondaryWeapon; // secondaryWeapon의 자식, 자식은 하나여야 함
 	[SerializeField] TextMeshProUGUI ammoText;
 	[SerializeField] TextMeshProUGUI weaponName;
-	[SerializeField] Image bulletImage;
-	[SerializeField] Image circleImage;
+	[SerializeField] Image _bulletImage;
+	public static Image BulletImage { get; set; }
+	[SerializeField] Image _circleImage;
+	public static Image CircleImage { get; set; }
+
+	enum WeaponType
+	{
+		Primary,
+		Secondary,
+	}
+
+	KeyCode primaryKey = KeyCode.Alpha1;
+	KeyCode secondaryKey = KeyCode.Alpha2;
+
+
+	public static void SetBulletImageActive(bool status) 
+	{
+		if (BulletImage)
+		{
+			BulletImage.gameObject.SetActive(status);
+		} else
+		{
+			Debug.Log("bullet image is not found");
+		}
+	}
+
+
+	private void Awake()
+	{
+		BulletImage = _bulletImage;
+		CircleImage = _circleImage;
+
+		if (primaryWeapon)
+		{
+			InitGun(primaryWeapon);
+			primaryWeapon.SetActive(true);
+			secondaryWeapon.SetActive(false);
+
+			weaponName.text = primaryWeapon.name;
+			primaryWeapon.GetComponent<GunUIController>().ammoText = this.ammoText;
+		}
+		if (secondaryWeapon)
+		{
+			InitGun(secondaryWeapon);
+			if (!primaryWeapon)
+			{
+				secondaryWeapon.SetActive(true);
+			}
+			secondaryWeapon.GetComponent<GunUIController>().ammoText = this.ammoText;
+		}
+
+		if (!primaryWeapon && !secondaryWeapon)
+		{
+			// 무기가 둘 다 없으면
+			throw new System.Exception("The player needs to have at least 1 weapon");
+		}
+
+
+	}
+
+	private void Update()
+	{
+		float wheelInput = Input.GetAxis("Mouse ScrollWheel");
+
+		bool toPrimary = Input.GetKeyDown(primaryKey) || wheelInput > 0;
+		bool toSecondary = Input.GetKeyDown(secondaryKey) || wheelInput < 0;
+
+		if (toPrimary && primaryWeapon != null) // 주무기 교체
+		{
+			SwapTo(WeaponType.Primary);
+		}
+
+		if (toSecondary && secondaryWeapon != null) // 보조무기 교체
+		{
+			SwapTo(WeaponType.Secondary);
+		}
+	}
+
+	void SwapTo(WeaponType type)
+	{
+		switch(type)
+		{
+			case WeaponType.Primary:
+				weaponName.text = primaryWeapon.GetComponent<Gun>().gunName;
+				secondaryWeapon.SetActive(false);
+				primaryWeapon.SetActive(true);
+				break;
+			case WeaponType.Secondary:
+				weaponName.text = secondaryWeapon.GetComponent<Gun>().gunName;
+				secondaryWeapon.SetActive(true);
+				primaryWeapon.SetActive(false);
+				break;
+		}
+
+		StopFillCircle();
+	}
+
+	public static IEnumerator FillCircle(float reloadTime)
+	{
+		CircleImage.fillAmount = 0f;
+
+		float processTime = 0f;
+
+		while (processTime < reloadTime)
+		{
+			processTime += Time.deltaTime;
+
+			CircleImage.fillAmount = processTime / reloadTime;
+			yield return null;
+		}
+	}
+
+	void StopFillCircle()
+	{
+		StopCoroutine(nameof(FillCircle));
+
+		if (CircleImage)
+		{
+			CircleImage.gameObject.SetActive(false);
+		}
+		if (BulletImage)
+		{
+			BulletImage.gameObject.SetActive(false);
+
+		}
+	}
+
 
 	public void ChangePrimary(GameObject newGun)
 	{
@@ -77,8 +202,6 @@ public class WeaponManager : MonoBehaviour
 		
 
 		Gun gunComponent = gunGO.GetComponent<Gun>();
-		gunComponent.bulletImage = this.bulletImage;
-		gunComponent.circleImage = this.circleImage;
 	}
 
 	
@@ -92,57 +215,7 @@ public class WeaponManager : MonoBehaviour
 	 
 
 	// [SerializeField] bool reverseWheel = false;
-	KeyCode primaryKey = KeyCode.Alpha1;
-	KeyCode secondaryKey = KeyCode.Alpha2;
+	
 
-	private void Awake()
-	{
-		if (primaryWeapon)
-		{
-			InitGun(primaryWeapon);
-			primaryWeapon.SetActive(true);
-			secondaryWeapon.SetActive(false);
-
-			weaponName.text = primaryWeapon.name;
-			primaryWeapon.GetComponent<GunUIController>().ammoText = this.ammoText;
-		} if (secondaryWeapon)
-		{
-			InitGun(secondaryWeapon);
-			if (!primaryWeapon)
-			{
-				secondaryWeapon.SetActive(true);
-			}
-			secondaryWeapon.GetComponent<GunUIController>().ammoText = this.ammoText;
-		} 
-
-		if (!primaryWeapon && !secondaryWeapon)
-		{
-			// 무기가 둘 다 없으면
-			throw new System.Exception("The player needs to have at least 1 weapon");
-		}
-
-		
-	}
-
-	private void Update()
-	{
-		float wheelInput = Input.GetAxis("Mouse ScrollWheel");
-
-		bool toPrimary = Input.GetKeyDown(primaryKey) || wheelInput > 0;
-		bool toSecondary = Input.GetKeyDown(secondaryKey) || wheelInput < 0;
-
-		if (toPrimary && primaryWeapon != null) // 주무기 교체
-		{
-			weaponName.text = primaryWeapon.GetComponent<Gun>().gunName;
-			secondaryWeapon.SetActive(false);
-			primaryWeapon.SetActive(true);
-		}
-
-		if (toSecondary && secondaryWeapon != null) // 보조무기 교체
-		{
-			weaponName.text = secondaryWeapon.GetComponent<Gun>().gunName;
-			secondaryWeapon.SetActive(true);
-			primaryWeapon.SetActive(false);
-		}
-	}
+	
 }
