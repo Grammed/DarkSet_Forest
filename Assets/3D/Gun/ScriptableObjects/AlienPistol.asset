@@ -19,7 +19,7 @@ MonoBehaviour:
   hitGold: 20
   recoilX: 0.3
   recoilY: 1.5
-  recoilZ: 1
+  recoilZ: 0.5
   ergonomic: 70
   reloadSound: {fileID: 8300000, guid: 91bc91002a05d734c9b15b88d84c9b1b, type: 3}
   fireSound: {fileID: 8300000, guid: 92887dbec3d31dc479af39f403e27b36, type: 3}
