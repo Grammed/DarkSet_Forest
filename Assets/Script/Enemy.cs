@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
 
     private MoneyManager moneyManager;
 
+    public PlayerController playerController;
+
 
     //√ ±‚»≠
     private void Start()
@@ -41,6 +43,7 @@ public class Enemy : MonoBehaviour
         m_enemy.speed = enemyData.MoveSpeed;
         moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
         enemyHp = enemyData.Hp;
+        playerController = FindObjectOfType<PlayerController>();
 
         if (waveManager == null)
         {
@@ -105,6 +108,7 @@ public class Enemy : MonoBehaviour
     {
         waveManager.enemyCount--;
         moneyManager.Coin += killValue;
+        playerController.enemySound.Play();
         Destroy(gameObject);
     }
 
