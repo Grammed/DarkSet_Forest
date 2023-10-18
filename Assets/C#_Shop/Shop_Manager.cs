@@ -43,6 +43,7 @@ public class Shop_Manager : MonoBehaviour
     void OnEnable() // OnEnable로 바꿔야함 SetAcitve할려면
     {
         weaponManager = FindAnyObjectByType<WeaponManager>();
+        moneyManager = FindObjectOfType<MoneyManager>();
         
 
         MainGun.sprite = shop_Main_Gun_Value[0].GunImage;

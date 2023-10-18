@@ -96,25 +96,26 @@ public class Gun : MonoBehaviour
 
 	void Awake()
     {
-		#region Init
+		Init();
+	}
 
+    void Init()
+    {
 		muzzle = transform.Find("Muzzle").gameObject;
-        ammoInMag = maxAmmoInMag;
-        spareAmmo = maxSpareAmmo;
+		ammoInMag = maxAmmoInMag;
+		spareAmmo = maxSpareAmmo;
 		originPos = transform.localPosition;
 
-        player = FindAnyObjectByType<PlayerController>();
-        cam = player.theCamera;
-        audioSource = GetComponent<AudioSource>();
+		player = FindAnyObjectByType<PlayerController>();
+		cam = player.theCamera;
+		audioSource = GetComponent<AudioSource>();
 
-        gunSoundPool = FindAnyObjectByType<GunSoundPool>();
-        // gunUI = FindAnyObjectByType<GunUIController>() as GunUIController;
-        gunUI = GetComponent<GunUIController>();
-
-		#endregion
-
-		
+		gunSoundPool = FindAnyObjectByType<GunSoundPool>();
+		// gunUI = FindAnyObjectByType<GunUIController>() as GunUIController;
+		gunUI = GetComponent<GunUIController>();
+		moneyManager = FindObjectOfType<MoneyManager>();
 	}
+
 
 	private void OnDisable()
 	{
@@ -292,8 +293,16 @@ public class Gun : MonoBehaviour
 		print("Reloading done\n" + ammoInMag + " / " + spareAmmo);
 		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 
-		WeaponManager.BulletImage.gameObject.SetActive(false);
-		WeaponManager.CircleImage.gameObject.SetActive(false);
+		if (WeaponManager.BulletImage)
+		{
+			WeaponManager.BulletImage.gameObject.SetActive(false);
+		}
+
+		if (WeaponManager.CircleImage)
+		{
+			WeaponManager.CircleImage.gameObject.SetActive(false);
+		}
+		
 
 
 		StopCoroutine(Reload());

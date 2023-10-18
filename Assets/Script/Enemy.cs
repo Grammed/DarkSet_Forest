@@ -108,7 +108,7 @@ public class Enemy : MonoBehaviour
     {
         waveManager.enemyCount--;
         moneyManager.Coin += killValue;
-        playerController.enemySound.Play();
+        // playerController.enemySound.Play();
         Destroy(gameObject);
     }
 
