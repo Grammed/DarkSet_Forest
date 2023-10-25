@@ -18,8 +18,7 @@ public class Gun : MonoBehaviour
 	private GameObject muzzle;
 	[SerializeField]
     private MoneyManager moneyManager;
-    [SerializeField]
-    private SO_Gun SO_Gun;
+    public SO_Gun SO_Gun;
 
 	[Header("Fire")]
 	//[SerializeField]
@@ -57,12 +56,11 @@ public class Gun : MonoBehaviour
 
     
 	#endregion
-
+	
 	#region Sound
 
 	[Header("Sound")]
-	[SerializeField]
-	GunSoundPool gunSoundPool;
+	public GunSoundPool gunSoundPool;
 	//[SerializeField]
  //   private AudioClip reloadSound;
  //   [SerializeField]
@@ -116,7 +114,6 @@ public class Gun : MonoBehaviour
 		gunUI = GetComponent<GunUIController>();
 		moneyManager = FindObjectOfType<MoneyManager>();
 
-		hits = new RaycastHit[SO_Gun.penetrationCnt];
 		targetLayer = LayerMask.GetMask("Enemy");
 	}
 

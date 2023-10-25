@@ -94,7 +94,7 @@ public class Shop_Manager : MonoBehaviour
         if (moneyManager.Coin >= shop_Main_Gun_Value[GunIndex].Cost)
         {
             moneyManager.Coin -= shop_Main_Gun_Value[GunIndex].Cost;
-            weaponManager.ChangePrimary(shop_Main_Gun_Value[GunIndex].prefab);
+            weaponManager.ChangePrimary(shop_Main_Gun_Value[GunIndex].prefab, shop_Main_Gun_Value[GunIndex]);
         }
         else
         {
@@ -107,7 +107,7 @@ public class Shop_Manager : MonoBehaviour
         if (moneyManager.Coin >= shop_Sub_Gun_Value[GunIndex].Cost)
         {
             moneyManager.Coin -= shop_Sub_Gun_Value[GunIndex].Cost;
-            weaponManager.ChangeSecondary(shop_Sub_Gun_Value[GunIndex].prefab);
+            weaponManager.ChangeSecondary(shop_Sub_Gun_Value[GunIndex].prefab, shop_Sub_Gun_Value[GunIndex]);
         }
         else
         {

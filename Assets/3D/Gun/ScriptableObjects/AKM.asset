@@ -19,6 +19,8 @@ MonoBehaviour:
   fireTime: 0.1
   isAutomatic: 1
   hitGold: 20
+  penetrationCnt: 3
+  penetrateDamagePenalty: 3
   recoilX: 0.3
   recoilY: 2
   recoilZ: 0.3
