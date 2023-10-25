@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RagingBull
   m_EditorClassIdentifier: 
   gunName: Raging Bull
+  type: 1
   gunDamage: 60
   fireTime: 0.4
   isAutomatic: 0

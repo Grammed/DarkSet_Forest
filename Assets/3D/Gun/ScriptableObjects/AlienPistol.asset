@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AlienPistol
   m_EditorClassIdentifier: 
   gunName: Alien Pistol
+  type: 1
   gunDamage: 20
   fireTime: 0.1
   isAutomatic: 0

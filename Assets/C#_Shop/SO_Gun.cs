@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Main Gun Data", menuName = "Scriptable Object/Main Gun Data", order = int.MaxValue)]
-public class SO_MainGun : ScriptableObject
+[CreateAssetMenu(fileName = "Gun Data", menuName = "Scriptable Object/Gun Data", order = int.MaxValue)]
+public class SO_Gun : ScriptableObject
 {
 	public string gunName;
+	public GunType type;
 
 	#region fire
 	[Header("Fire")]
@@ -66,7 +67,7 @@ public class SO_MainGun : ScriptableObject
 
 	#endregion
 
-	[Header("Main Gun Value")]
+	[Header("Gun Value")]
     [SerializeField]
     private Sprite gunImage;
     public Sprite GunImage { get { return gunImage; } }
@@ -77,3 +78,9 @@ public class SO_MainGun : ScriptableObject
     public int Cost { get { return cost; } }
 }
 
+public enum GunType
+{
+	Primary, // Main
+	Secondary, // Sub
+
+}

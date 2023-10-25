@@ -19,7 +19,7 @@ public class Gun : MonoBehaviour
 	[SerializeField]
     private MoneyManager moneyManager;
     [SerializeField]
-    private SO_MainGun mainGun;
+    private SO_Gun mainGun;
 
 	[Header("Fire")]
 	//[SerializeField]
@@ -172,23 +172,24 @@ public class Gun : MonoBehaviour
 		// 카메라로부터 레이 발사
 		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f)); 
 		RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.transform.tag == "Enemy") // 적에 맞았을 때
-            {
-                Enemy enemy = hit.collider.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    moneyManager.Coin += mainGun.hitGold;
-					enemy.GetDamage(mainGun.gunDamage);
+    //    if (Physics.Raycast(ray, out hit))
+    //    {
+    //        if (hit.transform.tag == "Enemy") // 적에 맞았을 때
+    //        {
+    //            Enemy enemy = hit.collider.GetComponent<Enemy>();
+    //            if (enemy != null)
+    //            {
+    //                moneyManager.Coin += mainGun.hitGold;
+				//	enemy.GetDamage(mainGun.gunDamage);
                     
-				} else
-                {
-					//EnemyLegacy legacyEnemy = hit.collider.GetComponent<EnemyLegacy>();
-					//legacyEnemy.Hit(mainGun.gunDamage);
-				}
-            }
-        }
+				//} else
+    //            {
+					
+				//}
+    //        }
+    //    }
+
+
 
         foreach(var p in fireParticles)
         {
@@ -289,8 +290,9 @@ public class Gun : MonoBehaviour
 
     void StopReload()
     {
+		isFireDelaying = false;
 		isReloading = false;
-		print("Reloading done\n" + ammoInMag + " / " + spareAmmo);
+		print("Stop reload\n" + ammoInMag + " / " + spareAmmo);
 		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 
 		if (WeaponManager.BulletImage)
