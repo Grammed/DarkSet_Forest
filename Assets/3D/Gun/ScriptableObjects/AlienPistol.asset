@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Alien Pistol
   type: 1
+  prefab: {fileID: 6711740820209543610, guid: 2352b47caa53c8f4584d10dbe5eaf17c, type: 3}
   gunDamage: 20
   fireTime: 0.1
   isAutomatic: 0

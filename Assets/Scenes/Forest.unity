@@ -13820,8 +13820,8 @@ RectTransform:
   - {fileID: 8854131}
   - {fileID: 583288556}
   - {fileID: 175956544}
-  - {fileID: 2057216252}
   - {fileID: 852025461}
+  - {fileID: 2057216252}
   - {fileID: 425070384}
   - {fileID: 1319160932}
   m_Father: {fileID: 2041863370}
@@ -16311,7 +16311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &587090280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24222,7 +24222,7 @@ RectTransform:
   - {fileID: 1795549177}
   - {fileID: 842026858}
   m_Father: {fileID: 479169786}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -48230,12 +48230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d613d572d30afe48ab35f2fb593cca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryWeaponPrefabs:
-  - {fileID: 1697327788651446858, guid: 87bc3a0fb5ed25e4d9046b469dadf5fc, type: 3}
-  - {fileID: 8659974191285446432, guid: c673e039fdceba343850fd6bf57dd810, type: 3}
-  secondaryWeaponPrefabs:
-  - {fileID: 1954535239638205923, guid: 9bfdeaf0925ca2d4581b5ee8e6b5cea5, type: 3}
-  - {fileID: 6711740820209543610, guid: 2352b47caa53c8f4584d10dbe5eaf17c, type: 3}
   primaryWeapon: {fileID: 1697327789384212840}
   secondaryWeapon: {fileID: 2021520552}
   ammoText: {fileID: 2102025277}
@@ -60294,6 +60288,7 @@ GameObject:
   - component: {fileID: 2041863370}
   - component: {fileID: 2041863372}
   - component: {fileID: 2041863371}
+  - component: {fileID: 2041863373}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -60336,7 +60331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9607843}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -60361,6 +60356,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041863369}
   m_CullTransparentMesh: 1
+--- !u!114 &2041863373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041863369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &2044755855
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60746,7 +60756,7 @@ RectTransform:
   - {fileID: 1178457535}
   - {fileID: 435675635}
   m_Father: {fileID: 479169786}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

@@ -94,7 +94,7 @@ public class Shop_Manager : MonoBehaviour
         if (moneyManager.Coin >= shop_Main_Gun_Value[GunIndex].Cost)
         {
             moneyManager.Coin -= shop_Main_Gun_Value[GunIndex].Cost;
-            weaponManager.ChangePrimary(GunIndex);
+            weaponManager.ChangePrimary(shop_Main_Gun_Value[GunIndex].prefab);
         }
         else
         {
@@ -107,7 +107,7 @@ public class Shop_Manager : MonoBehaviour
         if (moneyManager.Coin >= shop_Sub_Gun_Value[GunIndex].Cost)
         {
             moneyManager.Coin -= shop_Sub_Gun_Value[GunIndex].Cost;
-            weaponManager.ChangeSecondary(GunIndex);
+            weaponManager.ChangeSecondary(shop_Sub_Gun_Value[GunIndex].prefab);
         }
         else
         {
@@ -146,22 +146,30 @@ public class Shop_Manager : MonoBehaviour
     {
         if (isMainGun == true)
         {
-            if (GunIndex < shop_Main_Gun_Value.Count)
+            if (GunIndex < shop_Main_Gun_Value.Count - 1)
             {
                 GunIndex++;
-                MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
-                MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+            } else
+            {
+                GunIndex = 0;
             }
-        }
+
+			MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
+			MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+		}
         if(isMainGun == false) 
         {
-            if (GunIndex < shop_Sub_Gun_Value.Count)
+            if (GunIndex < shop_Sub_Gun_Value.Count - 1)
             {
                 GunIndex++;
-                SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
-                SubGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+            } else
+            {
+                GunIndex = 0;
             }
-        }
+
+			SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
+			SubGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+		}
     }
 
     public void Gun_Change_Minus()
@@ -171,19 +179,26 @@ public class Shop_Manager : MonoBehaviour
             if (GunIndex > 0)
             {
                 GunIndex--;
-                MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
-                MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+            } else
+            {
+                GunIndex = shop_Main_Gun_Value.Count - 1;
             }
-        }
+
+			MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
+			MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+		}
         if (isMainGun == false)
         {
             if (GunIndex > 0)
             {
                 GunIndex--;
-                SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
-                SubGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+            } else
+            {
+                GunIndex = shop_Sub_Gun_Value.Count;
             }
-        }
+			SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
+			SubGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+		}
     }
 
     public IEnumerator NotEnoughMoney()

@@ -6,6 +6,7 @@ public class SO_Gun : ScriptableObject
 {
 	public string gunName;
 	public GunType type;
+	public GameObject prefab;
 
 	#region fire
 	[Header("Fire")]

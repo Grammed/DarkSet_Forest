@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: M110
   m_EditorClassIdentifier: 
   gunName: M110 SASS
+  type: 0
+  prefab: {fileID: 8659974191285446432, guid: c673e039fdceba343850fd6bf57dd810, type: 3}
   gunDamage: 50
   fireTime: 0.3
   isAutomatic: 0

@@ -9848,24 +9848,13 @@ MonoBehaviour:
   player: {fileID: 0}
   cam: {fileID: 0}
   gunUI: {fileID: 0}
-  gunDamage: 30
-  fireTime: 0.1
-  isAutomatic: 1
+  moneyManager: {fileID: 0}
+  mainGun: {fileID: 11400000, guid: 1fbb476f3fae89a4ba5aa9f4aa11db48, type: 2}
   fireParticles:
   - {fileID: 1967922887248058724}
   - {fileID: 1455524561694982620}
   - {fileID: 1455524561950012519}
-  recoilX: 1
-  recoilY: 3
-  recoilZ: 0.5
-  ergonomic: 70
   gunSoundPool: {fileID: 0}
-  reloadSound: {fileID: 8300000, guid: 91bc91002a05d734c9b15b88d84c9b1b, type: 3}
-  fireSound: {fileID: 8300000, guid: 92887dbec3d31dc479af39f403e27b36, type: 3}
-  reloadTime: 3
-  isClosedBolt: 1
-  bulletImage: {fileID: 0}
-  circleImage: {fileID: 0}
   maxAmmoInMag: 30
   ammoInMag: 30
   maxSpareAmmo: 120
@@ -9883,6 +9872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoText: {fileID: 0}
+  gunScript: {fileID: 0}
 --- !u!82 &5096327307583423259
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15017,6 +15007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundPrefab: {fileID: 6988182329308774279, guid: 29f2529098272a24a929a9f21c53c71b, type: 3}
+  sound: {fileID: 0}
 --- !u!1 &4698226183452764886
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class WeaponManager : MonoBehaviour
 {
-	[SerializeField]
-	private List<GameObject> primaryWeaponPrefabs;
-	[SerializeField]
-	private List<GameObject> secondaryWeaponPrefabs;
+	//[SerializeField]
+	//private List<GameObject> primaryWeaponPrefabs;
+	//[SerializeField]
+	//private List<GameObject> secondaryWeaponPrefabs;
 
 
 	// 무기는 활성화 상태여야 함, 주무기와 보조무기 합쳐서 최소 하나 이상
@@ -156,20 +156,20 @@ public class WeaponManager : MonoBehaviour
 		}
 		primaryWeapon = Instantiate(newGun, location.parent);
 		// secondaryWeapon = newGun;
-		InitGun(secondaryWeapon);
+		InitGun(primaryWeapon);
 	}
 
-	public void ChangePrimary(int gunIdx)
-	{
-		Transform location = primaryWeapon.transform;
-		foreach (Transform t in primaryWeapon.transform.parent)
-		{
-			Destroy(t.gameObject);
-		}
-		primaryWeapon = Instantiate(primaryWeaponPrefabs[gunIdx], location.parent);
-		// secondaryWeapon = newGun;
-		InitGun(secondaryWeapon);
-	}
+	//public void ChangePrimary(int gunIdx)
+	//{
+	//	Transform location = primaryWeapon.transform;
+	//	foreach (Transform t in primaryWeapon.transform.parent)
+	//	{
+	//		Destroy(t.gameObject);
+	//	}
+	//	primaryWeapon = Instantiate(primaryWeaponPrefabs[gunIdx], location.parent);
+	//	// secondaryWeapon = newGun;
+	//	InitGun(primaryWeapon);
+	//}
 
 	public void ChangeSecondary(GameObject newGun)
 	{
@@ -183,22 +183,23 @@ public class WeaponManager : MonoBehaviour
 		InitGun(secondaryWeapon);
 	}
 
-	public void ChangeSecondary(int gunIdx)
-	{
-		Transform location = secondaryWeapon.transform;
-		foreach (Transform t in secondaryWeapon.transform.parent)
-		{
-			Destroy(t.gameObject);
-		}
-		secondaryWeapon = Instantiate(secondaryWeaponPrefabs[gunIdx], location.parent);
-		// secondaryWeapon = newGun;
-		InitGun(secondaryWeapon);
-	}
+	//public void ChangeSecondary(int gunIdx)
+	//{
+	//	Transform location = secondaryWeapon.transform;
+	//	foreach (Transform t in secondaryWeapon.transform.parent)
+	//	{
+	//		Destroy(t.gameObject);
+	//	}
+	//	secondaryWeapon = Instantiate(secondaryWeaponPrefabs[gunIdx], location.parent);
+	//	// secondaryWeapon = newGun;
+	//	InitGun(secondaryWeapon);
+	//}
 
 	private void InitGun(GameObject gunGO)
 	{
-		print("initialize");
-		gunGO.GetComponent<GunUIController>().ammoText = this.ammoText;
+		print(gunGO);
+		GunUIController gunUI = gunGO.GetComponent<GunUIController>();
+		gunUI.ammoText = ammoText;
 		
 
 		Gun gunComponent = gunGO.GetComponent<Gun>();
