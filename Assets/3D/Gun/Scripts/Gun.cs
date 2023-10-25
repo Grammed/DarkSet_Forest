@@ -19,7 +19,7 @@ public class Gun : MonoBehaviour
 	[SerializeField]
     private MoneyManager moneyManager;
     [SerializeField]
-    private SO_Gun mainGun;
+    private SO_Gun SO_Gun;
 
 	[Header("Fire")]
 	//[SerializeField]
@@ -32,6 +32,7 @@ public class Gun : MonoBehaviour
 	private bool isFireDelaying = false;
     [SerializeField]
     List<ParticleSystem> fireParticles;
+	LayerMask targetLayer;
 
 
 	#region Recoil
@@ -114,6 +115,9 @@ public class Gun : MonoBehaviour
 		// gunUI = FindAnyObjectByType<GunUIController>() as GunUIController;
 		gunUI = GetComponent<GunUIController>();
 		moneyManager = FindObjectOfType<MoneyManager>();
+
+		hits = new RaycastHit[SO_Gun.penetrationCnt];
+		targetLayer = LayerMask.GetMask("Enemy");
 	}
 
 
@@ -132,7 +136,7 @@ public class Gun : MonoBehaviour
     {
         // 발사
         // 키 클릭 + 장전 중 아님 + 탄창에 총알 하나라도 있음 + 딜레이 중이 아님
-		if (mainGun.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1"))
+		if (SO_Gun.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1"))
 		{
 			bool canFire = !isReloading && ammoInMag >= 1 && !isFireDelaying;
             if (canFire)
@@ -166,12 +170,36 @@ public class Gun : MonoBehaviour
         gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 
         // 오브젝트 풀에서 사운드 꺼냄
-        gunSoundPool.sound = mainGun.fireSound;
+        gunSoundPool.sound = SO_Gun.fireSound;
         gunSoundPool.Pop();
 
 		// 카메라로부터 레이 발사
-		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f)); 
-		RaycastHit hit;
+		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+
+
+		RaycastHit[] hits = Physics.RaycastAll(ray, 10000f);
+		int enemyHitCount = 0;
+
+		if (hits.Length > 0)
+		{
+			foreach(var hit in hits)
+			{
+				if (hit.collider.gameObject.layer != targetLayer)
+				{
+					break;
+				} else if (enemyHitCount <= SO_Gun.penetrationCnt)
+				{
+					Enemy hitEnemy = hit.collider.gameObject.GetComponent<Enemy>();
+					hitEnemy.GetDamage(SO_Gun.gunDamage - SO_Gun.penetrateDamagePenalty * enemyHitCount);
+					enemyHitCount += 1;
+				} else
+				{
+					// enemyHitCount > SO_Gun.penetrationCnt
+					break;
+				}
+			}
+		}
+
     //    if (Physics.Raycast(ray, out hit))
     //    {
     //        if (hit.transform.tag == "Enemy") // 적에 맞았을 때
@@ -210,15 +238,15 @@ public class Gun : MonoBehaviour
         // 반동
         print("Recoil");
 		// 상하반동
-		player.currentCameraRotationX -= mainGun.recoilY;
+		player.currentCameraRotationX -= SO_Gun.recoilY;
 
 		// 카메라 회전 변경 //
 		Vector3 rot = player.transform.eulerAngles;
-        player._yRotation += Random.Range(-mainGun.recoilX, mainGun.recoilX);
+        player._yRotation += Random.Range(-SO_Gun.recoilX, SO_Gun.recoilX);
         player.transform.eulerAngles = rot; 
 
         // 총 자체 밀리는 반동
-        changePos = transform.localPosition + (Vector3.back * mainGun.recoilZ);
+        changePos = transform.localPosition + (Vector3.back * SO_Gun.recoilZ);
         transform.localPosition = changePos;
         StopCoroutine(ReboundRecoil());
         StartCoroutine(ReboundRecoil());
@@ -230,7 +258,7 @@ public class Gun : MonoBehaviour
         // 앞뒤 반동 회복
 		while (transform.localPosition != originPos)
         {
-			transform.localPosition = Vector3.Lerp(transform.localPosition, originPos, 0.1f * (mainGun.ergonomic / 100f));
+			transform.localPosition = Vector3.Lerp(transform.localPosition, originPos, 0.1f * (SO_Gun.ergonomic / 100f));
 			yield return null;
 		}
 
@@ -239,7 +267,7 @@ public class Gun : MonoBehaviour
 	// 카메라 회전 변경
 	IEnumerator FireDelay()
     {
-        yield return new WaitForSeconds(mainGun.fireTime);
+        yield return new WaitForSeconds(SO_Gun.fireTime);
         isFireDelaying = false;
         StopCoroutine(FireDelay());
     }
@@ -259,18 +287,18 @@ public class Gun : MonoBehaviour
         WeaponManager.BulletImage.gameObject.SetActive(true);
 		WeaponManager.CircleImage.gameObject.SetActive(true);
 
-        StopCoroutine(WeaponManager.FillCircle(mainGun.reloadTime));
-        StartCoroutine(WeaponManager.FillCircle(mainGun.reloadTime));
+        StopCoroutine(WeaponManager.FillCircle(SO_Gun.reloadTime));
+        StartCoroutine(WeaponManager.FillCircle(SO_Gun.reloadTime));
 
 		// 장전 사운드 준비 및 플레이
 		isReloading = true;
-        audioSource.clip = mainGun.reloadSound;
+        audioSource.clip = SO_Gun.reloadSound;
         audioSource.Play();
         
-        yield return new WaitForSeconds(mainGun.reloadTime);
+        yield return new WaitForSeconds(SO_Gun.reloadTime);
         
         // 총알 수 조절
-        if (mainGun.isClosedBolt && ammoInMag >= 1) // 약실 장전
+        if (SO_Gun.isClosedBolt && ammoInMag >= 1) // 약실 장전
         {
 			spareAmmo += ammoInMag - 1;
             ammoInMag = 1;
