@@ -31,7 +31,9 @@ public class Gun : MonoBehaviour
 	private bool isFireDelaying = false;
     [SerializeField]
     List<ParticleSystem> fireParticles;
-	LayerMask targetLayer;
+
+
+	public RaycastHit[] hits;
 
 
 	#region Recoil
@@ -114,7 +116,7 @@ public class Gun : MonoBehaviour
 		gunUI = GetComponent<GunUIController>();
 		moneyManager = FindObjectOfType<MoneyManager>();
 
-		targetLayer = LayerMask.GetMask("Enemy");
+		hits = new RaycastHit[SO_Gun.penetrationCnt];
 	}
 
 
@@ -174,24 +176,28 @@ public class Gun : MonoBehaviour
 		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
 
 
-		RaycastHit[] hits = Physics.RaycastAll(ray, 10000f);
+		int hitCount = Physics.RaycastNonAlloc(ray, hits, 10000f);
 		int enemyHitCount = 0;
 
-		if (hits.Length > 0)
+		if (hitCount > 0)
 		{
 			foreach(var hit in hits)
 			{
-				if (hit.collider.gameObject.layer != targetLayer)
+				if (hit.transform.CompareTag("Enemy") == false)
 				{
+					print("Not Enemy");
 					break;
 				} else if (enemyHitCount <= SO_Gun.penetrationCnt)
 				{
-					Enemy hitEnemy = hit.collider.gameObject.GetComponent<Enemy>();
+					print("enemy hit!");
+					Enemy hitEnemy = hit.collider.GetComponent<Enemy>();
+					print(hitEnemy.gameObject);
 					hitEnemy.GetDamage(SO_Gun.gunDamage - SO_Gun.penetrateDamagePenalty * enemyHitCount);
 					enemyHitCount += 1;
 				} else
 				{
 					// enemyHitCount > SO_Gun.penetrationCnt
+					print(enemyHitCount + " : " + SO_Gun.penetrationCnt);
 					break;
 				}
 			}

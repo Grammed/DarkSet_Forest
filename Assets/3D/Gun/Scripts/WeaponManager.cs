@@ -16,11 +16,11 @@ public class WeaponManager : MonoBehaviour
 
 	// 무기는 활성화 상태여야 함, 주무기와 보조무기 합쳐서 최소 하나 이상
 	public GameObject primaryLocation; // primaryWeapon의 부모
-	public SO_Gun primarySO;
+	//public SO_Gun primarySO;
 	private GameObject primaryWeapon;
 
 	public GameObject secondaryLocation; // secondaryWeapon의 부모
-	public SO_Gun secondarySO;
+	//public SO_Gun secondarySO;
 	private GameObject secondaryWeapon;
 
 	[SerializeField] TextMeshProUGUI ammoText;
@@ -60,32 +60,68 @@ public class WeaponManager : MonoBehaviour
 		BulletImage = _bulletImage;
 		CircleImage = _circleImage;
 
-		if (primaryLocation != null && primarySO != null)
-		{
-			primaryWeapon = Instantiate(primarySO.prefab, primaryLocation.transform);
-			InitGun(primaryWeapon, primarySO);
-			primaryLocation.SetActive(true);
+		// [ deprecated / 현재 사용 안 함 ]
+		//if (primaryLocation != null && primarySO != null)
+		//{
+		//	primaryWeapon = Instantiate(primarySO.prefab, primaryLocation.transform);
+		//	InitGun(primaryWeapon, primarySO);
+		//	primaryLocation.SetActive(true);
 
-			secondaryLocation.SetActive(false);
+		//	secondaryLocation.SetActive(false);
 
-			weaponName.text = primarySO.gunName;
-		}
-		if (secondaryLocation != null && secondarySO != null)
+		//	weaponName.text = primarySO.gunName;
+		//}
+		//if (secondaryLocation != null && secondarySO != null)
+		//{
+		//	secondaryWeapon = Instantiate(secondarySO.prefab, secondaryLocation.transform);
+		//	InitGun(secondaryWeapon);
+		//	if (!primaryLocation)
+		//	{
+		//		secondaryLocation.SetActive(true);
+		//		weaponName.text = secondarySO.gunName;
+		//	}
+ 	//	}
+
+
+		if (primaryLocation != null)
 		{
-			secondaryWeapon = Instantiate(secondarySO.prefab, secondaryLocation.transform);
-			InitGun(secondaryWeapon, secondarySO);
-			if (!primaryLocation)
+			if (primaryLocation.transform.childCount == 1)
 			{
-				secondaryLocation.SetActive(true);
-				weaponName.text = secondarySO.gunName;
+				primaryWeapon = primaryLocation.transform.GetChild(0).gameObject;
+				InitGun(primaryWeapon);
+			} else if (primaryLocation.transform.childCount >= 2)
+			{
+				Debug.LogError("There's over 1 primary weapon in player!");
 			}
- 		}
+		} else
+		{
+			Debug.LogError("Please set the location of primary weapon.");
+		}
+
+		if (secondaryLocation != null)
+		{
+			if (secondaryLocation.transform.childCount == 1)
+			{
+				secondaryWeapon = secondaryLocation.transform.GetChild(0).gameObject;
+				InitGun(secondaryWeapon);
+				if (primaryWeapon != null)
+				{
+					secondaryWeapon.SetActive(false);
+				}
+			} else if (secondaryLocation.transform.childCount >= 2)
+			{
+				Debug.LogError("There's over 1 secondary weapon in player!");
+			}
+		} else
+		{
+			Debug.LogError("Please set the location of secondary weapon.");
+		}
 
 		if (primaryLocation == null && secondaryLocation == null)
 		{
 			// 무기가 둘 다 없으면
 			throw new System.Exception("The player needs to have at least one weapon");
-		}
+		} 
 
 
 	}
@@ -113,13 +149,13 @@ public class WeaponManager : MonoBehaviour
 		switch(type)
 		{
 			case WeaponType.Primary:
-				//if (primaryLocation && primaryLocation.transform.childCount > 0)
-				//{
+				if (primaryLocation && primaryLocation.transform.childCount > 0)
+				{
 					secondaryLocation.SetActive(false);
 					primaryLocation.SetActive(true);
 					weaponName.text = primaryWeapon.GetComponent<Gun>().SO_Gun.gunName;
 					
-				//}
+				}
 				break;
 			case WeaponType.Secondary:
 				if (secondaryLocation.transform.childCount > 0)
@@ -168,15 +204,20 @@ public class WeaponManager : MonoBehaviour
 
 	public void ChangePrimary(GameObject newGun, SO_Gun soGun)
 	{
-		primarySO = soGun;
+		//primarySO = soGun;
 		Transform location = primaryLocation.transform;
 		foreach(Transform t in primaryLocation.transform)
 		{
 			Destroy(t.gameObject);
 		}
-		primaryLocation = Instantiate(newGun, location);
+		primaryWeapon = Instantiate(newGun, location);
 		// secondaryWeapon = newGun;
-		InitGun(primaryLocation, soGun);
+		InitGun(primaryWeapon, soGun);
+		
+		if (secondaryLocation.activeSelf == true)
+		{
+			primaryLocation.SetActive(false);
+		}
 	}
 
 	//public void ChangePrimary(int gunIdx)
@@ -193,7 +234,7 @@ public class WeaponManager : MonoBehaviour
 
 	public void ChangeSecondary(GameObject newGun, SO_Gun soGun)
 	{
-		secondarySO = soGun;
+		// secondarySO = soGun;
 		Transform location = secondaryLocation.transform;
 		foreach (Transform t in secondaryLocation.transform)
 		{
@@ -202,6 +243,11 @@ public class WeaponManager : MonoBehaviour
 		secondaryWeapon = Instantiate(newGun, location);
 		// secondaryWeapon = newGun;
 		InitGun(secondaryWeapon, soGun);
+
+		if (primaryLocation.activeSelf == true)
+		{
+			secondaryLocation.SetActive(false);
+		}
 	}
 
 	//public void ChangeSecondary(int gunIdx)
@@ -215,19 +261,34 @@ public class WeaponManager : MonoBehaviour
 	//	// secondaryWeapon = newGun;
 	//	InitGun(secondaryWeapon);
 	//}
-
-	private void InitGun(GameObject gunGO, SO_Gun soGun)
+	private void InitGun(GameObject gunGO)
 	{
 		print(gunGO);
 		GunUIController gunUI = gunGO.GetComponent<GunUIController>();
 		gunUI.ammoText = ammoText;
-		
-		
+
+
 
 		Gun gunScript = gunGO.GetComponent<Gun>();
-		gunScript.SO_Gun = soGun;
 		gunScript.gunSoundPool = soundPool;
-		gunUI.ammoText.text = gunScript.gunName;
+		
+		if (gunScript.SO_Gun == null)
+		{
+			Debug.LogError("SO_Gun is not found!");
+		}
+
+		gunScript.hits = new RaycastHit[gunScript.SO_Gun.penetrationCnt];
+		// weaponName.text = gunScript.gunName;
+	}
+	private void InitGun(GameObject gunGO, SO_Gun soGun)
+	{
+		Gun gunScript = gunGO.GetComponent<Gun>();
+		gunScript.SO_Gun = soGun;
+
+		InitGun(gunGO);
+
+		
+		// weaponName.text = gunScript.gunName;
 	}
 
 	

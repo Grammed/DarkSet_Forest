@@ -48,15 +48,20 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-        Move();                 // 키보드 입력에 따라 이동
-        Jump();                 // 점프
-        CameraRotation();       // 마우스를 위아래(Y) 움직임에 따라 카메라 X 축 회전 
-        CharacterRotation();    // 마우스 좌우(X) 움직임에 따라 캐릭터 Y 축 회전 
+		CameraRotation();       // 마우스를 위아래(Y) 움직임에 따라 카메라 X 축 회전 
+		CharacterRotation();    // 마우스 좌우(X) 움직임에 따라 캐릭터 Y 축 회전 
         CursorOnOff();
     }
 
-   
-    private void Move()
+	private void FixedUpdate()
+	{
+		Move();                 // 키보드 입력에 따라 이동
+		Jump();                 // 점프
+		
+	}
+
+
+	private void Move()
     {
         float _moveDirX = Input.GetAxisRaw("Horizontal"); // A/D 입력
         float _moveDirZ = Input.GetAxisRaw("Vertical"); // W/S 입력

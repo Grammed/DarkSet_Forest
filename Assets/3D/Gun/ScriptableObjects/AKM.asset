@@ -16,7 +16,7 @@ MonoBehaviour:
   type: 0
   prefab: {fileID: 1697327788651446858, guid: 87bc3a0fb5ed25e4d9046b469dadf5fc, type: 3}
   gunDamage: 25
-  fireTime: 0.1
+  fireTime: 0.08
   isAutomatic: 1
   hitGold: 20
   penetrationCnt: 3

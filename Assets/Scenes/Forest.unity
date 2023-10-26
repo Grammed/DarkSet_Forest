@@ -16311,7 +16311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &587090280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48231,9 +48231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   primaryLocation: {fileID: 1057274158}
-  primarySO: {fileID: 11400000, guid: 1fbb476f3fae89a4ba5aa9f4aa11db48, type: 2}
   secondaryLocation: {fileID: 1873647161}
-  secondarySO: {fileID: 0}
   ammoText: {fileID: 2102025277}
   weaponName: {fileID: 1093611136}
   _bulletImage: {fileID: 64181408}
@@ -74038,7 +74036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1967922885141310552
 MonoBehaviour:
   m_ObjectHideFlags: 0

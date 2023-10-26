@@ -76,7 +76,13 @@ public class Enemy : MonoBehaviour
     }
     public void GetDamage(float damage)
     {
-        enemyHp= enemyHp - damage;
+        if (damage <= 0f)
+        {
+            print("damage under zero");
+            return;
+        }
+        enemyHp -= damage;
+        print(enemyHp);
     }
     private void FwdObject()//앞에 플레이어가 있는지 확인
     {
