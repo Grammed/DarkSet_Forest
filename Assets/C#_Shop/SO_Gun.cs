@@ -19,6 +19,10 @@ public class SO_Gun : ScriptableObject
 
 	public int hitGold;
 
+	public int penetrationCnt;
+
+	public float penetrateDamagePenalty;
+
 	#endregion
 
 	#region Recoil
