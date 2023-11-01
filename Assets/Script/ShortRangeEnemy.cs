@@ -10,6 +10,5 @@ public class ShortRangeEnemy : Enemy
         attackAni.SetTrigger("Attack");
         yield return new WaitForSeconds(1f);
         SetTarget();
-        
     }
 }

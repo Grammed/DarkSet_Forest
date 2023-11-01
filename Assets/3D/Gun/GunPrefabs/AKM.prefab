@@ -9849,7 +9849,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   gunUI: {fileID: 0}
   moneyManager: {fileID: 0}
-  mainGun: {fileID: 11400000, guid: 1fbb476f3fae89a4ba5aa9f4aa11db48, type: 2}
+  SO_Gun: {fileID: 11400000, guid: 1fbb476f3fae89a4ba5aa9f4aa11db48, type: 2}
   fireParticles:
   - {fileID: 1967922887248058724}
   - {fileID: 1455524561694982620}

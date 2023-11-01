@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,9 +6,12 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
+using Random = UnityEngine.Random;
+
 public class Gun : MonoBehaviour
 {
     public string gunName;
+	private bool initComplete = false;
 
 	[Header("References")]
     [HideInInspector]
@@ -94,11 +98,11 @@ public class Gun : MonoBehaviour
 	public int spareAmmo;
 
 	#endregion
-
-	void Awake()
-    {
+	private void Start()
+	{
 		Init();
 	}
+
 
     void Init()
     {
@@ -116,22 +120,35 @@ public class Gun : MonoBehaviour
 		gunUI = GetComponent<GunUIController>();
 		moneyManager = FindObjectOfType<MoneyManager>();
 
-		hits = new RaycastHit[SO_Gun.penetrationCnt];
+		hits = new RaycastHit[100];
+		print(nameof(SO_Gun.penetrationCnt) + ": " + SO_Gun.penetrationCnt);
+		initComplete = true;
 	}
 
 
 	private void OnDisable()
 	{
-        StopReload();
+		if (initComplete)
+		{ 
+			StopReload();
+		}
 	}
 
 	private void Update()
     {
         Inputs();
-    }
+		//Ray ray = new Ray(player.transform.position, player.transform.forward);
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow, 0.1f, true);
+	}
 
-    // 입력
-    private void Inputs()
+	private void FixedUpdate()
+	{
+		
+	}
+
+	// 입력
+	private void Inputs()
     {
         // 발사
         // 키 클릭 + 장전 중 아님 + 탄창에 총알 하나라도 있음 + 딜레이 중이 아님
@@ -173,56 +190,74 @@ public class Gun : MonoBehaviour
         gunSoundPool.Pop();
 
 		// 카메라로부터 레이 발사
-		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+		//Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+		int hitCount = Physics.RaycastNonAlloc(ray, hits, 1000f);
 
 
-		int hitCount = Physics.RaycastNonAlloc(ray, hits, 10000f);
+		Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
 		int enemyHitCount = 0;
 
-		if (hitCount > 0)
+		for (int i = 0; i < Mathf.Min(hitCount, SO_Gun.penetrationCnt); i++)
 		{
-			foreach(var hit in hits)
+			RaycastHit _hit = hits[i];
+			if (_hit.transform == null) continue;
+			if (_hit.transform.CompareTag("Enemy"))
 			{
-				if (hit.transform.CompareTag("Enemy") == false)
+				print("enemy hit! " + i);
+			}
+		}
+
+		//if (hitCount > 0)
+		//{
+		//	for (int i = 0; i < Mathf.Min(hitCount, SO_Gun.penetrationCnt); i++)
+		//	{
+		//		RaycastHit hit = hits[i];
+		//		if (hit.collider == null) continue;
+		//		if (hit.transform.CompareTag("Enemy"))
+		//		{
+		//			print("Enemy hit!");
+		//			Enemy hitEnemy = hit.collider.GetComponent<Enemy>();
+		//			float actualDamage = SO_Gun.gunDamage - SO_Gun.penetrateDamagePenalty * enemyHitCount;
+		//			if (hitEnemy != null)
+		//			{
+		//				moneyManager.Coin += SO_Gun.hitGold;
+		//				hitEnemy.GetDamage(actualDamage);
+		//			}
+
+		//			else print("actual enemy not found");
+
+		//			enemyHitCount += 1;
+		//		} else
+		//		{
+		//			break;
+		//			// continue;
+		//		}
+		//	}
+		//}
+
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit))
+		{
+			if (hit.transform.tag == "Enemy") // 적에 맞았을 때
+			{
+				Enemy enemy = hit.collider.GetComponent<Enemy>();
+				if (enemy != null)
 				{
-					print("Not Enemy");
-					break;
-				} else if (enemyHitCount <= SO_Gun.penetrationCnt)
-				{
-					print("enemy hit!");
-					Enemy hitEnemy = hit.collider.GetComponent<Enemy>();
-					print(hitEnemy.gameObject);
-					hitEnemy.GetDamage(SO_Gun.gunDamage - SO_Gun.penetrateDamagePenalty * enemyHitCount);
-					enemyHitCount += 1;
+					moneyManager.Coin += SO_Gun.hitGold;
+					enemy.GetDamage(SO_Gun.gunDamage);
+
 				} else
 				{
-					// enemyHitCount > SO_Gun.penetrationCnt
-					print(enemyHitCount + " : " + SO_Gun.penetrationCnt);
-					break;
+
 				}
 			}
 		}
 
-    //    if (Physics.Raycast(ray, out hit))
-    //    {
-    //        if (hit.transform.tag == "Enemy") // 적에 맞았을 때
-    //        {
-    //            Enemy enemy = hit.collider.GetComponent<Enemy>();
-    //            if (enemy != null)
-    //            {
-    //                moneyManager.Coin += mainGun.hitGold;
-				//	enemy.GetDamage(mainGun.gunDamage);
-                    
-				//} else
-    //            {
-					
-				//}
-    //        }
-    //    }
 
 
-
-        foreach(var p in fireParticles)
+		foreach (var p in fireParticles)
         {
             p.Play();
         }
