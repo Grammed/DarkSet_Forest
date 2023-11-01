@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    private SO_MainGun mainGun;
+    private SO_Gun mainGun;
 
     [SerializeField] private AudioSource audio;
     
