@@ -4,7 +4,7 @@ using UnityEngine;
 
     public enum EnemyType
     {//몬스터 종류
-        nomal,
+        nomal, 
         walking,
         arrow
     }

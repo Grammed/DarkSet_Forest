@@ -44,7 +44,7 @@ public class RayCast_Cam : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.forward * 1000f, Color.red);
+            // Debug.DrawRay(transform.position, transform.forward * 1000f, Color.red);
         }
     }
 }

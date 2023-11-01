@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     [Header("Sound")]
     [SerializeField]
     private AudioSource dieSound;
-    public AudioSource enemySound;
+    public AudioSource Sound;
 
     [Header("UI")]
     [SerializeField]
