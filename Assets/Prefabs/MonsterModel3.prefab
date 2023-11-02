@@ -468,6 +468,7 @@ MonoBehaviour:
   killValue: 0
   waveManager: {fileID: 0}
   playerController: {fileID: 0}
+  damage: 15
   rock: {fileID: 203878313113347122, guid: 02f4ba94813712d419ee34ee4a1e7df3, type: 3}
   throwPower: 2
 --- !u!54 &-8046596668037318422

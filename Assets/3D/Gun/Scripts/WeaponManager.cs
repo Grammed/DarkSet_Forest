@@ -289,6 +289,7 @@ public class WeaponManager : MonoBehaviour
 		}
 
 		gunScript.hits = new RaycastHit[gunScript.SO_Gun.penetrationCnt];
+		weaponNameText.text = gunScript.SO_Gun.gunName;
 		// weaponName.text = gunScript.gunName;
 	}
 	private void InitGun(GameObject gunGO, SO_Gun soGun)
