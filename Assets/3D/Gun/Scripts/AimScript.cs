@@ -15,6 +15,7 @@ public class AimScript : MonoBehaviour
     float mouseSenseTemp;
 
     PlayerController player;
+    WeaponManager weaponManager;
     GameObject scopeShapeGO;
     
     Camera theCamera;
@@ -24,6 +25,7 @@ public class AimScript : MonoBehaviour
         fovNotAim = theCamera.fieldOfView;
         scopeShapeGO = GameObject.Find("PlayerUI_Canvas").transform.Find("ScopeImage-Parent").Find("ScopeImage").gameObject;
         player = FindObjectOfType<PlayerController>();
+        weaponManager = FindObjectOfType<WeaponManager>();
 
         mouseSenseTemp = player.lookSensitivity;
 	}
@@ -43,6 +45,7 @@ public class AimScript : MonoBehaviour
 
     void TakeAim()
     {
+        weaponManager.canSwap = false;
         theCamera.fieldOfView = fovWhenAim;
         scopeShapeGO.SetActive(true);
         player.lookSensitivity = mouseSenseWhenAim;
@@ -51,13 +54,14 @@ public class AimScript : MonoBehaviour
 
 		if (mouseWheel != 0)
         {
-            fovWhenAim += mouseWheel * zoomSpeed;
+            fovWhenAim -= mouseWheel * zoomSpeed;
             fovWhenAim = Mathf.Clamp(fovWhenAim, minFovWhenAim, maxFovWhenAim);
         }
     }
 
     void CancelAim()
     {
+        weaponManager.canSwap = true;
         theCamera.fieldOfView = fovNotAim;
 		scopeShapeGO.SetActive(false);
         player.lookSensitivity = mouseSenseTemp;

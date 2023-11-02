@@ -33,6 +33,8 @@ public class WeaponManager : MonoBehaviour
 	[SerializeField]
 	private GunSoundPool soundPool;
 
+	public bool canSwap = true;
+
 	enum WeaponType
 	{
 		Primary,
@@ -132,19 +134,22 @@ public class WeaponManager : MonoBehaviour
 
 	private void Update()
 	{
-		float wheelInput = Input.GetAxis("Mouse ScrollWheel");
-
-		bool toPrimary = Input.GetKeyDown(primaryKey) || wheelInput > 0;
-		bool toSecondary = Input.GetKeyDown(secondaryKey) || wheelInput < 0;
-
-		if (toPrimary && primaryLocation != null) // 주무기 교체
+		if (canSwap)
 		{
-			SwapTo(WeaponType.Primary);
-		}
+			float wheelInput = Input.GetAxis("Mouse ScrollWheel");
 
-		if (toSecondary && secondaryLocation != null) // 보조무기 교체
-		{
-			SwapTo(WeaponType.Secondary);
+			bool toPrimary = Input.GetKeyDown(primaryKey) || wheelInput > 0;
+			bool toSecondary = Input.GetKeyDown(secondaryKey) || wheelInput < 0;
+
+			if (toPrimary && primaryLocation != null) // 주무기 교체
+			{
+				SwapTo(WeaponType.Primary);
+			}
+
+			if (toSecondary && secondaryLocation != null) // 보조무기 교체
+			{
+				SwapTo(WeaponType.Secondary);
+			}
 		}
 	}
 
