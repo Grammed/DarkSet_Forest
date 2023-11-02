@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-    public enum EnemyType
+public enum EnemyType
     {//몬스터 종류
         nomal, 
         walking,
@@ -46,16 +47,21 @@ public class WaveManager : MonoBehaviour
     {
         StartCoroutine("StartWave");
     }
-	private void Update()
-	{
-            if (enemyCount == 0)
-            {
-                NextWave();
-            }
-	}
+    private void Update()
+    {
+        if (enemyCount == 0)
+        {
+            NextWave();
+        }
+    }
 	public void NextWave()//다음 웨이브 실행
     {
-        if (currentTime >= waveTime)
+        if (waveStage >= wave.Count)
+        {
+            gameClearTxt.SetActive(true);
+            StartCoroutine("ReturnLobby");
+        }
+        else if (currentTime >= waveTime)
         {
             waveStage++;
             StartCoroutine("StartWave");
@@ -84,7 +90,9 @@ public class WaveManager : MonoBehaviour
         enemyCount++;
         return newEnemy;
     }
-
-   
-
+    private IEnumerator ReturnLobby()
+    {
+        yield return new WaitForSeconds(10f);
+        SceneManager.LoadScene("Lobby");
+    }
 }
