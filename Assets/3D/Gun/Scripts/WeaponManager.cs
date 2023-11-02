@@ -24,7 +24,7 @@ public class WeaponManager : MonoBehaviour
 	private GameObject secondaryWeapon;
 
 	[SerializeField] TextMeshProUGUI ammoText;
-	[SerializeField] TextMeshProUGUI weaponName;
+	[SerializeField] TextMeshProUGUI weaponNameText;
 	[SerializeField] Image _bulletImage;
 	public static Image BulletImage { get; set; }
 	[SerializeField] Image _circleImage;
@@ -39,6 +39,7 @@ public class WeaponManager : MonoBehaviour
 		Secondary,
 	}
 
+	WeaponType nowWeapon;
 	KeyCode primaryKey = KeyCode.Alpha1;
 	KeyCode secondaryKey = KeyCode.Alpha2;
 
@@ -60,6 +61,7 @@ public class WeaponManager : MonoBehaviour
 		BulletImage = _bulletImage;
 		CircleImage = _circleImage;
 
+		#region notUsed
 		// [ deprecated / 현재 사용 안 함 ]
 		//if (primaryLocation != null && primarySO != null)
 		//{
@@ -80,13 +82,14 @@ public class WeaponManager : MonoBehaviour
 		//		secondaryLocation.SetActive(true);
 		//		weaponName.text = secondarySO.gunName;
 		//	}
- 	//	}
-
+		//	}
+		#endregion
 
 		if (primaryLocation != null)
 		{
 			if (primaryLocation.transform.childCount == 1)
 			{
+				nowWeapon = WeaponType.Primary;
 				primaryWeapon = primaryLocation.transform.GetChild(0).gameObject;
 				InitGun(primaryWeapon);
 			} else if (primaryLocation.transform.childCount >= 2)
@@ -102,6 +105,7 @@ public class WeaponManager : MonoBehaviour
 		{
 			if (secondaryLocation.transform.childCount == 1)
 			{
+				nowWeapon = WeaponType.Secondary;
 				secondaryWeapon = secondaryLocation.transform.GetChild(0).gameObject;
 				InitGun(secondaryWeapon);
 				if (primaryWeapon != null)
@@ -146,6 +150,7 @@ public class WeaponManager : MonoBehaviour
 
 	void SwapTo(WeaponType type)
 	{
+		nowWeapon = type;
 		switch(type)
 		{
 			case WeaponType.Primary:
@@ -153,7 +158,7 @@ public class WeaponManager : MonoBehaviour
 				{
 					secondaryLocation.SetActive(false);
 					primaryLocation.SetActive(true);
-					weaponName.text = primaryWeapon.GetComponent<Gun>().SO_Gun.gunName;
+					weaponNameText.text = primaryWeapon.GetComponent<Gun>().SO_Gun.gunName;
 					
 				}
 				break;
@@ -162,7 +167,7 @@ public class WeaponManager : MonoBehaviour
 				{
 					secondaryLocation.SetActive(true);
 					primaryLocation.SetActive(false);
-					weaponName.text = secondaryWeapon.GetComponent<Gun>().SO_Gun.gunName;
+					weaponNameText.text = secondaryWeapon.GetComponent<Gun>().SO_Gun.gunName;
 					
 				}
 				break;
@@ -214,9 +219,12 @@ public class WeaponManager : MonoBehaviour
 		// secondaryWeapon = newGun;
 		InitGun(primaryWeapon, soGun);
 		
-		if (secondaryLocation.activeSelf == true)
+		if (nowWeapon == WeaponType.Secondary)
 		{
 			primaryLocation.SetActive(false);
+		} else
+		{
+			weaponNameText.text = soGun.gunName;
 		}
 	}
 
@@ -244,9 +252,12 @@ public class WeaponManager : MonoBehaviour
 		// secondaryWeapon = newGun;
 		InitGun(secondaryWeapon, soGun);
 
-		if (primaryLocation.activeSelf == true)
+		if (nowWeapon == WeaponType.Primary)
 		{
 			secondaryLocation.SetActive(false);
+		} else
+		{
+			weaponNameText.text = soGun.gunName;
 		}
 	}
 

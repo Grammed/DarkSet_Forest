@@ -51,7 +51,11 @@ public class Shop_Manager : MonoBehaviour
         isMainGun = true;
         MainGun_Panel.SetActive(true);
         SubGun_Panel.SetActive(false);
-        Bullettext.text = Bullet.ToString();
+
+        GunIndex = 0;
+		MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
+		MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+		Bullettext.text = Bullet.ToString();
         //HPtext.text = HP.ToString();
         moneyManager.Dontmoney.SetActive(false);
 
@@ -194,7 +198,7 @@ public class Shop_Manager : MonoBehaviour
                 GunIndex--;
             } else
             {
-                GunIndex = shop_Sub_Gun_Value.Count;
+                GunIndex = shop_Sub_Gun_Value.Count - 1;
             }
 			SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
 			SubGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;

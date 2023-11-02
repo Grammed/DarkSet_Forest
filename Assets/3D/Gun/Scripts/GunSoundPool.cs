@@ -36,9 +36,6 @@ public class GunSoundPool : MonoBehaviour
         if (goOut != null)
         {
             goOut.SetActive(true);
-            AudioSource source = goOut.GetComponent<AudioSource>();
-            source.clip = sound;
-            source.Play();
             return goOut;
         } else
         {

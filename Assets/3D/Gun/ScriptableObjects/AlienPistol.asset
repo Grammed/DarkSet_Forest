@@ -25,8 +25,8 @@ MonoBehaviour:
   recoilY: 1.5
   recoilZ: 0.5
   ergonomic: 70
-  reloadSound: {fileID: 8300000, guid: 91bc91002a05d734c9b15b88d84c9b1b, type: 3}
-  fireSound: {fileID: 8300000, guid: 92887dbec3d31dc479af39f403e27b36, type: 3}
+  reloadSound: {fileID: 8300000, guid: 051c1c94c3d28be41bc21579d04866c2, type: 3}
+  fireSound: {fileID: 8300000, guid: 9f42279d1b7c20b40a45f557c2eeb9f0, type: 3}
   reloadTime: 3
   isClosedBolt: 1
   maxAmmoInMag: 17

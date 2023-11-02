@@ -115,10 +115,12 @@ public class Gun : MonoBehaviour
 		cam = player.theCamera;
 		audioSource = GetComponent<AudioSource>();
 
-		gunSoundPool = FindAnyObjectByType<GunSoundPool>();
+		gunSoundPool = FindObjectOfType<GunSoundPool>();
 		// gunUI = FindAnyObjectByType<GunUIController>() as GunUIController;
 		gunUI = GetComponent<GunUIController>();
 		moneyManager = FindObjectOfType<MoneyManager>();
+
+		
 
 		hits = new RaycastHit[100];
 		print(nameof(SO_Gun.penetrationCnt) + ": " + SO_Gun.penetrationCnt);
@@ -186,8 +188,10 @@ public class Gun : MonoBehaviour
         gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 
         // 오브젝트 풀에서 사운드 꺼냄
-        gunSoundPool.sound = SO_Gun.fireSound;
-        gunSoundPool.Pop();
+        GameObject soundGO = gunSoundPool.Pop();
+		AudioSource source = soundGO.GetComponent<AudioSource>();
+		source.clip = SO_Gun.fireSound;
+		source.Play();
 
 		// 카메라로부터 레이 발사
 		//Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
