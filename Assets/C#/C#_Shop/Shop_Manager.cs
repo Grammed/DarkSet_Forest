@@ -40,24 +40,33 @@ public class Shop_Manager : MonoBehaviour
     [SerializeField]
     private MoneyManager moneyManager;
 
-    void OnEnable() // OnEnable·Î ¹Ù²ã¾ßÇÔ SetAcitveÇÒ·Á¸é
-    {
-        weaponManager = FindAnyObjectByType<WeaponManager>();
-        moneyManager = FindObjectOfType<MoneyManager>();
-        
 
+	private void Start()
+	{
+		weaponManager = FindObjectOfType<WeaponManager>();
+		moneyManager = FindObjectOfType<MoneyManager>();
+
+        moneyManager.Coin = 1000;
+	}
+
+	void OnEnable() // OnEnable·Î ¹Ù²ã¾ßÇÔ SetAcitveÇÒ·Á¸é
+    {
         MainGun.sprite = shop_Main_Gun_Value[0].GunImage;
         SubGun.sprite = shop_Sub_Gun_Value[0].GunImage;
         isMainGun = true;
         MainGun_Panel.SetActive(true);
         SubGun_Panel.SetActive(false);
-        Bullettext.text = Bullet.ToString();
+
+        GunIndex = 0;
+		MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
+		MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+		Bullettext.text = Bullet.ToString();
         //HPtext.text = HP.ToString();
         moneyManager.Dontmoney.SetActive(false);
 
 
-        Bullet = gunScript.spareAmmo; //¾ø¾Ú
-        moneyManager.Coin = 1000000; // ¾ø¾Ú
+        // Bullet = gunScript.spareAmmo; //¾ø¾Ú
+        // moneyManager.Coin = 1000000; // ¾ø¾Ú
     }
 
     private void Update()

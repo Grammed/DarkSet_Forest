@@ -9,8 +9,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource Sound;
 
     [Header("UI")]
-    [SerializeField]
-    private Slider HP;
+    public Slider HP;
     [SerializeField]
     private Slider Stamina;
 
@@ -23,8 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpPower = 6f; // 점프할 때 힘
 
-    [SerializeField]
-    private float lookSensitivity = 5f; // 마우스 감도
+    public float lookSensitivity = 5f; // 마우스 감도
 
     [Header("Camera")]
     [SerializeField]
@@ -132,7 +130,7 @@ public class PlayerController : MonoBehaviour
             isJumping = false; // 점프 중이 아님
     }
 
-    private void Hit(float damage)
+    public void Hit(float damage)
     {
         HP.value -= damage;
         if (HP.value <= 0)

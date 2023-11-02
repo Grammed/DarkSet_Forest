@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "SubGun Data", menuName = "Scriptable Object/SubGun Data", order = int.MaxValue)]
 
+[Obsolete]
 public class SO_SubGun : ScriptableObject
 {
 	[Header("Sub Gun Value")]

@@ -31,6 +31,9 @@ public class Enemy : MonoBehaviour
 
     public PlayerController playerController;
 
+    [SerializeField]
+    protected float damage;
+
 
     //초기화
     private void Start()
@@ -107,6 +110,7 @@ public class Enemy : MonoBehaviour
 
     public virtual IEnumerator Attack()//공격
     {
+
         yield return null;
     }
 
@@ -124,5 +128,10 @@ public class Enemy : MonoBehaviour
         {
             bunker.bunkerHp -= enemyData.Damage;
         }
+    }
+
+    protected virtual void DoDamage(float damage)
+    {
+        playerController.Hit(damage);
     }
 }

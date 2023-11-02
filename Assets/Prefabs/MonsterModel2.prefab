@@ -453,7 +453,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891931749413204908}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.53
   m_Height: 1.77
@@ -518,6 +518,7 @@ MonoBehaviour:
   killValue: 100
   waveManager: {fileID: 0}
   playerController: {fileID: 0}
+  damage: 15
 --- !u!1 &2327650631933090742
 GameObject:
   m_ObjectHideFlags: 0

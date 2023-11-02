@@ -578,6 +578,7 @@ MonoBehaviour:
   killValue: 200
   waveManager: {fileID: 0}
   playerController: {fileID: 0}
+  damage: 15
 --- !u!1 &6294676491545433349
 GameObject:
   m_ObjectHideFlags: 0
