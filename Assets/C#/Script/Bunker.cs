@@ -5,8 +5,14 @@ using UnityEngine;
 public class Bunker:MonoBehaviour
 {
     public float bunkerHp = 10000;
+    [SerializeField]
+    private GameObject GameOverTxt;
     private void Update()
     {
-        // Debug.Log("HP" + bunkerHp);
+        if(bunkerHp <= 0)
+        {
+            GameOverTxt.SetActive(true);
+            Destroy(gameObject);
+        }
     }
 }

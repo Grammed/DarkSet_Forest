@@ -5,11 +5,11 @@ using UnityEngine;
 public class ShortRangeEnemy : Enemy
 {
 
-    public override IEnumerator Attack()
+   /* public override IEnumerator Attack()
     {
         attackAni.SetTrigger("Attack");
         yield return new WaitForSeconds(1f);
         
         SetTarget();
-    }
+    }*/
 }

@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-    public enum EnemyType
+public enum EnemyType
     {//몬스터 종류
         nomal, 
         walking,
@@ -39,21 +41,27 @@ public class WaveManager : MonoBehaviour
     private float currentTime = 0;
     [SerializeField]
     private float waveTime = 30f;
+
+    public GameObject gameClearTxt;
     private void Start()
     {
         StartCoroutine("StartWave");
     }
-	private void Update()
-	{
-		if (enemyCount == 0)
-		{
+    private void Update()
+    {
+        if (enemyCount == 0)
+        {
             NextWave();
-
         }
-	}
+    }
 	public void NextWave()//다음 웨이브 실행
     {
-        if (currentTime >= waveTime)
+        if (waveStage >= wave.Count)
+        {
+            gameClearTxt.SetActive(true);
+            StartCoroutine("ReturnLobby");
+        }
+        else if (currentTime >= waveTime)
         {
             waveStage++;
             StartCoroutine("StartWave");
@@ -76,13 +84,16 @@ public class WaveManager : MonoBehaviour
     public Enemy SpawnEnemy(EnemyType type)//적 생성
     {
         print(type + "생성");
-        int spawnNum = Random.Range(0, spawnPoints.Length);
+        int spawnNum = UnityEngine.Random.Range(0, spawnPoints.Length);
         var newEnemy = Instantiate(enemyPrefab[(int)type], spawnPoints[spawnNum]).GetComponent<Enemy>();
         newEnemy.EnemyData = enemyDatas[(int)type];
         enemyCount++;
         return newEnemy;
     }
-
-   
-
+    private IEnumerator ReturnLobby()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Lobby");
+        Cursor.lockState = CursorLockMode.None;
+    }
 }

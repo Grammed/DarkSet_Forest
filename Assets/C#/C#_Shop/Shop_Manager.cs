@@ -177,7 +177,7 @@ public class Shop_Manager : MonoBehaviour
             }
 
 			SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
-			SubGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+			SubGuntext.text = shop_Sub_Gun_Value[GunIndex].GunName;
 		}
     }
 
@@ -206,7 +206,7 @@ public class Shop_Manager : MonoBehaviour
                 GunIndex = shop_Sub_Gun_Value.Count - 1;
             }
 			SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
-			SubGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
+			SubGuntext.text = shop_Sub_Gun_Value[GunIndex].GunName;
 		}
     }
 

@@ -29,19 +29,19 @@ public class SO_Gun : ScriptableObject
 
 	[Header("Recoil")]
 
-	[Tooltip("ÁÂ¿ì ¹İµ¿")]
-	/// <summary> ÁÂ¿ì ¹İµ¿ </summary>
+	[Tooltip("ì¢Œìš° ë°˜ë™")]
+	/// <summary> ì¢Œìš° ë°˜ë™ </summary>
 	public float recoilX = 1;
 
-	[Tooltip("»óÇÏ ¹İµ¿")]
-	/// <summary> »óÇÏ ¹İµ¿ </summary>
-	public float recoilY = 1; // »óÇÏ ¹İµ¿
+	[Tooltip("ìƒí•˜ ë°˜ë™")]
+	/// <summary> ìƒí•˜ ë°˜ë™ </summary>
+	public float recoilY = 1; // ìƒí•˜ ë°˜ë™
 
-	[Tooltip("ÃÑ ÀÚÃ¼ ¾ÕµÚ ¹İµ¿")]
-	/// <summary> ÃÑ ÀÚÃ¼ ¾ÕµÚ ¹İµ¿ </summary>
-	public float recoilZ = 1; // ¾ÕµÚ ¹İµ¿
+	[Tooltip("ì´ ìì²´ ì•ë’¤ ë°˜ë™")]
+	/// <summary> ì´ ìì²´ ì•ë’¤ ë°˜ë™ </summary>
+	public float recoilZ = 1; // ì•ë’¤ ë°˜ë™
 
-	[Tooltip("ÀÎÃ¼°øÇĞ, ³ôÀ»¼ö·Ï ¹İµ¿ È¸º¹ÀÌ ºü¸§")]
+	[Tooltip("ì¸ì²´ê³µí•™, ë†’ì„ìˆ˜ë¡ ë°˜ë™ íšŒë³µì´ ë¹ ë¦„")]
 	public float ergonomic = 70;
 
 
@@ -58,17 +58,17 @@ public class SO_Gun : ScriptableObject
 
 	[Header("Reload")]
 	public float reloadTime = 3f;
-	public bool isClosedBolt = true; // Å¬·ÎÁîµå º¼Æ®
+	public bool isClosedBolt = true; // í´ë¡œì¦ˆë“œ ë³¼íŠ¸
 	#endregion
 
 	#region Ammo
 
 	[Header("Ammo")]
-	public int maxAmmoInMag = 30; // ÅºÃ¢ Å©±â
-	public int ammoInMag; // ÇöÀç ÅºÃ¢ ³»¿¡ ÀÖ´Â ÃÑ¾Ë °³¼ö
+	public int maxAmmoInMag = 30; // íƒ„ì°½ í¬ê¸°
+	public int ammoInMag; // í˜„ì¬ íƒ„ì°½ ë‚´ì— ìˆëŠ” ì´ì•Œ ê°œìˆ˜
 	[SerializeField]
-	public int maxSpareAmmo; // ¿©ºĞ ÃÑ¾ËÀÇ ÃÖ´ë °³¼ö
-	public int spareAmmo; // ÇöÀç ³²Àº ¿©ºĞ ÃÑ¾Ë
+	public int maxSpareAmmo; // ì—¬ë¶„ ì´ì•Œì˜ ìµœëŒ€ ê°œìˆ˜
+	public int spareAmmo; // í˜„ì¬ ë‚¨ì€ ì—¬ë¶„ ì´ì•Œ
 
 	#endregion
 
