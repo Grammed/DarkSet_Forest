@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isJumping = false; // 현재 점프 중인가?
 
-
+    [SerializeField]
+    private GameObject GameOverTxt;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -147,6 +148,7 @@ public class PlayerController : MonoBehaviour
 
     private void DestroyPlayer()
     {
+        GameOverTxt.SetActive(true);
         Destroy(gameObject);
     }
 }

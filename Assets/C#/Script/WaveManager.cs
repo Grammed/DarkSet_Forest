@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,17 +40,18 @@ public class WaveManager : MonoBehaviour
     private float currentTime = 0;
     [SerializeField]
     private float waveTime = 30f;
+
+    public GameObject gameClearTxt;
     private void Start()
     {
         StartCoroutine("StartWave");
     }
 	private void Update()
 	{
-		if (enemyCount == 0)
-		{
-            NextWave();
-
-        }
+            if (enemyCount == 0)
+            {
+                NextWave();
+            }
 	}
 	public void NextWave()//促澜 傀捞宏 角青
     {
@@ -76,7 +78,7 @@ public class WaveManager : MonoBehaviour
     public Enemy SpawnEnemy(EnemyType type)//利 积己
     {
         print(type + "积己");
-        int spawnNum = Random.Range(0, spawnPoints.Length);
+        int spawnNum = UnityEngine.Random.Range(0, spawnPoints.Length);
         var newEnemy = Instantiate(enemyPrefab[(int)type], spawnPoints[spawnNum]).GetComponent<Enemy>();
         newEnemy.EnemyData = enemyDatas[(int)type];
         enemyCount++;
