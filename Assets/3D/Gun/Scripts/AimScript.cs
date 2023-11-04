@@ -54,7 +54,7 @@ public class AimScript : MonoBehaviour
 
 		if (mouseWheel != 0)
         {
-            fovWhenAim -= mouseWheel * zoomSpeed;
+            fovWhenAim += mouseWheel * zoomSpeed;
             fovWhenAim = Mathf.Clamp(fovWhenAim, minFovWhenAim, maxFovWhenAim);
         }
     }
