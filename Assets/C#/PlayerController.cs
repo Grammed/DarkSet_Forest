@@ -142,7 +142,8 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
-        dieSound.Play();
+        if (dieSound)
+            dieSound.Play();
         Invoke("DestroyPlayer", 3);
     }
 
