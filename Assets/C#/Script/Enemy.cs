@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
     private MoneyManager moneyManager;
 
     public PlayerController playerController;
-    bool canAttack = false;
+    bool canAttack = true;
 
 
     //√ ±‚»≠
@@ -115,8 +115,10 @@ public class Enemy : MonoBehaviour
 
     private void Dead()
     {
-        waveManager.currentEnemyCnt--;
+        waveManager.CurrentEnemyCount--;
         moneyManager.Coin += killValue;
+
+        GameManager.Instance.killedEnemy += 1;
         // playerController.enemySound.Play();
         Destroy(gameObject);
     }

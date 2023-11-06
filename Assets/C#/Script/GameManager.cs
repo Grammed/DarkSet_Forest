@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 	public GameObject goWhenLose;
 
 	public string lobbySceneName;
+	public int killedEnemy = 0;
 
 	private void Awake()
 	{

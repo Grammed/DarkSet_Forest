@@ -14,5 +14,7 @@ public class Bunker:MonoBehaviour
             GameOverTxt.SetActive(true);
             Destroy(gameObject);
         }
+
+        print(bunkerHp);
     }
 }

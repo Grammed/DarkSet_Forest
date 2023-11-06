@@ -167,8 +167,10 @@ public class Gun : MonoBehaviour
         // 키 클릭 + 장전 중 아님 + 최대 탄수 아님 + 여분 탄수 하나라도 남아있음
         if (Input.GetKeyDown(reloadKey))
         {
-            bool canReload = !isReloading && ammoInMag <= maxAmmoInMag && spareAmmo >= 1;
-            if (canReload)
+            bool canReload = !isReloading && spareAmmo >= 1;
+			bool ammoNotEnough = ammoInMag < maxAmmoInMag || (ammoInMag == maxAmmoInMag && SO_Gun.isClosedBolt);
+
+			if (canReload && ammoNotEnough)
             {
                 StartCoroutine(Reload());
                 print("can reload");

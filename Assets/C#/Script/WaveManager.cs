@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum EnemyType
 {//몬스터 종류
@@ -26,13 +27,35 @@ public class WaveCycle
 
 public class WaveManager : MonoBehaviour
 {
-    public int currentEnemyCnt = 0; // 남은 적 수
+    private int currentEnemyCount = 0;
+    public int CurrentEnemyCount
+    {
+        get => currentEnemyCount;
+        set
+        {
+            currentEnemyCount = value;
+            currentEnemyText.text = currentEnemyCount + " 남음";
+
+			if (CurrentEnemyCount == 0)
+			{
+				NextWave();
+			}
+		}
+    }
     private int enemyCntInCurrentWave; // 현재 웨이브에 스폰된 적 수
     public int enemyCntUntilNow = 0; // 총 스폰된 모든 적 수
     [SerializeField] private List<Wave> wave = new List<Wave>();
 
-    private int waveStage = 0;
-    public int WaveStage => waveStage;
+    private int _currentWave = 0;
+    public int CurrentWave
+    {
+        get => _currentWave;
+        set
+        {
+            _currentWave = value;
+            waveText.text = "Wave " + _currentWave;
+		}
+    }
 
     [SerializeField]
     private List<EnemyData> enemyDatas;
@@ -45,16 +68,30 @@ public class WaveManager : MonoBehaviour
     private float waveTime = 30f;
 
     public GameObject gameClearTxt;
+
+    [SerializeField]
+    private Text intermissionText;
+
+    [SerializeField]
+    private Text waveText;
+
+    [SerializeField]
+    private Text currentEnemyText;
+
     private void Start()
     {
         //StartCoroutine("LegacyStartWave");
         StartCoroutine(StartWave());
     }
-    private void Update()
+
+	KeyCode skipIntermissionKey = KeyCode.Y;
+    bool skipTrigger = false;
+    bool isInIntermission = false;
+	private void Update()
     {
-        if (currentEnemyCnt == 0)
+        if (Input.GetKeyDown(skipIntermissionKey) && isInIntermission)
         {
-            NextWave();
+            skipTrigger = true;
         }
     }
     public void NextWave()//다음 웨이브 실행
@@ -64,35 +101,37 @@ public class WaveManager : MonoBehaviour
         //    gameClearTxt.SetActive(true);
         //    StartCoroutine("ReturnLobby");
         //} // 
-        /*else*/if (currentTime >= waveTime)
-        {
-            // StartCoroutine("LegacyStartWave");
-            StartCoroutine(StartWave());
-            currentTime = 0;
-        }
-        currentTime += Time.deltaTime;
+        ///else if (currentTime >= waveTime)
+        //{
+        //    // StartCoroutine("LegacyStartWave");
+        //    StartCoroutine(StartIntermission());
+        //    currentTime = 0;
+        //}
+        //currentTime += Time.deltaTime;
+
+        StartCoroutine(StartIntermission());
     }
     private IEnumerator LegacyStartWave()//웨이브 실행
     {
-        for (int i = 0; i < wave[waveStage].waveCycles.Count; i++)
+        for (int i = 0; i < wave[CurrentWave].waveCycles.Count; i++)
         {
-            for (int j = 0; j < wave[waveStage].waveCycles[i].enemyAmount; j++)
+            for (int j = 0; j < wave[CurrentWave].waveCycles[i].enemyAmount; j++)
             {
-                var enemy = SpawnEnemy(wave[waveStage].waveCycles[i].enemyType);
+                var enemy = SpawnEnemy(wave[CurrentWave].waveCycles[i].enemyType);
             }
-            yield return new WaitForSeconds(wave[waveStage].waveCycles[i].waitTime);
+            yield return new WaitForSeconds(wave[CurrentWave].waveCycles[i].waitTime);
         }
     }
 
     private IEnumerator StartWave()
     {
-        waveStage += 1;
+        CurrentWave += 1;
         enemyCntInCurrentWave += UnityEngine.Random.Range(2, 4);
         enemyCntUntilNow += enemyCntInCurrentWave;
 
         for (int i = 0; i < enemyCntInCurrentWave; i++)
         {
-            EnemyType randomType = (EnemyType)UnityEngine.Random.Range(0, 3);
+            EnemyType randomType = (EnemyType)UnityEngine.Random.Range(0, 2);
             SpawnEnemy(randomType);
         }
         yield return null;
@@ -104,7 +143,47 @@ public class WaveManager : MonoBehaviour
         int spawnNum = UnityEngine.Random.Range(0, spawnPoints.Length);
         var newEnemy = Instantiate(enemyPrefab[(int)type], spawnPoints[spawnNum]).GetComponent<Enemy>();
         newEnemy.EnemyData = enemyDatas[(int)type];
-        currentEnemyCnt++;
+        CurrentEnemyCount++;
         return newEnemy;
     }
+
+    public void EnableIntermission()
+    {
+        
+        intermissionText.gameObject.SetActive(true);
+    }
+
+    public void DisableIntermission()
+    {
+       
+        intermissionText.gameObject.SetActive(false);
+    }
+
+    public float intermissionTime;
+    
+    public IEnumerator StartIntermission()
+    {
+		isInIntermission = true;
+		EnableIntermission();
+        float elapsedTime = intermissionTime;
+
+        while(elapsedTime > 0f)
+        {
+            if (skipTrigger)
+            {
+                skipTrigger = false;
+                break;
+			}
+            intermissionText.text = "준비 시간: " + (int)elapsedTime + $"\n스킵하려면 {skipIntermissionKey}를 누르세요.";
+            elapsedTime -= Time.deltaTime;
+            yield return null;
+        }
+		isInIntermission = false;
+
+		StartCoroutine(StartWave());
+		intermissionText.text = "웨이브 " + CurrentWave + " 시작";
+
+        yield return new WaitForSeconds(3f);
+		DisableIntermission();
+	}
 }
