@@ -1,20 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bunker:MonoBehaviour
 {
-    public float bunkerHp = 10000;
+    public float nowBunkerHp;
+    public float maxBunkerHp = 2000;
     [SerializeField]
     private GameObject GameOverTxt;
-    private void Update()
+
+    [SerializeField]
+    private Slider healthSlider;
+
+	private void Awake()
+	{
+        nowBunkerHp = maxBunkerHp;
+	}
+	private void Update()
     {
-        if(bunkerHp <= 0)
+        if(nowBunkerHp <= 0)
         {
-            GameOverTxt.SetActive(true);
+            GameManager.Instance.LoseGame();
             Destroy(gameObject);
         }
 
-        print(bunkerHp);
+        healthSlider.value = nowBunkerHp / maxBunkerHp;
+
+        print(nowBunkerHp);
     }
 }

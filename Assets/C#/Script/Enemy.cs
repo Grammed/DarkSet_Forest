@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
         {
             if (canAttack)
             {
-				bunker.bunkerHp -= enemyData.Damage;
+				bunker.nowBunkerHp -= enemyData.Damage;
                 AfterAttack();
 			}
         }

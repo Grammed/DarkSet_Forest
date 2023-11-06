@@ -216,9 +216,4 @@ public class Shop_Manager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         moneyManager.Dontmoney.SetActive(false);
     }
-
-    public void Escape()
-    {
-        throw new System.NotImplementedException();
-    }
 }

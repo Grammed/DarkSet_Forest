@@ -2,17 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance => _instance;
     private static GameManager _instance;
 
-	public GameObject goWhenWin;
-	public GameObject goWhenLose;
+	[SerializeField] GameObject canvasGO;
+	[SerializeField] GameObject goWhenWin;
+	[SerializeField] GameObject goWhenLose;
 
-	public string lobbySceneName;
+	[SerializeField] Text killedEnemyText;
+	[SerializeField] Text survivedWaveText;
+	[SerializeField] Text earnGoldText;
+
+	[SerializeField] string lobbySceneName;
+
+	[HideInInspector]
 	public int killedEnemy = 0;
+	[HideInInspector]
+	public int survivedWave = 0;
+	[HideInInspector]
+	public int earnGold = 0;
 
 	private void Awake()
 	{
@@ -33,12 +45,23 @@ public class GameManager : MonoBehaviour
 
 	public void WinGame()
 	{
+		EndGame();
 		goWhenWin.SetActive(true);
 	}
 
 	public void LoseGame()
 	{
+		EndGame();
 		goWhenLose.SetActive(true);
+	}
+
+	private void EndGame()
+	{
+		canvasGO.SetActive(true);
+
+		killedEnemyText.text = "무력화한 적 수: " + killedEnemy;
+		survivedWaveText.text = "생존한 웨이브 수: " + survivedWave;
+		earnGoldText.text = "얻은 코인: " + earnGold;
 	}
 
 	public void GoLobby()
