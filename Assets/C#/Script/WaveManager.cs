@@ -5,24 +5,25 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public enum EnemyType
-    {//몬스터 종류
-        nomal, 
-        walking,
-        arrow
-    }
-    [System.Serializable]
-    public class Wave
-    {
-        [SerializeField] public List<WaveCycle> waveCycles = new List<WaveCycle>();
-    }
+{//몬스터 종류
+    nomal, 
+    walking,
+    arrow
+}
 
-    [System.Serializable]
-    public class WaveCycle
-    {
-        [SerializeField] public EnemyType enemyType;
-        [SerializeField] public int enemyAmount;
-        [SerializeField] public float waitTime;
-    }
+[System.Serializable]
+public class Wave
+{
+    [SerializeField] public List<WaveCycle> waveCycles = new List<WaveCycle>();
+}
+
+[System.Serializable]
+public class WaveCycle
+{
+    [SerializeField] public EnemyType enemyType;
+    [SerializeField] public int enemyAmount;
+    [SerializeField] public float waitTime;
+}
 
 public class WaveManager : MonoBehaviour
 {
