@@ -144,12 +144,13 @@ public class PlayerController : MonoBehaviour
     {
         if (dieSound)
             dieSound.Play();
-        Invoke("DestroyPlayer", 3);
+        Invoke(nameof(GameOver), 3);
     }
 
-    private void DestroyPlayer()
+    private void GameOver()
     {
         GameOverTxt.SetActive(true);
-        Destroy(gameObject);
+        GameManager.Instance.LoseGame();
+        // Destroy(gameObject);
     }
 }

@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 	public GameObject goWhenWin;
 	public GameObject goWhenLose;
 
-	public Scene scene;
+	public string lobbySceneName;
 
 	private void Awake()
 	{
@@ -23,15 +23,25 @@ public class GameManager : MonoBehaviour
 			_instance = this;
 			DontDestroyOnLoad(gameObject);
 		}
+
+		if (lobbySceneName == string.Empty)
+		{
+			lobbySceneName = "Lobby"; // auto-assign
+		}
 	}
 
 	public void WinGame()
 	{
 		goWhenWin.SetActive(true);
 	}
-	
+
 	public void LoseGame()
 	{
 		goWhenLose.SetActive(true);
+	}
+
+	public void GoLobby()
+	{
+		SceneManager.LoadScene(lobbySceneName);
 	}
 }
