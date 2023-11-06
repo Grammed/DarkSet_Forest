@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
     private MoneyManager moneyManager;
 
     public PlayerController playerController;
+    bool canAttack = false;
 
 
     //√ ±‚»≠
@@ -124,15 +125,36 @@ public class Enemy : MonoBehaviour
     {
         if (collision.collider.CompareTag("Bunker"))
         {
-            bunker.bunkerHp -= enemyData.Damage;
+            if (canAttack)
+            {
+				bunker.bunkerHp -= enemyData.Damage;
+                AfterAttack();
+			}
         }
         if (collision.collider.CompareTag("Player"))
         {
-            DoDamage(enemyData.Damage);
+            if (canAttack)
+            {
+				DoDamage(enemyData.Damage / 100f);
+                AfterAttack();
+			}
         }
     }
     private void DoDamage(float damage)
     {
         playerController.Hit(damage);
+    }
+
+    float attackDelay = 1.5f;
+    IEnumerator DelayDamage()
+    {
+        yield return new WaitForSeconds(attackDelay);
+        canAttack = true;
+    }
+
+    void AfterAttack()
+    {
+        canAttack = false;
+        StartCoroutine(DelayDamage());
     }
 }
