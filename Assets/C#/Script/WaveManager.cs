@@ -101,7 +101,7 @@ public class WaveManager : MonoBehaviour
         //    gameClearTxt.SetActive(true);
         //    StartCoroutine("ReturnLobby");
         //} // 
-        ///else if (currentTime >= waveTime)
+        //else if (currentTime >= waveTime)
         //{
         //    // StartCoroutine("LegacyStartWave");
         //    StartCoroutine(StartIntermission());
@@ -155,7 +155,6 @@ public class WaveManager : MonoBehaviour
 
     public void DisableIntermission()
     {
-       
         intermissionText.gameObject.SetActive(false);
     }
 
@@ -163,6 +162,8 @@ public class WaveManager : MonoBehaviour
     
     public IEnumerator StartIntermission()
     {
+        GameManager.Instance.survivedWave = CurrentWave;
+
 		isInIntermission = true;
 		EnableIntermission();
         float elapsedTime = intermissionTime;
@@ -174,7 +175,7 @@ public class WaveManager : MonoBehaviour
                 skipTrigger = false;
                 break;
 			}
-            intermissionText.text = "준비 시간: " + (int)elapsedTime + $"\n스킵하려면 {skipIntermissionKey}를 누르세요.";
+            intermissionText.text = "준비 시간: " + (int)elapsedTime /*+ $"\n스킵하려면 {skipIntermissionKey}를 누르세요."*/;
             elapsedTime -= Time.deltaTime;
             yield return null;
         }

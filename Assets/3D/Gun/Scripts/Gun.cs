@@ -199,21 +199,21 @@ public class Gun : MonoBehaviour
 		//Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		int hitCount = Physics.RaycastNonAlloc(ray, hits, 1000f);
+		//int hitCount = Physics.RaycastNonAlloc(ray, hits, 1000f);
 
 
-		Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
-		int enemyHitCount = 0;
+		//Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
+		//int enemyHitCount = 0;
 
-		for (int i = 0; i < Mathf.Min(hitCount, SO_Gun.penetrationCnt); i++)
-		{
-			RaycastHit _hit = hits[i];
-			if (_hit.transform == null) continue;
-			if (_hit.transform.CompareTag("Enemy"))
-			{
-				print("enemy hit! " + i);
-			}
-		}
+		//for (int i = 0; i < Mathf.Min(hitCount, SO_Gun.penetrationCnt); i++)
+		//{
+		//	RaycastHit _hit = hits[i];
+		//	if (_hit.transform == null) continue;
+		//	if (_hit.transform.CompareTag("Enemy"))
+		//	{
+		//		print("enemy hit! " + i);
+		//	}
+		//}
 
 		//if (hitCount > 0)
 		//{
@@ -252,6 +252,7 @@ public class Gun : MonoBehaviour
 				if (enemy != null)
 				{
 					moneyManager.Coin += SO_Gun.hitGold;
+					GameManager.Instance.earnGold += SO_Gun.hitGold;
 					enemy.GetDamage(SO_Gun.gunDamage);
 
 				} else
