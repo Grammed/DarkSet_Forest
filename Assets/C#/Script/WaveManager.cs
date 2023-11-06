@@ -6,11 +6,10 @@ using UnityEngine.SceneManagement;
 
 public enum EnemyType
 {//몬스터 종류
-    nomal, 
+    nomal,
     walking,
     arrow
 }
-
 [System.Serializable]
 public class Wave
 {
@@ -27,7 +26,9 @@ public class WaveCycle
 
 public class WaveManager : MonoBehaviour
 {
-    public int enemyCount = 0;
+    public int currentEnemyCnt = 0; // 남은 적 수
+    private int enemyCntInCurrentWave; // 현재 웨이브에 스폰된 적 수
+    public int enemyCntUntilNow = 0; // 총 스폰된 모든 적 수
     [SerializeField] private List<Wave> wave = new List<Wave>();
 
     private int waveStage = 0;
@@ -46,31 +47,32 @@ public class WaveManager : MonoBehaviour
     public GameObject gameClearTxt;
     private void Start()
     {
-        StartCoroutine("StartWave");
+        //StartCoroutine("LegacyStartWave");
+        StartCoroutine(StartWave());
     }
     private void Update()
     {
-        if (enemyCount == 0)
+        if (currentEnemyCnt == 0)
         {
             NextWave();
         }
     }
-	public void NextWave()//다음 웨이브 실행
+    public void NextWave()//다음 웨이브 실행
     {
-        if (waveStage >= wave.Count)
+        //if (waveStage >= wave.Count)
+        //{
+        //    gameClearTxt.SetActive(true);
+        //    StartCoroutine("ReturnLobby");
+        //} // 
+        /*else*/if (currentTime >= waveTime)
         {
-            gameClearTxt.SetActive(true);
-            StartCoroutine("ReturnLobby");
-        }
-        else if (currentTime >= waveTime)
-        {
-            waveStage++;
-            StartCoroutine("StartWave");
+            // StartCoroutine("LegacyStartWave");
+            StartCoroutine(StartWave());
             currentTime = 0;
         }
         currentTime += Time.deltaTime;
     }
-    private IEnumerator StartWave()//웨이브 실행
+    private IEnumerator LegacyStartWave()//웨이브 실행
     {
         for (int i = 0; i < wave[waveStage].waveCycles.Count; i++)
         {
@@ -82,19 +84,27 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    private IEnumerator StartWave()
+    {
+        waveStage += 1;
+        enemyCntInCurrentWave += UnityEngine.Random.Range(2, 4);
+        enemyCntUntilNow += enemyCntInCurrentWave;
+
+        for (int i = 0; i < enemyCntInCurrentWave; i++)
+        {
+            EnemyType randomType = (EnemyType)UnityEngine.Random.Range(0, 3);
+            SpawnEnemy(randomType);
+        }
+        yield return null;
+    }
+
     public Enemy SpawnEnemy(EnemyType type)//적 생성
     {
         print(type + "생성");
         int spawnNum = UnityEngine.Random.Range(0, spawnPoints.Length);
         var newEnemy = Instantiate(enemyPrefab[(int)type], spawnPoints[spawnNum]).GetComponent<Enemy>();
         newEnemy.EnemyData = enemyDatas[(int)type];
-        enemyCount++;
+        currentEnemyCnt++;
         return newEnemy;
-    }
-    private IEnumerator ReturnLobby()
-    {
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Lobby");
-        Cursor.lockState = CursorLockMode.None;
     }
 }
