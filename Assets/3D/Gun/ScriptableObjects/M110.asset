@@ -15,19 +15,19 @@ MonoBehaviour:
   gunName: M110 SASS
   type: 0
   prefab: {fileID: 8659974191285446432, guid: c673e039fdceba343850fd6bf57dd810, type: 3}
-  gunDamage: 50
-  fireTime: 0.3
+  gunDamage: 100
+  fireTime: 1
   isAutomatic: 0
-  hitGold: 35
+  hitGold: 100
   penetrationCnt: 7
   penetrateDamagePenalty: 2
   recoilX: 0.5
-  recoilY: 5
+  recoilY: 10
   recoilZ: 1
-  ergonomic: 70
+  ergonomic: 50
   reloadSound: {fileID: 8300000, guid: e708efa79c93f614c87f69350065d926, type: 3}
   fireSound: {fileID: 8300000, guid: abb3c6ca98099904a976ca971b5062ce, type: 3}
-  reloadTime: 3
+  reloadTime: 5
   isClosedBolt: 1
   maxAmmoInMag: 10
   ammoInMag: 10

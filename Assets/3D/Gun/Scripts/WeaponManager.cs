@@ -18,10 +18,12 @@ public class WeaponManager : MonoBehaviour
 	public GameObject primaryLocation; // primaryWeapon의 부모
 	//public SO_Gun primarySO;
 	public GameObject primaryWeapon;
+	public Gun primaryGunScript;
 
 	public GameObject secondaryLocation; // secondaryWeapon의 부모
 	//public SO_Gun secondarySO;
 	public GameObject secondaryWeapon;
+	public Gun secondaryGunScript;
 
 	[SerializeField] TextMeshProUGUI ammoText;
 	[SerializeField] TextMeshProUGUI weaponNameText;
@@ -163,8 +165,8 @@ public class WeaponManager : MonoBehaviour
 				{
 					secondaryLocation.SetActive(false);
 					primaryLocation.SetActive(true);
-					weaponNameText.text = primaryWeapon.GetComponent<Gun>().SO_Gun.gunName;
-					
+
+					InitGun(primaryWeapon);
 				}
 				break;
 			case WeaponType.Secondary:
@@ -172,8 +174,8 @@ public class WeaponManager : MonoBehaviour
 				{
 					secondaryLocation.SetActive(true);
 					primaryLocation.SetActive(false);
-					weaponNameText.text = secondaryWeapon.GetComponent<Gun>().SO_Gun.gunName;
-					
+
+					InitGun(secondaryWeapon);
 				}
 				break;
 		}
@@ -233,6 +235,8 @@ public class WeaponManager : MonoBehaviour
 		{
 			weaponNameText.text = soGun.gunName;
 		}
+
+		primaryGunScript = newGun.GetComponent<Gun>();
 	}
 
 	//public void ChangePrimary(int gunIdx)
@@ -266,6 +270,8 @@ public class WeaponManager : MonoBehaviour
 		{
 			weaponNameText.text = soGun.gunName;
 		}
+
+		secondaryGunScript = newGun.GetComponent<Gun>();
 	}
 
 	//public void ChangeSecondary(int gunIdx)
@@ -289,6 +295,7 @@ public class WeaponManager : MonoBehaviour
 
 		Gun gunScript = gunGO.GetComponent<Gun>();
 		gunScript.gunSoundPool = soundPool;
+
 		
 		if (gunScript.SO_Gun == null)
 		{

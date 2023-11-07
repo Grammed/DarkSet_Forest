@@ -31,7 +31,7 @@ public class Shop_Manager : MonoBehaviour
     public Text Bullettext;
     public int Bullet;
     public Text HPtext;
-    //public PlayerController PC;
+    public PlayerController player;
 
     private int GunIndex;
 
@@ -47,6 +47,7 @@ public class Shop_Manager : MonoBehaviour
 		moneyManager = FindObjectOfType<MoneyManager>();
 
         moneyManager.Coin = 1000;
+        player = FindObjectOfType<PlayerController>();
 	}
 
 	void OnEnable() // OnEnable로 바꿔야함 SetAcitve할려면
@@ -126,46 +127,21 @@ public class Shop_Manager : MonoBehaviour
 
     public void Bullet_Buy()
     {
-        Gun primary = null;
-        if (weaponManager.primaryWeapon)
-		    weaponManager.primaryWeapon.GetComponent<Gun>();
+		SO_Gun so_gun = weaponManager.primaryWeapon.GetComponent<SO_Gun>();
+        weaponManager.ChangePrimary(weaponManager.primaryWeapon, so_gun);
 
-        Gun secondary = null;
-        if (weaponManager.secondaryWeapon)
-            secondary = weaponManager.secondaryWeapon.GetComponent<Gun>();
-
-		if (moneyManager.Coin >= 500 && (primary && primary.spareAmmo < primary.maxSpareAmmo) || (secondary && secondary.spareAmmo < secondary.maxSpareAmmo))
-        {
-            moneyManager.Coin -= 500;
-            
-            if (primary)
-            {
-				primary.spareAmmo += primary.maxAmmoInMag;
-				primary.spareAmmo
-			        = Mathf.Min(primary.maxSpareAmmo + primary.maxAmmoInMag - primary.ammoInMag, primary.spareAmmo);
-			}
-
-            if (secondary)
-            {
-				secondary.spareAmmo += secondary.maxAmmoInMag;
-				secondary.spareAmmo
-					= Mathf.Min(secondary.maxSpareAmmo + secondary.maxAmmoInMag - secondary.ammoInMag, secondary.spareAmmo);
-			}
-            
-            
-        }
-        else
-        {
-            StartCoroutine("NotEnoughMoney");
-        }
+       
     }
 
     public void Healing_Buy()
     {
-        if (moneyManager.Coin >= 500)
+        if (moneyManager.Coin >= 1000)
         {
             moneyManager.Coin -= 1000;
             Debug.Log("체력회복");
+
+            player.HP.value = Mathf.Min(player.HP.value + 0.5f, 1f);
+            
             //Hp += 50;
         }
         else

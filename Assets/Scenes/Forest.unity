@@ -32276,6 +32276,7 @@ MonoBehaviour:
   Bullettext: {fileID: 991103817}
   Bullet: 0
   HPtext: {fileID: 1532933661}
+  player: {fileID: 0}
   moneyManager: {fileID: 744080657}
 --- !u!4 &1017710435
 Transform:
@@ -42132,7 +42133,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '500 Coin
+  m_Text: '200 Coin
 
 '
 --- !u!222 &1333100877
@@ -51286,8 +51287,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryLocation: {fileID: 1057274158}
   primaryWeapon: {fileID: 0}
+  primaryGunScript: {fileID: 0}
   secondaryLocation: {fileID: 1873647161}
   secondaryWeapon: {fileID: 0}
+  secondaryGunScript: {fileID: 0}
   ammoText: {fileID: 2102025277}
   weaponNameText: {fileID: 1093611136}
   _bulletImage: {fileID: 64181408}
