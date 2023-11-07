@@ -126,10 +126,33 @@ public class Shop_Manager : MonoBehaviour
 
     public void Bullet_Buy()
     {
-        if (moneyManager.Coin >= 500 && gunScript.spareAmmo <= gunScript.maxSpareAmmo)
+        Gun primary = null;
+        if (weaponManager.primaryWeapon)
+		    weaponManager.primaryWeapon.GetComponent<Gun>();
+
+        Gun secondary = null;
+        if (weaponManager.secondaryWeapon)
+            secondary = weaponManager.secondaryWeapon.GetComponent<Gun>();
+
+		if (moneyManager.Coin >= 500 && (primary && primary.spareAmmo < primary.maxSpareAmmo) || (secondary && secondary.spareAmmo < secondary.maxSpareAmmo))
         {
             moneyManager.Coin -= 500;
-			gunScript.spareAmmo += 30;
+            
+            if (primary)
+            {
+				primary.spareAmmo += primary.maxAmmoInMag;
+				primary.spareAmmo
+			        = Mathf.Min(primary.maxSpareAmmo + primary.maxAmmoInMag - primary.ammoInMag, primary.spareAmmo);
+			}
+
+            if (secondary)
+            {
+				secondary.spareAmmo += secondary.maxAmmoInMag;
+				secondary.spareAmmo
+					= Mathf.Min(secondary.maxSpareAmmo + secondary.maxAmmoInMag - secondary.ammoInMag, secondary.spareAmmo);
+			}
+            
+            
         }
         else
         {
@@ -215,5 +238,16 @@ public class Shop_Manager : MonoBehaviour
         moneyManager.Dontmoney.SetActive(true);
         yield return new WaitForSeconds(1f);
         moneyManager.Dontmoney.SetActive(false);
+    }
+
+    public void Escape(int requiredMoney)
+    {
+        if (moneyManager.Coin >= requiredMoney)
+        {
+            GameManager.Instance.WinGame();
+        } else
+        {
+            StartCoroutine(nameof(NotEnoughMoney));
+        }
     }
 }

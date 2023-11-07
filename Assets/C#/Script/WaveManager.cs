@@ -73,10 +73,15 @@ public class WaveManager : MonoBehaviour
     private Text intermissionText;
 
     [SerializeField]
+    private Text skipText;
+
+   [SerializeField]
     private Text waveText;
 
     [SerializeField]
     private Text currentEnemyText;
+
+   
 
     private void Start()
     {
@@ -149,8 +154,8 @@ public class WaveManager : MonoBehaviour
 
     public void EnableIntermission()
     {
-        
         intermissionText.gameObject.SetActive(true);
+        skipText.gameObject.SetActive(true);
     }
 
     public void DisableIntermission()
@@ -183,6 +188,7 @@ public class WaveManager : MonoBehaviour
 
 		StartCoroutine(StartWave());
 		intermissionText.text = "웨이브 " + CurrentWave + " 시작";
+        skipText.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(3f);
 		DisableIntermission();

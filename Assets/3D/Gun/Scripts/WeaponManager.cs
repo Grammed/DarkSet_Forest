@@ -17,11 +17,11 @@ public class WeaponManager : MonoBehaviour
 	// 무기는 활성화 상태여야 함, 주무기와 보조무기 합쳐서 최소 하나 이상
 	public GameObject primaryLocation; // primaryWeapon의 부모
 	//public SO_Gun primarySO;
-	private GameObject primaryWeapon;
+	public GameObject primaryWeapon;
 
 	public GameObject secondaryLocation; // secondaryWeapon의 부모
 	//public SO_Gun secondarySO;
-	private GameObject secondaryWeapon;
+	public GameObject secondaryWeapon;
 
 	[SerializeField] TextMeshProUGUI ammoText;
 	[SerializeField] TextMeshProUGUI weaponNameText;
@@ -141,12 +141,12 @@ public class WeaponManager : MonoBehaviour
 			bool toPrimary = Input.GetKeyDown(primaryKey) || wheelInput > 0;
 			bool toSecondary = Input.GetKeyDown(secondaryKey) || wheelInput < 0;
 
-			if (toPrimary && primaryLocation != null) // 주무기 교체
+			if (toPrimary && primaryWeapon) // 주무기 교체
 			{
 				SwapTo(WeaponType.Primary);
 			}
 
-			if (toSecondary && secondaryLocation != null) // 보조무기 교체
+			if (toSecondary && secondaryWeapon) // 보조무기 교체
 			{
 				SwapTo(WeaponType.Secondary);
 			}
@@ -159,7 +159,7 @@ public class WeaponManager : MonoBehaviour
 		switch(type)
 		{
 			case WeaponType.Primary:
-				if (primaryLocation && primaryLocation.transform.childCount > 0)
+				if (secondaryLocation.transform.childCount >= 1)
 				{
 					secondaryLocation.SetActive(false);
 					primaryLocation.SetActive(true);
@@ -168,7 +168,7 @@ public class WeaponManager : MonoBehaviour
 				}
 				break;
 			case WeaponType.Secondary:
-				if (secondaryLocation.transform.childCount > 0)
+				if (primaryLocation.transform.childCount >= 1)
 				{
 					secondaryLocation.SetActive(true);
 					primaryLocation.SetActive(false);
@@ -228,7 +228,7 @@ public class WeaponManager : MonoBehaviour
 		
 		if (nowWeapon == WeaponType.Secondary)
 		{
-			primaryLocation.SetActive(false);
+			SwapTo(WeaponType.Secondary);
 		} else
 		{
 			weaponNameText.text = soGun.gunName;
@@ -251,7 +251,7 @@ public class WeaponManager : MonoBehaviour
 	{
 		// secondarySO = soGun;
 		Transform location = secondaryLocation.transform;
-		foreach (Transform t in secondaryLocation.transform)
+		foreach (Transform t in location)
 		{
 			Destroy(t.gameObject);
 		}
@@ -261,7 +261,7 @@ public class WeaponManager : MonoBehaviour
 
 		if (nowWeapon == WeaponType.Primary)
 		{
-			secondaryLocation.SetActive(false);
+			SwapTo(WeaponType.Primary);
 		} else
 		{
 			weaponNameText.text = soGun.gunName;

@@ -9,10 +9,20 @@ public class ShowShopUI : MonoBehaviour
 	[SerializeField] GameObject shopManager;
 	[SerializeField] GameObject interactPopup;
 
-	private bool canShowShop = false;
+	[HideInInspector]
+	private bool canShowShop;
+
+	[HideInInspector]
+	private bool isShopOpened;
+
 	[SerializeField] KeyCode openShopKey = KeyCode.E;
 	[SerializeField] KeyCode closeShopKey = KeyCode.Escape;
 
+	private void Awake()
+	{
+		canShowShop = false;
+		isShopOpened = false;
+	}
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -25,12 +35,12 @@ public class ShowShopUI : MonoBehaviour
 
 	void Update()
 	{
-		if (canShowShop && Input.GetKeyDown(openShopKey))
+		if (!isShopOpened && canShowShop && Input.GetKeyDown(openShopKey))
 		{
 			ShowShop();
 		}
 
-		if (Input.GetKeyDown(closeShopKey))
+		else if (isShopOpened && (Input.GetKeyDown(openShopKey) || Input.GetKeyDown(closeShopKey)))
 		{
 			CloseShop();
 		}
@@ -38,17 +48,28 @@ public class ShowShopUI : MonoBehaviour
 
 	void ShowShop()
 	{
+		print("Shop opened");
 		// show shop
+		isShopOpened = true;
 		shopCanvas.SetActive(true);
 		shopManager.SetActive(true);
+
+		PlayerController.CamRotateEnable = false;
+		PlayerController.canFire = false;
 
 		Cursor.lockState = CursorLockMode.None;
 	}
 
 	void CloseShop()
 	{
+		print("shop closed");
+
+		isShopOpened = false;
 		shopCanvas.SetActive(false);
 		shopManager.SetActive(false);
+
+		PlayerController.CamRotateEnable = true;
+		PlayerController.canFire = true;
 
 		Cursor.lockState = CursorLockMode.Locked;
 	}

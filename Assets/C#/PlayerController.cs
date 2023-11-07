@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private float jumpPower = 6f; // 점프할 때 힘
 
     public float lookSensitivity = 5f; // 마우스 감도
+    public static bool canFire = true;
 
     [Header("Camera")]
     [SerializeField]
@@ -39,7 +41,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private GameObject GameOverTxt;
-    void Start()
+
+	private void Awake()
+	{
+	}
+	void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }

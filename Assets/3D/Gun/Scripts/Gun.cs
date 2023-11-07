@@ -33,6 +33,7 @@ public class Gun : MonoBehaviour
  //   private bool isAutomatic;
 	/// <summary> 딜레이 후 발사가 가능할 때 false </summary>
 	private bool isFireDelaying = false;
+	public bool fireLock = false;
     [SerializeField]
     List<ParticleSystem> fireParticles;
 
@@ -90,8 +91,7 @@ public class Gun : MonoBehaviour
 	#region Ammo
 
 	[Header("Ammo")]
-	[SerializeField]
-	private int maxAmmoInMag = 30;
+	public int maxAmmoInMag = 30;
 	public int ammoInMag;
 	[SerializeField]
 	public int maxSpareAmmo;
@@ -105,13 +105,16 @@ public class Gun : MonoBehaviour
 
 
     void Init()
-    {
+	{ 
+
 		muzzle = transform.Find("Muzzle").gameObject;
 		ammoInMag = maxAmmoInMag;
 		spareAmmo = maxSpareAmmo;
 		originPos = transform.localPosition;
 
 		player = FindAnyObjectByType<PlayerController>();
+
+
 		cam = player.theCamera;
 		audioSource = GetComponent<AudioSource>();
 
@@ -144,10 +147,6 @@ public class Gun : MonoBehaviour
 		Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow, 0.1f, true);
 	}
 
-	private void FixedUpdate()
-	{
-		
-	}
 
 	// 입력
 	private void Inputs()
@@ -157,7 +156,7 @@ public class Gun : MonoBehaviour
 		if (SO_Gun.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1"))
 		{
 			bool canFire = !isReloading && ammoInMag >= 1 && !isFireDelaying;
-            if (canFire)
+            if (canFire && PlayerController.canFire)
             { 
 			    Fire();
 			}
