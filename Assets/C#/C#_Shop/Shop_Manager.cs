@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -127,10 +128,10 @@ public class Shop_Manager : MonoBehaviour
 
     public void Bullet_Buy()
     {
-		SO_Gun so_gun = weaponManager.primaryWeapon.GetComponent<SO_Gun>();
-        weaponManager.ChangePrimary(weaponManager.primaryWeapon, so_gun);
+		//SO_Gun so_gun = weaponManager.primaryWeapon.GetComponent<SO_Gun>();
+        //weaponManager.ChangePrimary(weaponManager.primaryWeapon, so_gun);
 
-       
+        throw new NotImplementedException();
     }
 
     public void Healing_Buy()

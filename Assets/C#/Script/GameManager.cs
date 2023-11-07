@@ -28,13 +28,14 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		Cursor.lockState = CursorLockMode.Locked;
 		if (_instance != null)
 		{
 			Destroy(this.gameObject);
 		} else
 		{
 			_instance = this;
-			DontDestroyOnLoad(gameObject);
+			//DontDestroyOnLoad(gameObject);
 		}
 
 		if (lobbySceneName == string.Empty)
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
 	private void EndGame()
 	{
 		canvasGO.SetActive(true);
+		Cursor.lockState = CursorLockMode.None;
 
 		killedEnemyText.text = "무력화한 적 수: " + killedEnemy;
 		survivedWaveText.text = "생존한 웨이브 수: " + survivedWave;

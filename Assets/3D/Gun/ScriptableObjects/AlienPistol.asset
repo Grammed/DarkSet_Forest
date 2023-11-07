@@ -16,7 +16,7 @@ MonoBehaviour:
   type: 1
   prefab: {fileID: 6711740820209543610, guid: 2352b47caa53c8f4584d10dbe5eaf17c, type: 3}
   gunDamage: 25
-  fireTime: 0.1
+  fireTime: 0.07
   isAutomatic: 0
   hitGold: 40
   penetrationCnt: 1
@@ -27,7 +27,7 @@ MonoBehaviour:
   ergonomic: 70
   reloadSound: {fileID: 8300000, guid: 051c1c94c3d28be41bc21579d04866c2, type: 3}
   fireSound: {fileID: 8300000, guid: 9f42279d1b7c20b40a45f557c2eeb9f0, type: 3}
-  reloadTime: 2.5
+  reloadTime: 2.2
   isClosedBolt: 1
   maxAmmoInMag: 17
   ammoInMag: 17

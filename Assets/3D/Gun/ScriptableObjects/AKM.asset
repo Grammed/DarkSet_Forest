@@ -15,7 +15,7 @@ MonoBehaviour:
   gunName: AKM
   type: 0
   prefab: {fileID: 1697327788651446858, guid: 87bc3a0fb5ed25e4d9046b469dadf5fc, type: 3}
-  gunDamage: 25
+  gunDamage: 34
   fireTime: 0.1
   isAutomatic: 1
   hitGold: 20
