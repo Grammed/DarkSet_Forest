@@ -575,10 +575,9 @@ MonoBehaviour:
   m_enemy: {fileID: 0}
   rayPosition: {fileID: 2334390178069518014}
   enemyData: {fileID: 11400000, guid: ca89c8eafd614e24cb8f9b3cc799fd19, type: 2}
-  killValue: 0
+  killValue: 200
   waveManager: {fileID: 0}
   playerController: {fileID: 0}
-  damage: 0
 --- !u!1 &6294676491545433349
 GameObject:
   m_ObjectHideFlags: 0
