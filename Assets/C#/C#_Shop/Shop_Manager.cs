@@ -73,8 +73,9 @@ public class Shop_Manager : MonoBehaviour
 
     private void Update()
     {
+       var usedGun = GameObject.FindObjectOfType<Gun>();
         moneyManager.Coin_Text.text = moneyManager.Coin.ToString();
-        Bullettext.text = "ÃÑ¾Ë °¹¼ö : " + Bullet.ToString() + "°³";
+        Bullettext.text = "ÃÑ¾Ë °¹¼ö : " + usedGun.spareAmmo.ToString() + "°³";
         //HPtext.text = "ÇöÀç Ã¼·Â : " + currentHP.ToString() + "HP";
     }
 
@@ -128,10 +129,21 @@ public class Shop_Manager : MonoBehaviour
 
     public void Bullet_Buy()
     {
-		//SO_Gun so_gun = weaponManager.primaryWeapon.GetComponent<SO_Gun>();
+        //SO_Gun so_gun = weaponManager.primaryWeapon.GetComponent<SO_Gun>();
+        if (moneyManager.Coin >= 500)
+        {
+            var usedGun = GameObject.FindObjectOfType<Gun>();
+            moneyManager.Coin -= 500;
+            usedGun.spareAmmo = usedGun.maxSpareAmmo;
+        }
+        else
+        {
+            StartCoroutine("NotEnoughMoney");
+        }
+        //usedGun.spareAmmo += 60;
+        //Bullettext.text = "ÃÑ¾Ë °¹¼ö : " + usedGun.spareAmmo.ToString() + "°³";
+        //so_gun.spareAmmo += 60;
         //weaponManager.ChangePrimary(weaponManager.primaryWeapon, so_gun);
-
-        throw new NotImplementedException();
     }
 
     public void Healing_Buy()
