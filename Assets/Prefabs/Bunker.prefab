@@ -212,4 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f6f87fb31c02c49b61a6b58647e1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bunkerHp: 10000
+  nowBunkerHp: 0
+  maxBunkerHp: 1000
+  GameOverTxt: {fileID: 0}
+  healthSlider: {fileID: 0}

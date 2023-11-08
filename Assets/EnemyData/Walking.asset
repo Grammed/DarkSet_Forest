@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Walking
   m_EditorClassIdentifier: 
   enemyType: Walking
-  hp: 200
+  hp: 150
   damage: 5
   sightRange: 10
   moveSpeed: 3

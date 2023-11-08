@@ -76,7 +76,7 @@ public class Shop_Manager : MonoBehaviour
        var usedGun = GameObject.FindObjectOfType<Gun>();
         moneyManager.Coin_Text.text = moneyManager.Coin.ToString();
         Bullettext.text = "총알 갯수 : " + usedGun.spareAmmo.ToString() + "개";
-        //HPtext.text = "현재 체력 : " + currentHP.ToString() + "HP";
+        HPtext.text = "현재 체력 : " + (int)(player.HP.value * 100);
     }
 
     public void Main_Weapon_Select()
@@ -130,9 +130,10 @@ public class Shop_Manager : MonoBehaviour
     public void Bullet_Buy()
     {
         //SO_Gun so_gun = weaponManager.primaryWeapon.GetComponent<SO_Gun>();
-        if (moneyManager.Coin >= 500)
+        var usedGun = GameObject.FindObjectOfType<Gun>();
+        if (moneyManager.Coin >= 500 && usedGun.maxSpareAmmo > usedGun.spareAmmo)
         {
-            var usedGun = GameObject.FindObjectOfType<Gun>();
+            
             moneyManager.Coin -= 500;
             usedGun.spareAmmo = usedGun.maxSpareAmmo;
         }
@@ -148,7 +149,7 @@ public class Shop_Manager : MonoBehaviour
 
     public void Healing_Buy()
     {
-        if (moneyManager.Coin >= 1000)
+        if (moneyManager.Coin >= 1000 && player.HP.value != 1f)
         {
             moneyManager.Coin -= 1000;
             Debug.Log("체력회복");

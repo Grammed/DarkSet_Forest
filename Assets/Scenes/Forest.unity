@@ -29272,7 +29272,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uCCB4\uB825 \uD68C\uBCF5"
+  m_Text: "\uCCB4\uB825 \uD68C\uBCF5(+50)"
 --- !u!222 &962476065
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31092,10 +31092,10 @@ MonoBehaviour:
     m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uCD1D\uC54C \uAC2F\uC218 : 100"
+  m_Text: "\uD604\uC7AC \uCD1D\uC54C : 100"
 --- !u!1001 &993880225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41603,7 +41603,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 30000
+          m_IntArgument: 20000
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -42566,7 +42566,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '30000 Coin
+  m_Text: '20000 Coin
 
 '
 --- !u!222 &1347985676
@@ -52954,7 +52954,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uCD1D\uC54C"
+  m_Text: "\uB4E4\uACE0 \uC788\uB294 \uCD1D\uC758 \uCD1D\uC54C"
 --- !u!222 &1630875889
 CanvasRenderer:
   m_ObjectHideFlags: 0
