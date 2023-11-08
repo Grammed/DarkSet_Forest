@@ -27,7 +27,7 @@ MonoBehaviour:
   ergonomic: 60
   reloadSound: {fileID: 8300000, guid: 0255f5936c04b154896a018a88ea6c84, type: 3}
   fireSound: {fileID: 8300000, guid: db8170c8333ae9f47a692e0ef68d747e, type: 3}
-  reloadTime: 5
+  reloadTime: 3.5
   isClosedBolt: 0
   maxAmmoInMag: 6
   ammoInMag: 6
