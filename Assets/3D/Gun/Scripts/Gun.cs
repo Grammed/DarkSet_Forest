@@ -158,13 +158,18 @@ public class Gun : MonoBehaviour
 		{
 			bool isAmmoInMag = ammoInMag >= 1;
 			bool canFire = !isReloading && isAmmoInMag && !isFireDelaying;
-            if (canFire && PlayerController.canFire)
-            { 
-			    Fire();
-			} else if (!isAmmoInMag && !isReloading)
+			if (canFire && PlayerController.canFire)
 			{
-				StartCoroutine(Reload());
+				Fire();
+				if (ammoInMag == 0)
+				{
+					StartCoroutine(Reload());
+				}
 			}
+			// else if (!isAmmoInMag && !isReloading)
+			//{
+			//	StartCoroutine(Reload());
+			//}
 		}
 
         // ¿Á¿Â¿¸
