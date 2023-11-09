@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.029087335, g: 0.0298977, b: 0.029896773, a: 1}
+  m_IndirectSpecularColor: {r: 0.029087221, g: 0.029897578, b: 0.029896645, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -51419,10 +51419,10 @@ MonoBehaviour:
   Sound: {fileID: 0}
   HP: {fileID: 2072365761}
   Stamina: {fileID: 174779971}
-  walkSpeed: 10
-  RunSpeed: 20
+  walkSpeed: 7
+  RunSpeed: 15
   jumpPower: 3
-  lookSensitivity: 3
+  lookSensitivity: 2
   cameraRotationLimit: 65
   currentCameraRotationX: 0
   theCamera: {fileID: 963194227}

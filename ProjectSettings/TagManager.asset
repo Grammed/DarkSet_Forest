@@ -9,6 +9,8 @@ TagManager:
   - Bracken
   - UI
   - Enemy
+  - Bunker
+  - Head
   layers:
   - Default
   - TransparentFX

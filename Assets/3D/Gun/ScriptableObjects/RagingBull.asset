@@ -15,14 +15,14 @@ MonoBehaviour:
   gunName: Raging Bull
   type: 1
   prefab: {fileID: 1954535239638205923, guid: 9bfdeaf0925ca2d4581b5ee8e6b5cea5, type: 3}
-  gunDamage: 100
+  gunDamage: 110
   fireTime: 0.4
   isAutomatic: 0
   hitGold: 10
   penetrationCnt: 4
   penetrateDamagePenalty: 5
   recoilX: 1
-  recoilY: 13
+  recoilY: 10
   recoilZ: 2
   ergonomic: 60
   reloadSound: {fileID: 8300000, guid: 0255f5936c04b154896a018a88ea6c84, type: 3}
@@ -31,7 +31,7 @@ MonoBehaviour:
   isClosedBolt: 0
   maxAmmoInMag: 6
   ammoInMag: 6
-  maxSpareAmmo: 36
-  spareAmmo: 36
+  maxSpareAmmo: 24
+  spareAmmo: 24
   gunImage: {fileID: 21300000, guid: 081de131a5be3e2448bce3ac5bdf7883, type: 3}
   cost: 700

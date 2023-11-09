@@ -38,7 +38,7 @@ public class BunkerLocation : MonoBehaviour
     private void Update()
     {
         Vector3 bunkerLocationOnScreen = Camera.main.WorldToScreenPoint(bunkerGO.transform.position + new Vector3(0, 2));
-        print(bunkerLocationOnScreen);
+        //print(bunkerLocationOnScreen);
 
         // 상점이 시야 내에 있을 때 위치를 화면 경계 내로 제한
         bunkerLocationOnScreen.x = Mathf.Clamp(bunkerLocationOnScreen.x, minX, maxX);

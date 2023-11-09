@@ -245,9 +245,9 @@ public class Gun : MonoBehaviour
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit))
 		{
-			if (hit.transform.tag == "Enemy") // 적에 맞았을 때
+			if (hit.collider.tag == "Enemy") // 적에 맞았을 때
 			{
-				Enemy enemy = hit.collider.GetComponent<Enemy>();
+				Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
 				if (enemy != null)
 				{
 					moneyManager.Coin += SO_Gun.hitGold;
@@ -257,6 +257,17 @@ public class Gun : MonoBehaviour
 				} else
 				{
 
+				}
+			}
+			else if (hit.collider.tag == "Head")
+			{
+				Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+				if (enemy != null)
+				{
+					moneyManager.Coin += SO_Gun.hitGold;
+					GameManager.Instance.earnGold += SO_Gun.hitGold;
+					enemy.GetDamage(SO_Gun.gunDamage * 1.5f);
+					print("headshot");
 				}
 			}
 		}

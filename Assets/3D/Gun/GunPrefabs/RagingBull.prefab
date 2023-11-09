@@ -106,6 +106,7 @@ MonoBehaviour:
   gunUI: {fileID: 0}
   moneyManager: {fileID: 0}
   SO_Gun: {fileID: 11400000, guid: e3518bfbcd2318f4aa50a0994ec81cae, type: 2}
+  fireLock: 0
   fireParticles:
   - {fileID: 5594185430427637913}
   - {fileID: 5594185429954805456}
@@ -113,8 +114,8 @@ MonoBehaviour:
   gunSoundPool: {fileID: 0}
   maxAmmoInMag: 6
   ammoInMag: 6
-  maxSpareAmmo: 30
-  spareAmmo: 30
+  maxSpareAmmo: 24
+  spareAmmo: 302
 --- !u!114 &2881156181674496253
 MonoBehaviour:
   m_ObjectHideFlags: 0
