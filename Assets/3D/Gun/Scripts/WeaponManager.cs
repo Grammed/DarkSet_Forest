@@ -225,8 +225,9 @@ public class WeaponManager : MonoBehaviour
 			Destroy(t.gameObject);
 		}
 		primaryWeapon = Instantiate(newGun, location);
-		// secondaryWeapon = newGun;
-		InitGun(primaryWeapon, soGun);
+        primaryGunScript = primaryWeapon.GetComponent<Gun>();
+        // secondaryWeapon = newGun;
+        InitGun(primaryWeapon, soGun);
 		
 		if (nowWeapon == WeaponType.Secondary)
 		{
@@ -236,7 +237,7 @@ public class WeaponManager : MonoBehaviour
 			weaponNameText.text = soGun.gunName;
 		}
 
-		primaryGunScript = newGun.GetComponent<Gun>();
+		
 	}
 
 	//public void ChangePrimary(int gunIdx)
@@ -260,8 +261,9 @@ public class WeaponManager : MonoBehaviour
 			Destroy(t.gameObject);
 		}
 		secondaryWeapon = Instantiate(newGun, location);
-		// secondaryWeapon = newGun;
-		InitGun(secondaryWeapon, soGun);
+        secondaryGunScript = secondaryWeapon.GetComponent<Gun>();
+        // secondaryWeapon = newGun;
+        InitGun(secondaryWeapon, soGun);
 
 		if (nowWeapon == WeaponType.Primary)
 		{
@@ -271,7 +273,7 @@ public class WeaponManager : MonoBehaviour
 			weaponNameText.text = soGun.gunName;
 		}
 
-		secondaryGunScript = newGun.GetComponent<Gun>();
+		
 	}
 
 	//public void ChangeSecondary(int gunIdx)
@@ -295,6 +297,7 @@ public class WeaponManager : MonoBehaviour
 
 		Gun gunScript = gunGO.GetComponent<Gun>();
 		gunScript.gunSoundPool = soundPool;
+		gunGO.name = gunScript.SO_Gun.GunName;
 
 		
 		if (gunScript.SO_Gun == null)

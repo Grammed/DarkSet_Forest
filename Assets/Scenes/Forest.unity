@@ -51420,7 +51420,7 @@ MonoBehaviour:
   HP: {fileID: 2072365761}
   Stamina: {fileID: 174779971}
   walkSpeed: 7
-  RunSpeed: 15
+  RunSpeed: 11
   jumpPower: 3
   lookSensitivity: 2
   cameraRotationLimit: 65

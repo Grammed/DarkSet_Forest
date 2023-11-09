@@ -103,7 +103,7 @@ public class Shop_Manager : MonoBehaviour
 
     public void MainGun_Buy()
     {
-        if (moneyManager.Coin >= shop_Main_Gun_Value[GunIndex].Cost && weaponManager.primaryWeapon != shop_Main_Gun_Value[GunIndex].prefab)
+        if (moneyManager.Coin >= shop_Main_Gun_Value[GunIndex].Cost && !weaponManager.primaryWeapon || weaponManager.primaryWeapon.name != shop_Main_Gun_Value[GunIndex].gunName)
         {
             moneyManager.Coin -= shop_Main_Gun_Value[GunIndex].Cost;
             weaponManager.ChangePrimary(shop_Main_Gun_Value[GunIndex].prefab, shop_Main_Gun_Value[GunIndex]);
@@ -116,7 +116,7 @@ public class Shop_Manager : MonoBehaviour
 
     public void SubGun_Buy()
     {
-        if (moneyManager.Coin >= shop_Sub_Gun_Value[GunIndex].Cost)
+        if (moneyManager.Coin >= shop_Sub_Gun_Value[GunIndex].Cost && !weaponManager.secondaryWeapon || weaponManager.secondaryWeapon.name != shop_Sub_Gun_Value[GunIndex].gunName)
         {
             moneyManager.Coin -= shop_Sub_Gun_Value[GunIndex].Cost;
             weaponManager.ChangeSecondary(shop_Sub_Gun_Value[GunIndex].prefab, shop_Sub_Gun_Value[GunIndex]);

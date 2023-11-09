@@ -105,7 +105,8 @@ public class Gun : MonoBehaviour
 
 
     void Init()
-	{ 
+	{
+		gameObject.name = SO_Gun.gunName;
 
 		muzzle = transform.Find("Muzzle").gameObject;
 		ammoInMag = maxAmmoInMag;
