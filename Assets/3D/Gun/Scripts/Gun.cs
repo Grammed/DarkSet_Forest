@@ -156,10 +156,14 @@ public class Gun : MonoBehaviour
         // Å° Å¬¸¯ + ÀåÀü Áß ¾Æ´Ô + ÅºÃ¢¿¡ ÃÑ¾Ë ÇÏ³ª¶óµµ ÀÖÀ½ + µô·¹ÀÌ ÁßÀÌ ¾Æ´Ô
 		if (SO_Gun.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1"))
 		{
-			bool canFire = !isReloading && ammoInMag >= 1 && !isFireDelaying;
+			bool isAmmoInMag = ammoInMag >= 1;
+			bool canFire = !isReloading && isAmmoInMag && !isFireDelaying;
             if (canFire && PlayerController.canFire)
             { 
 			    Fire();
+			} else if (!isAmmoInMag)
+			{
+				StartCoroutine(Reload());
 			}
 		}
 

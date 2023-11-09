@@ -191,8 +191,6 @@ public class WeaponManager : MonoBehaviour
 
 		while (processTime < reloadTime)
 		{
-			CircleImage.gameObject.SetActive(true);
-			BulletImage.gameObject.SetActive(true);
 			processTime += Time.deltaTime;
 
 			CircleImage.fillAmount = processTime / reloadTime;
