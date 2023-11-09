@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90bd13ca79c46c34498e28caaf3fc767, type: 3}
-  m_Name: Arrow
+  m_Name: Healer
   m_EditorClassIdentifier: 
-  enemyType: Arrow
-  hp: 50
-  damage: 15
-  sightRange: 15
-  moveSpeed: 6
-  range: 7
+  enemyType: Healer
+  hp: 100
+  damage: 0
+  sightRange: 10
+  moveSpeed: 4
+  range: 0
