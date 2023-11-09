@@ -161,7 +161,7 @@ public class Gun : MonoBehaviour
             if (canFire && PlayerController.canFire)
             { 
 			    Fire();
-			} else if (!isAmmoInMag)
+			} else if (!isAmmoInMag && !isReloading)
 			{
 				StartCoroutine(Reload());
 			}
