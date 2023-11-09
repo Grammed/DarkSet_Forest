@@ -64,6 +64,7 @@ public class Shop_Manager : MonoBehaviour
 		Bullettext.text = Bullet.ToString();
         //HPtext.text = HP.ToString();
         moneyManager.Dontmoney.SetActive(false);
+        gunValueCost.text = shop_Main_Gun_Value[GunIndex].Cost + " Coin";
 
 
         // Bullet = gunScript.spareAmmo; //¾ø¾Ú
