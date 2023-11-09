@@ -21,8 +21,7 @@ public class Shop_Manager : MonoBehaviour
     public Image SubGun;
     public Text MainGuntext;
     public Text SubGuntext;
-    public Text MainGunCost;
-    public Text SubGunCost;
+    public Text gunValueCost;
 
     [Header("ÃÑ±â Panel")]
     public GameObject MainGun_Panel;
@@ -87,7 +86,8 @@ public class Shop_Manager : MonoBehaviour
         GunIndex = 0;
         MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
         MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
-        MainGunCost.text = shop_Main_Gun_Value[GunIndex].Cost.ToString() + " Coin";
+        gunValueCost.text = shop_Main_Gun_Value[GunIndex].Cost + " Coin";
+        print(shop_Main_Gun_Value[GunIndex].Cost);
     }
 
     public void Sub_Weapon_Select()
@@ -96,9 +96,10 @@ public class Shop_Manager : MonoBehaviour
         MainGun_Panel.SetActive(false);
         SubGun_Panel.SetActive(true);
         GunIndex = 0;
+
         SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
         SubGuntext.text = shop_Sub_Gun_Value[GunIndex].GunName;
-        SubGunCost.text = shop_Sub_Gun_Value[GunIndex].Cost.ToString() + " Coin";
+        gunValueCost.text = shop_Sub_Gun_Value[GunIndex].Cost.ToString() + " Coin";
     }
 
     public void MainGun_Buy()
@@ -178,7 +179,9 @@ public class Shop_Manager : MonoBehaviour
 
 			MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
 			MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
-		}
+            gunValueCost.text = shop_Main_Gun_Value[GunIndex].Cost + " Coin";
+
+        }
         if(isMainGun == false) 
         {
             if (GunIndex < shop_Sub_Gun_Value.Count - 1)
@@ -191,7 +194,9 @@ public class Shop_Manager : MonoBehaviour
 
 			SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
 			SubGuntext.text = shop_Sub_Gun_Value[GunIndex].GunName;
-		}
+            gunValueCost.text = shop_Sub_Gun_Value[GunIndex].Cost + " Coin";
+
+        }
     }
 
     public void Gun_Change_Minus()
@@ -208,7 +213,8 @@ public class Shop_Manager : MonoBehaviour
 
 			MainGun.sprite = shop_Main_Gun_Value[GunIndex].GunImage;
 			MainGuntext.text = shop_Main_Gun_Value[GunIndex].GunName;
-		}
+            gunValueCost.text = shop_Main_Gun_Value[GunIndex].Cost + " Coin";
+        }
         if (isMainGun == false)
         {
             if (GunIndex > 0)
@@ -220,7 +226,8 @@ public class Shop_Manager : MonoBehaviour
             }
 			SubGun.sprite = shop_Sub_Gun_Value[GunIndex].GunImage;
 			SubGuntext.text = shop_Sub_Gun_Value[GunIndex].GunName;
-		}
+            gunValueCost.text = shop_Sub_Gun_Value[GunIndex].Cost + " Coin";
+        }
     }
 
     public IEnumerator NotEnoughMoney()

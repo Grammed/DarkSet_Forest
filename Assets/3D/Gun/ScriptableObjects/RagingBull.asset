@@ -15,7 +15,7 @@ MonoBehaviour:
   gunName: Raging Bull
   type: 1
   prefab: {fileID: 1954535239638205923, guid: 9bfdeaf0925ca2d4581b5ee8e6b5cea5, type: 3}
-  gunDamage: 110
+  gunDamage: 99
   fireTime: 0.4
   isAutomatic: 0
   hitGold: 10

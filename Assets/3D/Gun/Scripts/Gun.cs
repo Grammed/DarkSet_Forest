@@ -109,8 +109,8 @@ public class Gun : MonoBehaviour
 		gameObject.name = SO_Gun.gunName;
 
 		muzzle = transform.Find("Muzzle").gameObject;
-		ammoInMag = maxAmmoInMag;
-		spareAmmo = maxSpareAmmo;
+		ammoInMag = SO_Gun.maxAmmoInMag;
+		spareAmmo = SO_Gun.maxSpareAmmo;
 		originPos = transform.localPosition;
 
 		player = FindAnyObjectByType<PlayerController>();
