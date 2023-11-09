@@ -46,7 +46,7 @@ public class ShowShopUI : MonoBehaviour
 		}
 	}
 
-	void ShowShop()
+	public void ShowShop()
 	{
 		print("Shop opened");
 		// show shop
@@ -60,7 +60,7 @@ public class ShowShopUI : MonoBehaviour
 		Cursor.lockState = CursorLockMode.None;
 	}
 
-	void CloseShop()
+	public void CloseShop()
 	{
 		print("shop closed");
 

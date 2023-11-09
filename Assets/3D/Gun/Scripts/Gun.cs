@@ -267,7 +267,7 @@ public class Gun : MonoBehaviour
 				{
 					moneyManager.Coin += SO_Gun.hitGold;
 					GameManager.Instance.earnGold += SO_Gun.hitGold;
-					enemy.GetDamage(SO_Gun.gunDamage * 1.5f);
+					enemy.GetDamage(SO_Gun.gunDamage * 2f);
 					print("headshot");
 				}
 			}

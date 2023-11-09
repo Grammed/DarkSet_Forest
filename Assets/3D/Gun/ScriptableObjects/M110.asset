@@ -22,7 +22,7 @@ MonoBehaviour:
   penetrationCnt: 7
   penetrateDamagePenalty: 2
   recoilX: 0.5
-  recoilY: 4
+  recoilY: 10
   recoilZ: 1
   ergonomic: 50
   reloadSound: {fileID: 8300000, guid: e708efa79c93f614c87f69350065d926, type: 3}

@@ -17,6 +17,10 @@ public class AimScript : MonoBehaviour
     PlayerController player;
     WeaponManager weaponManager;
     GameObject scopeShapeGO;
+    Gun gun;
+    SO_Gun soGun;
+    float reducedRecoil;
+    float originRecoil;
     
     Camera theCamera;
     void Start()
@@ -28,6 +32,10 @@ public class AimScript : MonoBehaviour
         weaponManager = FindObjectOfType<WeaponManager>();
 
         mouseSenseTemp = player.lookSensitivity;
+        gun = GetComponent<Gun>();
+        soGun = gun.SO_Gun;
+        reducedRecoil = soGun.recoilY / 3f;
+        originRecoil = soGun.recoilY;
 	}
 
     void Update()
@@ -49,6 +57,8 @@ public class AimScript : MonoBehaviour
         theCamera.fieldOfView = fovWhenAim;
         scopeShapeGO.SetActive(true);
         player.lookSensitivity = mouseSenseWhenAim;
+        soGun.recoilY = reducedRecoil;
+
 
         float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
 
@@ -65,5 +75,7 @@ public class AimScript : MonoBehaviour
         theCamera.fieldOfView = fovNotAim;
 		scopeShapeGO.SetActive(false);
         player.lookSensitivity = mouseSenseTemp;
+
+        soGun.recoilY = originRecoil;
 	}
 }
