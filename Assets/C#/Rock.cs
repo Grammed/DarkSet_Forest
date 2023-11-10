@@ -19,7 +19,7 @@ public class Rock : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" || other.gameObject.tag == "Bunker")
         {
-            playerController.Hit(enemyData.Damage);
+            playerController.Hit(enemyData.Damage / 100);
             Destroy(gameObject);
         }
         Destroy(gameObject);
