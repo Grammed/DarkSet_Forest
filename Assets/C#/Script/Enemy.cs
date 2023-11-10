@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
@@ -18,8 +17,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     Transform rayPosition;
     [SerializeField]
-    protected EnemyData enemyData;
-    public float enemyHp;
+    private EnemyData enemyData;
+    private float enemyHp;
     public EnemyData EnemyData { set { enemyData = value; } }
     private Shop_Manager shopManager;
     [SerializeField]
@@ -33,36 +32,10 @@ public class Enemy : MonoBehaviour
     public PlayerController playerController;
     bool canAttack = true;
 
-    protected bool isThrowing = false;
-    bool findPlayer = false;
-
-    EnemyHealer healer;
 
     //초기화
     private void Start()
     {
-        Init();
-        StartCoroutine(healer.Heal());  
-        if (waveManager == null)
-        {
-            waveManager = FindAnyObjectByType<WaveManager>();
-        }
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        SetTarget();
-        FwdObject();
-        Debug.DrawRay(rayPosition.transform.position, transform.forward * enemyData.Range, Color.red);
-        if(enemyHp <= 0)
-        {
-            Dead();
-        }
-    }
-    private void Init()
-    {
-        healer = GameObject.FindAnyObjectByType<EnemyHealer>();
         attackAni = GetComponent<Animator>();
         playerPos = GameObject.Find("Player").transform;
         towerPos = GameObject.Find("Bunker").transform;
@@ -72,10 +45,28 @@ public class Enemy : MonoBehaviour
         moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
         enemyHp = enemyData.Hp;
         playerController = FindObjectOfType<PlayerController>();
+
+        if (waveManager == null)
+        {
+            waveManager = FindAnyObjectByType<WaveManager>();
+        }
+	}
+
+    // Update is called once per frame
+    private void Update()
+    {
+
+        SetTarget();
+        FwdObject();
+        Debug.DrawRay(rayPosition.transform.position, transform.forward * enemyData.Range, Color.red);
+        if(enemyHp <= 0)
+        {
+            Dead();
+        }
     }
     public void SetTarget()//몬스터와 플레이어의 거리가 가깝다면 플레이어를 따라옴 아니라면 타워로 감
     {
-        if (Vector3.Distance(transform.position, playerPos.position) <= enemyData.SightRange && !findPlayer)
+        if (Vector3.Distance(transform.position, playerPos.position) <= enemyData.SightRange)
         {
             m_enemy.SetDestination(playerPos.position);
         }
@@ -99,31 +90,27 @@ public class Enemy : MonoBehaviour
         var enemyRay = Physics.Raycast(rayPosition.transform.position, transform.forward, out hit, enemyData.Range);
         if (enemyRay)
         {
-            if (Vector3.Distance(transform.position, playerPos.position) <= enemyData.Range && !isThrowing)
+            if (hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Bunker"))
             {
-                findPlayer = true;
-                m_enemy.enabled = false;
-                if (hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Bunker"))
+                //사거리안에 플레이어가 계속 있을경우, 가만히 공격함(원거리나 근거리)
+                if (Vector3.Distance(transform.position, playerPos.position) <= enemyData.Range)
                 {
-                    //사거리안에 플레이어가 계속 있을경우, 가만히 공격함(원거리나 근거리)
-
                     StartCoroutine(Attack());
-
-
-                }
+                } 
+       
             }
             else
             {
-                m_enemy.enabled = true;
-                findPlayer = false;
                 StopCoroutine(Attack());
             }
         }
     }
 
-    public virtual IEnumerator Attack()//공격
+    private IEnumerator Attack()//공격
     {
-        yield return null;
+        attackAni.SetTrigger("Attack");
+        yield return new WaitForSeconds(1f);
+        SetTarget();
     }
 
     private void Dead()
@@ -136,23 +123,15 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void OnCollisionStay(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("Bunker") && enemyData.name == "Gangbu")
+        if (collision.collider.CompareTag("Bunker"))
         {
             if (canAttack)
             {
-				bunker.nowBunkerHp -= enemyData.Damage * 3;
+				bunker.nowBunkerHp -= enemyData.Damage;
                 AfterAttack();
 			}
-        }
-        else if (collision.collider.CompareTag("Bunker") && enemyData.name != "Gangbu")
-        {
-            if (canAttack)
-            {
-                bunker.nowBunkerHp -= enemyData.Damage;
-                AfterAttack();
-            }  
         }
         if (collision.collider.CompareTag("Player"))
         {

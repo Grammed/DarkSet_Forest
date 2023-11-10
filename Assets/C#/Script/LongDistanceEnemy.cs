@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LongDistanceEnemy : Enemy
 {
-    [SerializeField] private GameObject rock;
+  /*  [SerializeField] private GameObject rock;
     [SerializeField] private float throwPower;
 
     public override IEnumerator Attack()
@@ -15,5 +15,5 @@ public class LongDistanceEnemy : Enemy
         rock.transform.position = transform.position;
         var rockRigid = rock.GetComponent<Rigidbody>();
         rockRigid.AddForce(Vector3.forward * throwPower, ForceMode.Impulse);
-    }
-}
+    }*/
+  }
