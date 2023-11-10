@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
 
 	[SerializeField] string lobbySceneName;
 
+	public GameObject panel;
+
 	[HideInInspector]
 	public int killedEnemy = 0;
 	[HideInInspector]
@@ -56,7 +58,16 @@ public class GameManager : MonoBehaviour
 		EndGame();
 		goWhenLose.SetActive(true);
 	}
+	public void Resume()
+	{
+        panel.SetActive(false);
+		Time.timeScale = 1f;
 
+    }
+	public void ExitButton()
+	{
+		Application.Quit();
+	}
 	private void EndGame()
 	{
 		canvasGO.SetActive(true);

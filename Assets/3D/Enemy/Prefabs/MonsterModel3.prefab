@@ -1258,7 +1258,7 @@ MonoBehaviour:
   killValue: 150
   playerController: {fileID: 0}
   rock: {fileID: 203878313113347122, guid: 02f4ba94813712d419ee34ee4a1e7df3, type: 3}
-  throwPower: 2
+  throwPower: 10
   throwPos: {fileID: 2699193029231164153}
 --- !u!54 &3828564585431811789
 Rigidbody:

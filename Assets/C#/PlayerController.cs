@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isJumping = false; // 현재 점프 중인가?
 
+    public GameObject panel;
+
     [SerializeField]
     private GameObject GameOverTxt;
 
@@ -58,6 +60,11 @@ public class PlayerController : MonoBehaviour
         {
             CameraRotation();       // 마우스를 위아래(Y) 움직임에 따라 카메라 X 축 회전 
             CharacterRotation();    // 마우스 좌우(X) 움직임에 따라 캐릭터 Y 축 회전 
+        }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            panel.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 
