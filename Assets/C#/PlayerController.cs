@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
+            Cursor.lockState = CursorLockMode.None;
             panel.SetActive(true);
             Time.timeScale = 0;
         }

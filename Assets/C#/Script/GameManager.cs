@@ -60,9 +60,9 @@ public class GameManager : MonoBehaviour
 	}
 	public void Resume()
 	{
+        Cursor.lockState = CursorLockMode.Locked;
         panel.SetActive(false);
 		Time.timeScale = 1f;
-
     }
 	public void ExitButton()
 	{

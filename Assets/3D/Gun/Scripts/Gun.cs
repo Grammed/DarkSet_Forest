@@ -154,7 +154,7 @@ public class Gun : MonoBehaviour
     {
         // 발사
         // 키 클릭 + 장전 중 아님 + 탄창에 총알 하나라도 있음 + 딜레이 중이 아님
-		if (SO_Gun.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1"))
+		if (SO_Gun.isAutomatic ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
 		{
 			bool isAmmoInMag = ammoInMag >= 1;
 			bool canFire = !isReloading && isAmmoInMag && !isFireDelaying;
