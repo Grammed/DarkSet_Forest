@@ -17,7 +17,7 @@ public class Rock : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && other.gameObject.tag == "Bunker")
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Bunker")
         {
             playerController.Hit(enemyData.Damage);
             Destroy(gameObject);
@@ -26,7 +26,7 @@ public class Rock : MonoBehaviour
     }
     IEnumerator DestroySelf()
     {
-        yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(20f);
         Destroy(gameObject);
     }
 }
