@@ -51641,7 +51641,7 @@ MonoBehaviour:
   currentCameraRotationX: 0
   theCamera: {fileID: 963194227}
   myRigid: {fileID: 1596372236}
-  panel: {fileID: 0}
+  panel: {fileID: 1145070164}
   GameOverTxt: {fileID: 1241260181}
   _yRotation: 0
 --- !u!114 &1596372238
@@ -55529,7 +55529,7 @@ MonoBehaviour:
   survivedWaveText: {fileID: 263560355}
   earnGoldText: {fileID: 493060464}
   lobbySceneName: Lobby
-  panel: {fileID: 0}
+  panel: {fileID: 1145070164}
   killedEnemy: 0
   survivedWave: 0
   earnGold: 0
