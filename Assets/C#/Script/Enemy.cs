@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameTime gameTime;
     public NavMeshAgent m_enemy;
-    Transform playerPos;
+    protected Transform playerPos;
     Transform towerPos;
     RaycastHit hit;
     [SerializeField]
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int killValue;//킬했을 때 플레이어에게 들어갈 돈
     private Bunker bunker;
-    [SerializeField]
+
     private WaveManager waveManager;
 
     private MoneyManager moneyManager;
@@ -34,15 +34,23 @@ public class Enemy : MonoBehaviour
     bool canAttack = true;
 
     protected bool isThrowing = false;
-    bool findPlayer = false;
 
     EnemyHealer healer;
 
     //초기화
     private void Start()
     {
-        Init();
-        StartCoroutine(healer.Heal());  
+        enemyHp = enemyData.Hp;
+        //healer = GameObject.FindAnyObjectByType<EnemyHealer>();
+        attackAni = GetComponent<Animator>();
+        playerPos = GameObject.Find("Player").transform;
+        towerPos = GameObject.Find("Bunker").transform;
+        m_enemy = GetComponent<NavMeshAgent>();
+        bunker = GameObject.Find("Bunker").GetComponent<Bunker>();
+        m_enemy.speed = enemyData.MoveSpeed;
+        moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
+        playerController = FindObjectOfType<PlayerController>();
+        //StartCoroutine(healer.Heal());  
         if (waveManager == null)
         {
             waveManager = FindAnyObjectByType<WaveManager>();
@@ -60,22 +68,9 @@ public class Enemy : MonoBehaviour
             Dead();
         }
     }
-    private void Init()
-    {
-        healer = GameObject.FindAnyObjectByType<EnemyHealer>();
-        attackAni = GetComponent<Animator>();
-        playerPos = GameObject.Find("Player").transform;
-        towerPos = GameObject.Find("Bunker").transform;
-        m_enemy = GetComponent<NavMeshAgent>();
-        bunker = GameObject.Find("Bunker").GetComponent<Bunker>();
-        m_enemy.speed = enemyData.MoveSpeed;
-        moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
-        enemyHp = enemyData.Hp;
-        playerController = FindObjectOfType<PlayerController>();
-    }
     public void SetTarget()//몬스터와 플레이어의 거리가 가깝다면 플레이어를 따라옴 아니라면 타워로 감
     {
-        if (Vector3.Distance(transform.position, playerPos.position) <= enemyData.SightRange && !findPlayer)
+        if (Vector3.Distance(transform.position, playerPos.position) <= enemyData.SightRange)
         {
             m_enemy.SetDestination(playerPos.position);
         }
@@ -101,21 +96,15 @@ public class Enemy : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, playerPos.position) <= enemyData.Range && !isThrowing)
             {
-                findPlayer = true;
-                m_enemy.enabled = false;
                 if (hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Bunker"))
                 {
                     //사거리안에 플레이어가 계속 있을경우, 가만히 공격함(원거리나 근거리)
 
                     StartCoroutine(Attack());
-
-
                 }
             }
             else
             {
-                m_enemy.enabled = true;
-                findPlayer = false;
                 StopCoroutine(Attack());
             }
         }

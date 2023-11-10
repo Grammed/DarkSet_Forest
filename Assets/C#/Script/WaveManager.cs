@@ -136,7 +136,7 @@ public class WaveManager : MonoBehaviour
 
         for (int i = 0; i < enemyCntInCurrentWave; i++)
         {
-            EnemyType randomType = (EnemyType)UnityEngine.Random.Range(0, 2);
+            EnemyType randomType = (EnemyType)UnityEngine.Random.Range(0, 3);
             SpawnEnemy(randomType);
         }
         yield return null;

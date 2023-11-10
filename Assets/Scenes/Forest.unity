@@ -17589,9 +17589,11 @@ MonoBehaviour:
   enemyDatas:
   - {fileID: 11400000, guid: ca89c8eafd614e24cb8f9b3cc799fd19, type: 2}
   - {fileID: 11400000, guid: 4505754d890fbd24594c6d9818ac140a, type: 2}
+  - {fileID: 11400000, guid: 5c48f28b75894064ebef839d8767183b, type: 2}
   enemyPrefab:
   - {fileID: 6294676491498706371, guid: c820ce3126615f844ad7be68c46d9cb3, type: 3}
   - {fileID: 1891931749413204908, guid: 0879689b7b9f1924eb983d6d0095895c, type: 3}
+  - {fileID: 4340755885374564374, guid: a5a5be48a2445604db2c80b561d4f876, type: 3}
   spawnPoints:
   - {fileID: 1725933806}
   - {fileID: 71618198}

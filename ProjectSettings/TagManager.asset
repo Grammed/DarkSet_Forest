@@ -11,11 +11,12 @@ TagManager:
   - Enemy
   - Bunker
   - Head
+  - Rock
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Rock
   - Water
   - UI
   - Enemy
