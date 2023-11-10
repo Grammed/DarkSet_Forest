@@ -26,7 +26,7 @@ public class Rock : MonoBehaviour
     }
     IEnumerator DestroySelf()
     {
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
 }
