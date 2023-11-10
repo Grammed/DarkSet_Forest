@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: Arrow
   hp: 50
-  damage: 15
+  damage: 20
   sightRange: 15
   moveSpeed: 6
   range: 7
