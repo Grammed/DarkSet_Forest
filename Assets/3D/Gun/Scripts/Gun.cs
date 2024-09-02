@@ -10,69 +10,34 @@ using Random = UnityEngine.Random;
 
 public class Gun : MonoBehaviour
 {
-    public string gunName;
+  public string gunName;
 	private bool initComplete = false;
 
 	[Header("References")]
-    [HideInInspector]
-    public PlayerController player;
-    public Camera cam;
-    [SerializeField]
-    private GunUIController gunUI;
+  [HideInInspector]
+  public PlayerController player;
+  public Camera cam;
+  [SerializeField]
+  private GunUIController gunUI;
 	private GameObject muzzle;
 	[SerializeField]
-    private MoneyManager moneyManager;
-    public SO_Gun SO_Gun;
+  private MoneyManager moneyManager;
+  public SO_Gun SO_Gun;
 
 	[Header("Fire")]
-	//[SerializeField]
-	//private float gunDamage = 25;
-	//[SerializeField]
- //   private float fireTime = 0.2f;
- //   [SerializeField]
- //   private bool isAutomatic;
-	/// <summary> µô·¹ÀÌ ÈÄ ¹ß»ç°¡ °¡´ÉÇÒ ¶§ false </summary>
 	private bool isFireDelaying = false;
 	public bool fireLock = false;
-    [SerializeField]
-    List<ParticleSystem> fireParticles;
+  [SerializeField]
+  List<ParticleSystem> fireParticles;
 
 
 	public RaycastHit[] hits;
-
-
-	#region Recoil
-
-	//[Header("Recoil")]
-	//[SerializeField]
-	//[Tooltip("ÁÂ¿ì ¹İµ¿")]
-	///// <summary> ÁÂ¿ì ¹İµ¿ </summary>
-	//private float recoilX = 1;
-	//[SerializeField]
-	//[Tooltip("»óÇÏ ¹İµ¿")]
-	///// <summary> »óÇÏ ¹İµ¿ </summary>
-	//private float recoilY = 1; // »óÇÏ ¹İµ¿
- //   [Tooltip("ÃÑ ÀÚÃ¼ ¾ÕµÚ ¹İµ¿")]
-	///// <summary> ÃÑ ÀÚÃ¼ ¾ÕµÚ ¹İµ¿ </summary>
-	//[SerializeField]
- //   private float recoilZ = 1; // ¾ÕµÚ ¹İµ¿
-
-	//[SerializeField]
-	//[Tooltip("ÀÎÃ¼°øÇĞ, ³ôÀ»¼ö·Ï ¹İµ¿ È¸º¹ÀÌ ºü¸§")]
- //   private float ergonomic = 70;
-
-    
-	#endregion
 	
 	#region Sound
 
 	[Header("Sound")]
 	public GunSoundPool gunSoundPool;
-	//[SerializeField]
- //   private AudioClip reloadSound;
- //   [SerializeField]
- //   private AudioClip fireSound;
-    private AudioSource audioSource;
+  private AudioSource audioSource;
 
 	#endregion
 
@@ -81,10 +46,6 @@ public class Gun : MonoBehaviour
 	[Header("Reload")]
 	private bool isReloading = false;
 	private KeyCode reloadKey = KeyCode.R;
- //   [SerializeField]
- //   private float reloadTime = 3f;
-	//[SerializeField]
-	//private bool isClosedBolt = true; // Å¬·ÎÁîµå º¼Æ®
 
 	#endregion
 
@@ -93,18 +54,19 @@ public class Gun : MonoBehaviour
 	[Header("Ammo")]
 	public int maxAmmoInMag = 30;
 	public int ammoInMag;
+	
 	[SerializeField]
 	public int maxSpareAmmo;
 	public int spareAmmo;
 
 	#endregion
+	
 	private void Start()
 	{
 		Init();
 	}
 
-
-    void Init()
+  void Init()
 	{
 		gameObject.name = SO_Gun.gunName;
 
@@ -141,19 +103,19 @@ public class Gun : MonoBehaviour
 	}
 
 	private void Update()
-    {
-        Inputs();
+  {
+    Inputs();
 		//Ray ray = new Ray(player.transform.position, player.transform.forward);
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow, 0.1f, true);
 	}
 
 
-	// ÀÔ·Â
+	// ì…ë ¥
 	private void Inputs()
-    {
-        // ¹ß»ç
-        // Å° Å¬¸¯ + ÀåÀü Áß ¾Æ´Ô + ÅºÃ¢¿¡ ÃÑ¾Ë ÇÏ³ª¶óµµ ÀÖÀ½ + µô·¹ÀÌ ÁßÀÌ ¾Æ´Ô
+  {
+    // ë°œì‚¬
+    // í‚¤ í´ë¦­ + ì¥ì „ ì¤‘ ì•„ë‹˜ + íƒ„ì°½ì— ì´ì•Œ í•˜ë‚˜ë¼ë„ ìˆìŒ + ë”œë ˆì´ ì¤‘ì´ ì•„ë‹˜
 		if (SO_Gun.isAutomatic ? Input.GetMouseButton(0) : Input.GetMouseButtonDown(0))
 		{
 			bool isAmmoInMag = ammoInMag >= 1;
@@ -172,234 +134,192 @@ public class Gun : MonoBehaviour
 			//}
 		}
 
-        // ÀçÀåÀü
-        // Å° Å¬¸¯ + ÀåÀü Áß ¾Æ´Ô + ÃÖ´ë Åº¼ö ¾Æ´Ô + ¿©ºĞ Åº¼ö ÇÏ³ª¶óµµ ³²¾ÆÀÖÀ½
-        if (Input.GetKeyDown(reloadKey))
-        {
-            bool canReload = !isReloading && spareAmmo >= 1;
+    // ì¬ì¥ì „
+    // í‚¤ í´ë¦­ + ì¥ì „ ì¤‘ ì•„ë‹˜ + ìµœëŒ€ íƒ„ìˆ˜ ì•„ë‹˜ + ì—¬ë¶„ íƒ„ìˆ˜ í•˜ë‚˜ë¼ë„ ë‚¨ì•„ìˆìŒ
+    if (Input.GetKeyDown(reloadKey))
+    {
+      bool canReload = !isReloading && spareAmmo >= 1;
 			bool ammoNotEnough = ammoInMag < maxAmmoInMag || (ammoInMag == maxAmmoInMag && SO_Gun.isClosedBolt);
 
 			if (canReload && ammoNotEnough)
-            {
-                StartCoroutine(Reload());
-                print("can reload");
-            }
-        }
+      {
+        StartCoroutine(Reload());
+        print("can reload");
+      }
+    }
 	}
 
-    // ÃÑ ¹ß»ç
-    private void Fire()
-    {
-        print("Fire");
-        //audioSource.clip = fireSound;
-        //audioSource.Play();
-        isFireDelaying = true; // ÄÚ·çÆ¾ ¿Ï·á Àü±îÁö ¹ß»ç ºÒ°¡
-        ammoInMag -= 1;
+  // ì´ ë°œì‚¬
+  private void Fire()
+  {
+    print("Fire");
+    //audioSource.clip = fireSound;
+    //audioSource.Play();
+    isFireDelaying = true; // ì½”ë£¨í‹´ ì™„ë£Œ ì „ê¹Œì§€ ë°œì‚¬ ë¶ˆê°€
+    ammoInMag -= 1;
 
-        gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
+    gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
 
-        // ¿ÀºêÁ§Æ® Ç®¿¡¼­ »ç¿îµå ²¨³¿
-        GameObject soundGO = gunSoundPool.Pop();
+    // ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ ì‚¬ìš´ë“œ êº¼ëƒ„
+    GameObject soundGO = gunSoundPool.Pop();
 		AudioSource source = soundGO.GetComponent<AudioSource>();
 		source.clip = SO_Gun.fireSound;
 		source.Play();
 
-		// Ä«¸Ş¶ó·ÎºÎÅÍ ·¹ÀÌ ¹ß»ç
+		// ì¹´ë©”ë¼ë¡œë¶€í„° ë ˆì´ ë°œì‚¬
 		//Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-		//int hitCount = Physics.RaycastNonAlloc(ray, hits, 1000f);
-
-
-		//Array.Sort(hits, (RaycastHit x, RaycastHit y) => x.distance.CompareTo(y.distance));
-		//int enemyHitCount = 0;
-
-		//for (int i = 0; i < Mathf.Min(hitCount, SO_Gun.penetrationCnt); i++)
-		//{
-		//	RaycastHit _hit = hits[i];
-		//	if (_hit.transform == null) continue;
-		//	if (_hit.transform.CompareTag("Enemy"))
-		//	{
-		//		print("enemy hit! " + i);
-		//	}
-		//}
-
-		//if (hitCount > 0)
-		//{
-		//	for (int i = 0; i < Mathf.Min(hitCount, SO_Gun.penetrationCnt); i++)
-		//	{
-		//		RaycastHit hit = hits[i];
-		//		if (hit.collider == null) continue;
-		//		if (hit.transform.CompareTag("Enemy"))
-		//		{
-		//			print("Enemy hit!");
-		//			Enemy hitEnemy = hit.collider.GetComponent<Enemy>();
-		//			float actualDamage = SO_Gun.gunDamage - SO_Gun.penetrateDamagePenalty * enemyHitCount;
-		//			if (hitEnemy != null)
-		//			{
-		//				moneyManager.Coin += SO_Gun.hitGold;
-		//				hitEnemy.GetDamage(actualDamage);
-		//			}
-
-		//			else print("actual enemy not found");
-
-		//			enemyHitCount += 1;
-		//		} else
-		//		{
-		//			break;
-		//			// continue;
-		//		}
-		//	}
-		//}
 
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit))
 		{
-			if (hit.collider.tag == "Enemy") // Àû¿¡ ¸Â¾ÒÀ» ¶§
+			Enemy enemy;
+			if (hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Head"))
 			{
-				Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+				enemy = hit.collider.GetComponentInParent<Enemy>();
 				if (enemy != null)
 				{
 					moneyManager.Coin += SO_Gun.hitGold;
 					GameManager.Instance.earnGold += SO_Gun.hitGold;
-					enemy.GetDamage(SO_Gun.gunDamage);
-
-				} else
-				{
-
 				}
 			}
-			else if (hit.collider.tag == "Head")
+			
+			if (hit.collider.tag == "Enemy") // ì ì— ë§ì•˜ì„ ë•Œ
 			{
-				Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-				if (enemy != null)
-				{
-					moneyManager.Coin += SO_Gun.hitGold;
-					GameManager.Instance.earnGold += SO_Gun.hitGold;
+				enemy.GetDamage(SO_Gun.gunDamage);
+			}
+			else if (hit.collider.tag == "Head") // í—¤ë“œìƒ·
+			{
 					enemy.GetDamage(SO_Gun.gunDamage * 2f);
 					print("headshot");
-				}
+				
 			}
 		}
 
 
-
+		// ë°œì‚¬ íŒŒí‹°í´ ì¬ìƒ (ë¶ˆê½ƒ, ì—°ê¸°)
 		foreach (var p in fireParticles)
-        {
-            p.Play();
-        }
-
-		// ¹ß»ç µô·¹ÀÌ
-		StartCoroutine(FireDelay()); 
-
-        // ¹İµ¿
-        Recoil();
-	}
-
-    private Vector3 originPos; // ÃÑ ÀÚÃ¼ÀÇ ¿ø·¡ À§Ä¡
-    private Vector3 changePos; // ¹Ù²ï À§Ä¡
-    void Recoil()
     {
-        // ¹İµ¿
-        print("Recoil");
-		// »óÇÏ¹İµ¿
-		player.currentCameraRotationX -= SO_Gun.recoilY;
-
-		// Ä«¸Ş¶ó È¸Àü º¯°æ //
-		Vector3 rot = player.transform.eulerAngles;
-        player._yRotation += Random.Range(-SO_Gun.recoilX, SO_Gun.recoilX);
-        player.transform.eulerAngles = rot; 
-
-        // ÃÑ ÀÚÃ¼ ¹Ğ¸®´Â ¹İµ¿
-        changePos = transform.localPosition + (Vector3.back * SO_Gun.recoilZ);
-        transform.localPosition = changePos;
-        StopCoroutine(ReboundRecoil());
-        StartCoroutine(ReboundRecoil());
+        p.Play();
     }
 
-    // ¹İµ¿ È¸º¹
-    IEnumerator ReboundRecoil() 
+		// ë°œì‚¬ ë”œë ˆì´
+		StartCoroutine(FireDelay()); 
+
+    // ë°˜ë™
+    Recoil();
+	}
+
+  private Vector3 originPos; // ì´ ìì²´ì˜ ì›ë˜ ìœ„ì¹˜
+  private Vector3 changePos; // ë°”ë€ ìœ„ì¹˜
+  void Recoil()
+  {
+    // ë°˜ë™
+    print("Recoil");
+		// ìƒí•˜ë°˜ë™
+		player.currentCameraRotationX -= SO_Gun.recoilY;
+
+		// ì¹´ë©”ë¼ íšŒì „ ë³€ê²½ //
+		Vector3 rot = player.transform.eulerAngles;
+    player._yRotation += Random.Range(-SO_Gun.recoilX, SO_Gun.recoilX);
+    player.transform.eulerAngles = rot; 
+
+    // ì´ ìì²´ ë°€ë¦¬ëŠ” ë°˜ë™
+    changePos = transform.localPosition + (Vector3.back * SO_Gun.recoilZ);
+    transform.localPosition = changePos;
+    StopCoroutine(ReboundRecoil());
+    StartCoroutine(ReboundRecoil());
+  }
+
+    // ë°˜ë™ íšŒë³µ
+  IEnumerator ReboundRecoil() 
 	{
-        // ¾ÕµÚ ¹İµ¿ È¸º¹
+    // ì•ë’¤ ë°˜ë™ íšŒë³µ
 		while (transform.localPosition != originPos)
-        {
+    {
 			transform.localPosition = Vector3.Lerp(transform.localPosition, originPos, 0.1f * (SO_Gun.ergonomic / 100f));
 			yield return null;
 		}
 
 	}
 
-	// Ä«¸Ş¶ó È¸Àü º¯°æ
+	// ì¥ì „ ë”œë ˆì´
 	IEnumerator FireDelay()
-    {
-        yield return new WaitForSeconds(SO_Gun.fireTime);
-        isFireDelaying = false;
-        StopCoroutine(FireDelay());
-    }
+  {
+    yield return new WaitForSeconds(SO_Gun.fireTime);
+    isFireDelaying = false;
+    StopCoroutine(FireDelay());
+  }
 
-	// ÀçÀåÀü
+	// ì¬ì¥ì „
 	IEnumerator Reload()
-    { 
-		// Update ¸Ş¼­µå¿¡¼­ ÂüÁ¶µÊ
+  { 
+		// Update ë©”ì„œë“œì—ì„œ ì°¸ì¡°ë¨
 		print("Start Reloading");
 
-
-        if (WeaponManager.BulletImage == null || WeaponManager.CircleImage == null)
-        {
-            Debug.Log("Reload failed since bulletimage or circleimage was not found");
-            yield break;
-        }
-        WeaponManager.BulletImage.gameObject.SetActive(true);
+		// ì¬ì¥ì „ ê´€ë ¨ ì´ë¯¸ì§€ê°€ nullì„
+    if (WeaponManager.BulletImage == null || WeaponManager.CircleImage == null)
+    {
+        Debug.Log("Reload failed since bulletimage or circleimage was not found");
+        yield break;
+    }
+    
+    // ì¬ì¥ì „ ê´€ë ¨ ì´ë¯¸ì§€ë“¤ì„ ë³´ì´ê²Œ í•˜ê³ 
+    WeaponManager.BulletImage.gameObject.SetActive(true);
 		WeaponManager.CircleImage.gameObject.SetActive(true);
 
-        StopCoroutine(WeaponManager.FillCircle(SO_Gun.reloadTime));
-        StartCoroutine(WeaponManager.FillCircle(SO_Gun.reloadTime));
+		// ì¬ì¥ì „ í¼ì„¼í‹°ì§€ ë³´ì´ëŠ” ì½”ë£¨í‹´ ì¬ì‹œì‘
+		// ì‹¤í–‰ë˜ê³  ìˆëŠ” ì½”ë£¨í‹´ ì¢…ë£Œ
+    StopCoroutine(WeaponManager.FillCircle(SO_Gun.reloadTime));
+    StartCoroutine(WeaponManager.FillCircle(SO_Gun.reloadTime));
 
-		// ÀåÀü »ç¿îµå ÁØºñ ¹× ÇÃ·¹ÀÌ
+		// ì¥ì „ ì‚¬ìš´ë“œ ì¤€ë¹„ ë° í”Œë ˆì´
 		isReloading = true;
-        audioSource.clip = SO_Gun.reloadSound;
-        audioSource.Play();
-        
-        yield return new WaitForSeconds(SO_Gun.reloadTime);
-        
-        // ÃÑ¾Ë ¼ö Á¶Àı
-        if (SO_Gun.isClosedBolt && ammoInMag >= 1) // ¾à½Ç ÀåÀü
-        {
+    audioSource.clip = SO_Gun.reloadSound;
+    audioSource.Play();
+    
+    yield return new WaitForSeconds(SO_Gun.reloadTime);
+    
+    // ì´ì•Œ ìˆ˜ ì¡°ì ˆ
+    if (SO_Gun.isClosedBolt && ammoInMag >= 1) // ì•½ì‹¤ ì¥ì „(ì•½ì‹¤ì— ì´ì•Œ ìˆìœ¼ë©´ ì¥ì „ëœ ì´ì•Œì´ í•œ ë°œ ë” ëŠ˜ì–´ë‚¨)
+    {
 			spareAmmo += ammoInMag - 1;
-            ammoInMag = 1;
+      ammoInMag = 1;
 			ammoInMag += Mathf.Min(spareAmmo, maxAmmoInMag);
 			spareAmmo -= ammoInMag - 1;
-		} else
-        {
+		} else // ì˜¤í”ˆë³¼íŠ¸ ì¥ì „
+    {
 			spareAmmo += ammoInMag;
 			ammoInMag = Mathf.Min(spareAmmo, maxAmmoInMag);
 			spareAmmo -= ammoInMag;
 		}
 
-        // ÀåÀü ³¡
-        StopReload();
-        yield break;
-    }
+    // ì¥ì „ ë
+    StopReload();
+    yield break;
+  }
 
-    void StopReload()
-    {
+  void StopReload()
+  {
+	  // ì¥ì „ ì¤‘ì§€
 		isFireDelaying = false;
 		isReloading = false;
 		print("Stop reload\n" + ammoInMag + " / " + spareAmmo);
 		gunUI.ChangeAmmoText($"{ammoInMag}/{spareAmmo}");
-
+	
+		// ì¥ì „ ê´€ë ¨ ì´ë¯¸ì§€ ë¹„í™œì„±í™”
 		if (WeaponManager.BulletImage)
 		{
 			WeaponManager.BulletImage.gameObject.SetActive(false);
 		}
-
+	
 		if (WeaponManager.CircleImage)
 		{
 			WeaponManager.CircleImage.gameObject.SetActive(false);
 		}
-		
-
-
+			
+	
+		// ì´ì•Œ ì±„ìš°ëŠ” ì½”ë£¨í‹´ ì¤‘ì§€
 		StopCoroutine(Reload());
 	}
 }
