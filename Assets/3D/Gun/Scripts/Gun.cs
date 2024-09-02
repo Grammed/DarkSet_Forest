@@ -102,12 +102,22 @@ public class Gun : MonoBehaviour
 		}
 	}
 
+		 
 	private void Update()
   {
     Inputs();
 		//Ray ray = new Ray(player.transform.position, player.transform.forward);
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow, 0.1f, true);
+	}
+	
+	private bool CanReload()
+	{
+		// 키 클릭 + 장전 중 아님 + 최대 탄수 아님 + 여분 탄수 하나라도 남아있음
+		bool isSpareAmmoEnough = spareAmmo >= 1;
+		bool isCurrAmmoNotFull = ammoInMag < maxAmmoInMag || (ammoInMag == maxAmmoInMag && SO_Gun.isClosedBolt);
+		
+		return isSpareAmmoEnough && !isCurrAmmoNotFull && !isReloading;
 	}
 
 
@@ -135,17 +145,10 @@ public class Gun : MonoBehaviour
 		}
 
     // 재장전
-    // 키 클릭 + 장전 중 아님 + 최대 탄수 아님 + 여분 탄수 하나라도 남아있음
-    if (Input.GetKeyDown(reloadKey))
+    if (Input.GetKeyDown(reloadKey) && CanReload())
     {
-      bool canReload = !isReloading && spareAmmo >= 1;
-			bool ammoNotEnough = ammoInMag < maxAmmoInMag || (ammoInMag == maxAmmoInMag && SO_Gun.isClosedBolt);
-
-			if (canReload && ammoNotEnough)
-      {
-        StartCoroutine(Reload());
-        print("can reload");
-      }
+      StartCoroutine(Reload());
+      print("can reload");
     }
 	}
 
@@ -166,6 +169,24 @@ public class Gun : MonoBehaviour
 		source.clip = SO_Gun.fireSound;
 		source.Play();
 
+		DrawBulletRay();
+
+
+		// 발사 파티클 재생 (불꽃, 연기)
+		foreach (var p in fireParticles)
+    {
+        p.Play();
+    }
+
+		// 발사 딜레이
+		StartCoroutine(FireDelay()); 
+
+    // 반동
+    Recoil();
+	}
+	
+	private void DrawBulletRay()
+	{
 		// 카메라로부터 레이 발사
 		//Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -173,13 +194,20 @@ public class Gun : MonoBehaviour
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit))
 		{
+			// 적 컴포넌트
 			Enemy enemy;
+			
+			// 다른 물체(장애물 등)가 아닌 적이 맞음
 			if (hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Head"))
 			{
 				enemy = hit.collider.GetComponentInParent<Enemy>();
 				if (enemy != null)
 				{
+					// 적이 존재하면 골드 벌기
+					// 플레이어가 사용할 수 있는 골드
 					moneyManager.Coin += SO_Gun.hitGold;
+					
+					// 이번 게임에서 얻은 총 골드
 					GameManager.Instance.earnGold += SO_Gun.hitGold;
 				}
 			}
@@ -195,19 +223,6 @@ public class Gun : MonoBehaviour
 				
 			}
 		}
-
-
-		// 발사 파티클 재생 (불꽃, 연기)
-		foreach (var p in fireParticles)
-    {
-        p.Play();
-    }
-
-		// 발사 딜레이
-		StartCoroutine(FireDelay()); 
-
-    // 반동
-    Recoil();
 	}
 
   private Vector3 originPos; // 총 자체의 원래 위치
